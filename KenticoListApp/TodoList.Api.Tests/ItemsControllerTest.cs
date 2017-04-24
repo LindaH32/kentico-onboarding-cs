@@ -16,9 +16,8 @@ namespace TodoList.Api.Tests
     [TestFixture]
     public class ItemsControllerTest
     {
-        ListItemComparer comparer;
-        private ItemsController controller ;
-
+        private ListItemComparer comparer;
+        private ItemsController controller;
 
         [SetUp]
         public void Init()
@@ -63,7 +62,7 @@ namespace TodoList.Api.Tests
                 new ListItem("666", "zirafa"),
                 new ListItem("2", "updated"),
             });
-            var action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             List<ListItem> actual;
             action.Result.TryGetContentValue(out actual);
 
@@ -76,10 +75,11 @@ namespace TodoList.Api.Tests
             IHttpActionResult result = controller.AddItem(null);
 
             var action = result.ExecuteAsync(CancellationToken.None);
-            string actual;
-            action.Result.Content.ToString(); //BadRequest doesnt have value?
+            HttpError error;
+            action.Result.TryGetContentValue(out error);
+            string actual = error.Message;
 
-            Assert.That(action.Result.Content.ToString(), Is.EqualTo("text is null"));
+            Assert.That(actual, Is.EqualTo("Text is null"));
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace TodoList.Api.Tests
 
             var action = result.ExecuteAsync(CancellationToken.None);
             string actual;
-            action.Result.TryGetContentValue(out actual); //BadRequest doesnt have value?
+            action.Result.TryGetContentValue(out actual); 
 
             Assert.That(actual, Is.EqualTo("Item deleted"));
         }
