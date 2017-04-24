@@ -11,6 +11,7 @@ namespace TodoList.Api.Controllers
 {
     public class ItemsController : ApiController
     {
+        // TODO change List to IEnumerable
         private static List<ListItem> sampleItems = new List<ListItem>(
             new ListItem[]
             {

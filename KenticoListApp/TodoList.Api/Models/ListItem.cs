@@ -19,5 +19,10 @@ namespace TodoList.Api.Models
 
         [Required]
         public string Text { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {Id}, Text:{Text}";
+        }
     }
 }
