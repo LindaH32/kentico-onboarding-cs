@@ -12,7 +12,7 @@ namespace TodoList.Api.Tests.Comparers
 
         public int GetHashCode(ListItem obj)
         {
-            return ((obj.Id != null ? obj.Id.GetHashCode() : 0) * 397) ^ (obj.Text != null ? obj.Text.GetHashCode() : 0);
+            return ((obj.Id.GetHashCode()) * 397) ^ (obj.Text?.GetHashCode() ?? 0);
         }
 
 
