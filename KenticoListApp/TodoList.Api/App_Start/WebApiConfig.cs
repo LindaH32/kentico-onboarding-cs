@@ -16,12 +16,6 @@ namespace TodoList.Api
                 routeTemplate: "api/v1/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            config.Routes.MapHttpRoute(
-               name: "DefaultApiV2",
-               routeTemplate: "api/v2/{controller}/{id}",
-               defaults: new { id = RouteParameter.Optional }
-           );
         }
     }
 }

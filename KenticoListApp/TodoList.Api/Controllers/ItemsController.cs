@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using TodoList.Api.Models;
 
@@ -6,21 +7,22 @@ namespace TodoList.Api.Controllers
 {
     public class ItemsController : ApiController
     {
-        // TODO change List to IEnumerable
         private static readonly List<ListItem> SampleItems = new List<ListItem>
             {
-                new ListItem("42", "text"),
-                new ListItem("666", "giraffe"),
-                new ListItem("2", "updated"),
+                new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text"),
+                new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe"),
+                new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated"),
             };
 
         
-        public IHttpActionResult Post(string text)
+        public IHttpActionResult Post(ListItem item)
         {
-            if (text == null)
-            {
+            if(item == null)
+                return BadRequest("Item is null");
+
+            if (string.IsNullOrWhiteSpace(item.Text))
                 return BadRequest("Text is null");
-            }
+
             return Ok(SampleItems[0]);
         }
 
@@ -31,19 +33,19 @@ namespace TodoList.Api.Controllers
         }
 
 
-        public IHttpActionResult Get(string id)
+        public IHttpActionResult Get(Guid id)
         {
             return Ok(SampleItems[1]);
         }
 
         
-        public IHttpActionResult Delete(string id)
+        public IHttpActionResult Delete(Guid id)
         {
-            return Ok("Item deleted");
+            return Ok(SampleItems[1]);
         }
 
 
-        public IHttpActionResult Put(string id, string text)
+        public IHttpActionResult Put(ListItem item)
         {
             return Ok(SampleItems[2]);
         }

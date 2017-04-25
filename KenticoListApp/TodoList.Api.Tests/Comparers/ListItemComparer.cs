@@ -7,7 +7,7 @@ namespace TodoList.Api.Tests.Comparers
     {
         public bool Equals(ListItem x, ListItem y)
         {
-            return (x.Id.CompareTo(y.Id) == 0) && (x.Text.CompareTo(y.Text) == 0);
+            return (x.Id.Equals(y.Id) && x.Text.Equals(y.Text));
         }
 
         public int GetHashCode(ListItem obj)

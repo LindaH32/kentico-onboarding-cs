@@ -1,24 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TodoList.Api.Models
 {
     public class ListItem
     {
-        public ListItem(string id, string text)
+        public ListItem(Guid id, string text)
         {
             Id = id;
             Text = text;
         }
 
-        [Required]
-        public string Id { get; set; }
+        public ListItem(Guid id)
+        {
+            Id = id;
+            Text = null;
+        }
+        
+        public Guid Id { get; set; }
 
-        [Required]
         public string Text { get; set; }
 
-        public override string ToString()
-        {
-            return $"ID: {Id}, Text:{Text}";
-        }
+        public override string ToString() => $"ID: {Id}, Text:{Text}";
     }
 }
