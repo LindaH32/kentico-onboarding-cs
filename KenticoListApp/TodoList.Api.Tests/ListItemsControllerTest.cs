@@ -28,7 +28,6 @@ namespace TodoList.Api.Tests
                 Configuration = new HttpConfiguration(),
                 Request = new HttpRequestMessage()
             };
-
         }
 
         [Test]
@@ -38,9 +37,9 @@ namespace TodoList.Api.Tests
 
             IHttpActionResult result = _controller.Get(Guid.Empty);
 
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
-            action.Result.TryGetContentValue(out actual);
+            task.Result.TryGetContentValue(out actual);
 
             Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
         }
@@ -49,25 +48,25 @@ namespace TodoList.Api.Tests
         public void Get_ById_IsOfCorrectStatusCode()
         {
             IHttpActionResult result = _controller.Get(Guid.Empty);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
         public void Get_ReturnsTestItems()
         {
-            IHttpActionResult result = _controller.Get();
-
             var expected = new List<ListItem>
             {
                 new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text"),
                 new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe"),
                 new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated"),
             };
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+
+            IHttpActionResult result = _controller.Get();
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             List<ListItem> actual;
-            action.Result.TryGetContentValue(out actual);
+            task.Result.TryGetContentValue(out actual);
 
             Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
         }
@@ -77,9 +76,9 @@ namespace TodoList.Api.Tests
         {
             IHttpActionResult result = _controller.Post(null);
 
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             HttpError error;
-            action.Result.TryGetContentValue(out error);
+            task.Result.TryGetContentValue(out error);
             string actual = error.Message;
 
             Assert.That(actual, Is.EqualTo("Item is null"));
@@ -89,9 +88,9 @@ namespace TodoList.Api.Tests
         public void Post_WithNullArguments_IsOfCorrectStatusCode()
         {
             IHttpActionResult result = _controller.Post(null);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
@@ -100,12 +99,12 @@ namespace TodoList.Api.Tests
             var item = new ListItem(Guid.Empty);
 
             IHttpActionResult result = _controller.Post(item);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             HttpError error;
-            action.Result.TryGetContentValue(out error);
+            task.Result.TryGetContentValue(out error);
             string actual = error.Message;
 
-            Assert.That(actual, Is.EqualTo("Text is null"));
+            Assert.That(actual, Is.EqualTo("Text is null or empty"));
         }
 
         [Test]
@@ -114,9 +113,9 @@ namespace TodoList.Api.Tests
             var item = new ListItem(Guid.Empty);
 
             IHttpActionResult result = _controller.Post(item);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
@@ -124,11 +123,12 @@ namespace TodoList.Api.Tests
         {
             var expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
             var newItem = new ListItem(Guid.Empty, "newText");
+
             IHttpActionResult result = _controller.Post(newItem);
 
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
-            action.Result.TryGetContentValue(out actual);
+            task.Result.TryGetContentValue(out actual);
 
             Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
         }
@@ -139,9 +139,9 @@ namespace TodoList.Api.Tests
             var newItem = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Post(newItem);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
 
@@ -152,9 +152,9 @@ namespace TodoList.Api.Tests
             var updated = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Put(updated);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
-            action.Result.TryGetContentValue(out actual);
+            task.Result.TryGetContentValue(out actual);
 
             Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
         }
@@ -165,9 +165,9 @@ namespace TodoList.Api.Tests
             var updated = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Put(updated);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
@@ -176,9 +176,9 @@ namespace TodoList.Api.Tests
             IHttpActionResult result = _controller.Delete(Guid.Empty);
             var expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
-            action.Result.TryGetContentValue(out actual); 
+            task.Result.TryGetContentValue(out actual); 
 
             Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
         }
@@ -187,12 +187,9 @@ namespace TodoList.Api.Tests
         public void Delete_IsOfCorrectStatusCode()
         {
             IHttpActionResult result = _controller.Delete(Guid.Empty);
-            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
-        
-
-
     }
 }
