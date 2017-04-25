@@ -36,7 +36,7 @@ namespace TodoList.Api.Tests
         {
             ListItem expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
-            IHttpActionResult result = _controller.Get(new Guid("10000000-0000-0000-0000-000000000000"));
+            IHttpActionResult result = _controller.Get(Guid.Empty);
 
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
@@ -48,7 +48,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Get_ById_IsOfCorrectType()
         {
-            IHttpActionResult result = _controller.Get(new Guid("10000000-0000-0000-0000-000000000000"));
+            IHttpActionResult result = _controller.Get(Guid.Empty);
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
         }
@@ -95,7 +95,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_ItemWithNullText_ReturnsErrorMessage()
         {
-            ListItem item = new ListItem(new Guid("85000000-0000-0000-0000-000000000000"));
+            ListItem item = new ListItem(Guid.Empty);
 
             IHttpActionResult result = _controller.Post(item);
 
@@ -110,7 +110,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_ItemWithNullText_IsOfCorrectType()
         {
-            ListItem item = new ListItem(new Guid("85000000-0000-0000-0000-000000000000"));
+            ListItem item = new ListItem(Guid.Empty);
             IHttpActionResult result = _controller.Post(item);
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
@@ -120,7 +120,7 @@ namespace TodoList.Api.Tests
         public void Post_WithValidArguments_ReturnsCorrectItem()
         {
             ListItem expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
-            ListItem newItem = new ListItem(new Guid("08563400-0000-0000-0000-000000000000"), "newText");
+            ListItem newItem = new ListItem(Guid.Empty, "newText");
             IHttpActionResult result = _controller.Post(newItem);
 
             var action = result.ExecuteAsync(CancellationToken.None);
@@ -133,7 +133,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_WithValidArguments_IsOfCorrectType()
         {
-            ListItem newItem = new ListItem(new Guid("08563400-0000-0000-0000-000000000000"), "newText");
+            ListItem newItem = new ListItem(Guid.Empty, "newText");
             IHttpActionResult result = _controller.Post(newItem);
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
@@ -144,7 +144,7 @@ namespace TodoList.Api.Tests
         public void Put_ReturnsCorrectItem()
         {
             ListItem expected = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
-            ListItem updated = new ListItem(new Guid("08563400-0000-0000-0000-000000000000"), "newText");
+            ListItem updated = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Put(updated);
             var action = result.ExecuteAsync(CancellationToken.None);
@@ -157,7 +157,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Put_IsOfCorrectType()
         {
-            ListItem updated = new ListItem(new Guid("08563400-0000-0000-0000-000000000000"), "newText");
+            ListItem updated = new ListItem(Guid.Empty, "newText");
             IHttpActionResult result = _controller.Put(updated);
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
@@ -166,7 +166,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Delete_ReturnsCorrectItem()
         {
-            IHttpActionResult result = _controller.Delete(new Guid("15000000-0000-0000-0000-000000000000"));
+            IHttpActionResult result = _controller.Delete(Guid.Empty);
             ListItem expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
             var action = result.ExecuteAsync(CancellationToken.None);
@@ -179,7 +179,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Delete_IsOfCorrectType()
         {
-            IHttpActionResult result = _controller.Delete(new Guid("15000000-0000-0000-0000-000000000000"));
+            IHttpActionResult result = _controller.Delete(Guid.Empty);
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
         }

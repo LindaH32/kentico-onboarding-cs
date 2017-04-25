@@ -20,6 +20,9 @@ namespace TodoList.Api.Controllers
             if(item == null)
                 return BadRequest("Item is null");
 
+            if (item.Id != Guid.Empty)
+                return BadRequest("Guid must be empty");
+
             if (string.IsNullOrWhiteSpace(item.Text))
                 return BadRequest("Text is null");
 
