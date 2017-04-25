@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using TodoList.Api.Controllers;
 using TodoList.Api.Models;
 using System.Web.Http;
-using System.Web.Http.Results;
 using NUnit.Framework;
 using TodoList.Api.Tests.Comparers;
 
@@ -46,11 +46,12 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Get_ById_IsOfCorrectType()
+        public void Get_ById_IsOfCorrectStatusCode()
         {
             IHttpActionResult result = _controller.Get(Guid.Empty);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
+            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
@@ -76,7 +77,7 @@ namespace TodoList.Api.Tests
         {
             IHttpActionResult result = _controller.Post(null);
 
-            var action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             HttpError error;
             action.Result.TryGetContentValue(out error);
             string actual = error.Message;
@@ -85,11 +86,12 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Post_WithNullArguments_IsOfCorrectType()
+        public void Post_WithNullArguments_IsOfCorrectStatusCode()
         {
             IHttpActionResult result = _controller.Post(null);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
@@ -98,8 +100,7 @@ namespace TodoList.Api.Tests
             ListItem item = new ListItem(Guid.Empty);
 
             IHttpActionResult result = _controller.Post(item);
-
-            var action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             HttpError error;
             action.Result.TryGetContentValue(out error);
             string actual = error.Message;
@@ -108,12 +109,14 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Post_ItemWithNullText_IsOfCorrectType()
+        public void Post_ItemWithNullText_IsOfCorrectStatusCode()
         {
             ListItem item = new ListItem(Guid.Empty);
-            IHttpActionResult result = _controller.Post(item);
 
-            Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            IHttpActionResult result = _controller.Post(item);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+
+            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
@@ -123,7 +126,7 @@ namespace TodoList.Api.Tests
             ListItem newItem = new ListItem(Guid.Empty, "newText");
             IHttpActionResult result = _controller.Post(newItem);
 
-            var action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
             action.Result.TryGetContentValue(out actual);
 
@@ -131,12 +134,14 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Post_WithValidArguments_IsOfCorrectType()
+        public void Post_WithValidArguments_IsOfCorrectStatusCode()
         {
             ListItem newItem = new ListItem(Guid.Empty, "newText");
-            IHttpActionResult result = _controller.Post(newItem);
 
-            Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
+            IHttpActionResult result = _controller.Post(newItem);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+
+            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
 
@@ -147,7 +152,7 @@ namespace TodoList.Api.Tests
             ListItem updated = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Put(updated);
-            var action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
             action.Result.TryGetContentValue(out actual);
 
@@ -155,12 +160,14 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Put_IsOfCorrectType()
+        public void Put_IsOfCorrectStatusCode()
         {
             ListItem updated = new ListItem(Guid.Empty, "newText");
-            IHttpActionResult result = _controller.Put(updated);
 
-            Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
+            IHttpActionResult result = _controller.Put(updated);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
+
+            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
@@ -169,7 +176,7 @@ namespace TodoList.Api.Tests
             IHttpActionResult result = _controller.Delete(Guid.Empty);
             ListItem expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
-            var action = result.ExecuteAsync(CancellationToken.None);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;
             action.Result.TryGetContentValue(out actual); 
 
@@ -177,11 +184,12 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Delete_IsOfCorrectType()
+        public void Delete_IsOfCorrectStatusCode()
         {
             IHttpActionResult result = _controller.Delete(Guid.Empty);
+            Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
 
-            Assert.IsInstanceOf<OkNegotiatedContentResult<ListItem>>(result);
+            Assert.That(action.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
         
 
