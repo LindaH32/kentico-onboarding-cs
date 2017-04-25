@@ -14,16 +14,16 @@ using TodoList.Api.Tests.Comparers;
 namespace TodoList.Api.Tests
 {
     [TestFixture]
-    public class ItemsControllerTest
+    public class ListItemsControllerTest
     {
         private ListItemComparer _comparer;
-        private ItemsController _controller;
+        private ListItemsController _controller;
 
         [SetUp]
         public void Init()
         {
             _comparer = new ListItemComparer();
-            _controller = new ItemsController
+            _controller = new ListItemsController
             {
                 Configuration = new HttpConfiguration(),
                 Request = new HttpRequestMessage()
@@ -34,7 +34,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Get_ById_ReturnsTestItem()
         {
-            ListItem expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
+            var expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
             IHttpActionResult result = _controller.Get(Guid.Empty);
 
@@ -59,7 +59,7 @@ namespace TodoList.Api.Tests
         {
             IHttpActionResult result = _controller.Get();
 
-            List<ListItem> expected = new List<ListItem>
+            var expected = new List<ListItem>
             {
                 new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text"),
                 new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe"),
@@ -111,7 +111,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_ItemWithNullText_IsOfCorrectStatusCode()
         {
-            ListItem item = new ListItem(Guid.Empty);
+            var item = new ListItem(Guid.Empty);
 
             IHttpActionResult result = _controller.Post(item);
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
@@ -122,8 +122,8 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_WithValidArguments_ReturnsCorrectItem()
         {
-            ListItem expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
-            ListItem newItem = new ListItem(Guid.Empty, "newText");
+            var expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
+            var newItem = new ListItem(Guid.Empty, "newText");
             IHttpActionResult result = _controller.Post(newItem);
 
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
@@ -136,7 +136,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_WithValidArguments_IsOfCorrectStatusCode()
         {
-            ListItem newItem = new ListItem(Guid.Empty, "newText");
+            var newItem = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Post(newItem);
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
@@ -148,8 +148,8 @@ namespace TodoList.Api.Tests
         [Test]
         public void Put_ReturnsCorrectItem()
         {
-            ListItem expected = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
-            ListItem updated = new ListItem(Guid.Empty, "newText");
+            var expected = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
+            var updated = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Put(updated);
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
@@ -162,7 +162,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Put_IsOfCorrectStatusCode()
         {
-            ListItem updated = new ListItem(Guid.Empty, "newText");
+            var updated = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult result = _controller.Put(updated);
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
@@ -174,7 +174,7 @@ namespace TodoList.Api.Tests
         public void Delete_ReturnsCorrectItem()
         {
             IHttpActionResult result = _controller.Delete(Guid.Empty);
-            ListItem expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
+            var expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
             ListItem actual;

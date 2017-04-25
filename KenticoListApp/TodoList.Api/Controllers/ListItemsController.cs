@@ -5,7 +5,7 @@ using TodoList.Api.Models;
 
 namespace TodoList.Api.Controllers
 {
-    public class ItemsController : ApiController
+    public class ListItemsController : ApiController
     {
         private static readonly List<ListItem> SampleItems = new List<ListItem>
             {
