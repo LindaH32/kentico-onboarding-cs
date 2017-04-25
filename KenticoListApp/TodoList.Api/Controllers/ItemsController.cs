@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using TodoList.Api.Models;
 
 namespace TodoList.Api.Controllers
@@ -12,52 +7,45 @@ namespace TodoList.Api.Controllers
     public class ItemsController : ApiController
     {
         // TODO change List to IEnumerable
-        private static List<ListItem> sampleItems = new List<ListItem>(
-            new ListItem[]
+        private static readonly List<ListItem> SampleItems = new List<ListItem>
             {
                 new ListItem("42", "text"),
-                new ListItem("666", "zirafa"),
+                new ListItem("666", "giraffe"),
                 new ListItem("2", "updated"),
-            }
-        );
+            };
 
-
-        [HttpPost]
-        public IHttpActionResult AddItem(string text)
+        
+        public IHttpActionResult Post(string text)
         {
             if (text == null)
             {
                 return BadRequest("Text is null");
             }
-            return Ok(sampleItems[0]);
+            return Ok(SampleItems[0]);
         }
 
 
-        [HttpGet]
-        public IHttpActionResult GetItems()
+        public IHttpActionResult Get()
         {
-            return Ok(sampleItems);
+            return Ok(SampleItems);
         }
 
 
-        [HttpGet]
-        public IHttpActionResult GetItem(string id)
+        public IHttpActionResult Get(string id)
         {
-            return Ok(sampleItems[1]);
+            return Ok(SampleItems[1]);
         }
 
-
-        [HttpDelete]
-        public IHttpActionResult DeleteItem(string id)
+        
+        public IHttpActionResult Delete(string id)
         {
             return Ok("Item deleted");
         }
 
 
-        [HttpPut]
-        public IHttpActionResult UpdateItem(string id, string text)
+        public IHttpActionResult Put(string id, string text)
         {
-            return Ok(sampleItems[2]);
+            return Ok(SampleItems[2]);
         }
     }
 }
