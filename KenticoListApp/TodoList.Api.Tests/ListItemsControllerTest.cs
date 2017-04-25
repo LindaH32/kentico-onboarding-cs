@@ -97,7 +97,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_ItemWithNullText_ReturnsErrorMessage()
         {
-            ListItem item = new ListItem(Guid.Empty);
+            var item = new ListItem(Guid.Empty);
 
             IHttpActionResult result = _controller.Post(item);
             Task<HttpResponseMessage> action = result.ExecuteAsync(CancellationToken.None);
