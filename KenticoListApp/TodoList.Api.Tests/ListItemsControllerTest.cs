@@ -35,7 +35,6 @@ namespace TodoList.Api.Tests
             var expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
 
             IHttpActionResult actionResult = _controller.GetAsync(Guid.Empty).Result;
-
             HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
@@ -63,7 +62,6 @@ namespace TodoList.Api.Tests
             };
 
             IHttpActionResult actionResult = _controller.GetAsync().Result;
-
             HttpResponseMessage responseMessage= actionResult.ExecuteAsync(CancellationToken.None).Result;
             List<ListItem> actualListItems;
             responseMessage.TryGetContentValue(out actualListItems);
@@ -76,9 +74,9 @@ namespace TodoList.Api.Tests
         [TestCase(null)]
         public void Post_ItemWithNullText_ReturnsErrorMessage(string postedText)
         {
-            var item = new ListItem(Guid.Empty, postedText);
+            var listItem = new ListItem(Guid.Empty, postedText);
 
-            IHttpActionResult actionResult = _controller.Post(item).Result;
+            IHttpActionResult actionResult = _controller.Post(listItem).Result;
             HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
@@ -91,7 +89,6 @@ namespace TodoList.Api.Tests
         public void Post_WithNullArguments_ReturnsErrorMessage()
         {
             IHttpActionResult actionResult = _controller.Post(null).Result;
-
             HttpResponseMessage repsonseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             repsonseMessage.TryGetContentValue(out error);
@@ -109,26 +106,37 @@ namespace TodoList.Api.Tests
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
-        //[Test]
-        //public void Post_ItemWithNullText_ReturnsErrorMessage()
-        //{
-        //    var item = new ListItem(Guid.Empty);
-
-        //    IHttpActionResult actionResult = _controller.Post(item).Result;
-        //    HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-        //    HttpError error;
-        //    responseMessage.TryGetContentValue(out error);
-        //    string actualMessage = error.Message;
-
-        //    Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
-        //}
-
         [Test]
         public void Post_ItemWithNullText_IsOfCorrectStatusCode()
         {
-            var item = new ListItem(Guid.Empty);
+            var listItem = new ListItem(Guid.Empty);
 
-            IHttpActionResult actionResult = _controller.Post(item).Result;
+            IHttpActionResult actionResult = _controller.Post(listItem).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        }
+
+        [Test]
+        public void Post_ItemWithNonEmptyGuid_ReturnsErrorMessage()
+        {
+            var listItem = new ListItem(new Guid("05200000-0000-0000-0000-000000000000"), "text");
+
+            IHttpActionResult actionResult = _controller.Post(listItem).Result;
+            HttpResponseMessage repsonseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            repsonseMessage.TryGetContentValue(out error);
+            string actualMessage = error.Message;
+
+            Assert.That(actualMessage, Is.EqualTo("Guid must be empty"));
+        }
+
+        [Test]
+        public void Post_ItemWithNonEmptyGuid_IsOfCorrectStatusCode()
+        {
+            var listItem = new ListItem(new Guid("05200000-0000-0000-0000-000000000000"), "text");
+
+            IHttpActionResult actionResult = _controller.Post(listItem).Result;
             HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -141,7 +149,6 @@ namespace TodoList.Api.Tests
             var newListItem = new ListItem(Guid.Empty, "newText");
 
             IHttpActionResult actionResult = _controller.Post(newListItem).Result;
-
             HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
@@ -189,9 +196,9 @@ namespace TodoList.Api.Tests
         [Test]
         public void Delete_ReturnsCorrectItem()
         {
-            IHttpActionResult actionResult = _controller.DeleteAsync(Guid.Empty).Result;
             var expectedListItem = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
+            IHttpActionResult actionResult = _controller.DeleteAsync(Guid.Empty).Result;
             HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem); 
