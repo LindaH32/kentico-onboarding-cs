@@ -71,12 +71,28 @@ namespace TodoList.Api.Tests
             Assert.That(actualListItems, Is.EqualTo(expectedListItems).Using(_comparer));
         }
 
+        [TestCase("")]
+        [TestCase("    ")]
+        [TestCase(null)]
+        public void Post_ItemWithNullText_ReturnsErrorMessage(string postedText)
+        {
+            var item = new ListItem(Guid.Empty, postedText);
+
+            IHttpActionResult actionResult = _controller.Post(item).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+            string actualMessage = error.Message;
+
+            Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
+        }
+
         [Test]
         public void Post_WithNullArguments_ReturnsErrorMessage()
         {
             IHttpActionResult actionResult = _controller.Post(null).Result;
 
-            HttpResponseMessage repsonseMessage= actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpResponseMessage repsonseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             repsonseMessage.TryGetContentValue(out error);
             string actualMessage = error.Message;
@@ -93,19 +109,19 @@ namespace TodoList.Api.Tests
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
-        [Test]
-        public void Post_ItemWithNullText_ReturnsErrorMessage()
-        {
-            var item = new ListItem(Guid.Empty);
+        //[Test]
+        //public void Post_ItemWithNullText_ReturnsErrorMessage()
+        //{
+        //    var item = new ListItem(Guid.Empty);
 
-            IHttpActionResult actionResult = _controller.Post(item).Result;
-            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-            HttpError error;
-            responseMessage.TryGetContentValue(out error);
-            string actualMessage = error.Message;
+        //    IHttpActionResult actionResult = _controller.Post(item).Result;
+        //    HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+        //    HttpError error;
+        //    responseMessage.TryGetContentValue(out error);
+        //    string actualMessage = error.Message;
 
-            Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
-        }
+        //    Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
+        //}
 
         [Test]
         public void Post_ItemWithNullText_IsOfCorrectStatusCode()
