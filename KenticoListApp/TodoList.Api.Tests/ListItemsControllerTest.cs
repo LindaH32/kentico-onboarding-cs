@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using TodoList.Api.Controllers;
 using TodoList.Api.Models;
 using System.Web.Http;
@@ -33,64 +32,65 @@ namespace TodoList.Api.Tests
         [Test]
         public void Get_ById_ReturnsTestItem()
         {
-            var expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
+            var expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
 
-            IHttpActionResult result = _controller.Get(Guid.Empty);
+            IHttpActionResult actionResult = _controller.GetAsync(Guid.Empty).Result;
 
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
-            ListItem actual;
-            task.Result.TryGetContentValue(out actual);
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            ListItem actualListItem;
+            responseMessage.TryGetContentValue(out actualListItem);
 
-            Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expected).Using(_comparer));
         }
 
         [Test]
         public void Get_ById_IsOfCorrectStatusCode()
         {
-            IHttpActionResult result = _controller.Get(Guid.Empty);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.GetAsync(Guid.Empty).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
         public void Get_ReturnsTestItems()
         {
-            var expected = new List<ListItem>
+            var expectedListItems = new List<ListItem>
             {
                 new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text"),
                 new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe"),
                 new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated"),
             };
 
-            IHttpActionResult result = _controller.Get();
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
-            List<ListItem> actual;
-            task.Result.TryGetContentValue(out actual);
+            IHttpActionResult actionResult = _controller.GetAsync().Result;
 
-            Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
+            HttpResponseMessage responseMessage= actionResult.ExecuteAsync(CancellationToken.None).Result;
+            List<ListItem> actualListItems;
+            responseMessage.TryGetContentValue(out actualListItems);
+
+            Assert.That(actualListItems, Is.EqualTo(expectedListItems).Using(_comparer));
         }
 
         [Test]
         public void Post_WithNullArguments_ReturnsErrorMessage()
         {
-            IHttpActionResult result = _controller.Post(null);
+            IHttpActionResult actionResult = _controller.Post(null).Result;
 
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            HttpResponseMessage repsonseMessage= actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
-            task.Result.TryGetContentValue(out error);
-            string actual = error.Message;
+            repsonseMessage.TryGetContentValue(out error);
+            string actualMessage = error.Message;
 
-            Assert.That(actual, Is.EqualTo("Item is null"));
+            Assert.That(actualMessage, Is.EqualTo("Item is null"));
         }
 
         [Test]
         public void Post_WithNullArguments_IsOfCorrectStatusCode()
         {
-            IHttpActionResult result = _controller.Post(null);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.Post(null).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
@@ -98,13 +98,13 @@ namespace TodoList.Api.Tests
         {
             var item = new ListItem(Guid.Empty);
 
-            IHttpActionResult result = _controller.Post(item);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.Post(item).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
-            task.Result.TryGetContentValue(out error);
-            string actual = error.Message;
+            responseMessage.TryGetContentValue(out error);
+            string actualMessage = error.Message;
 
-            Assert.That(actual, Is.EqualTo("Text is null or empty"));
+            Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
         }
 
         [Test]
@@ -112,51 +112,51 @@ namespace TodoList.Api.Tests
         {
             var item = new ListItem(Guid.Empty);
 
-            IHttpActionResult result = _controller.Post(item);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.Post(item).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
         public void Post_WithValidArguments_ReturnsCorrectItem()
         {
-            var expected = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
-            var newItem = new ListItem(Guid.Empty, "newText");
+            var expectedListItem = new ListItem(new Guid("00000000-0000-0000-0000-000000000000"), "text");
+            var newListItem = new ListItem(Guid.Empty, "newText");
 
-            IHttpActionResult result = _controller.Post(newItem);
+            IHttpActionResult actionResult = _controller.Post(newListItem).Result;
 
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
-            ListItem actual;
-            task.Result.TryGetContentValue(out actual);
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            ListItem actualListItem;
+            responseMessage.TryGetContentValue(out actualListItem);
 
-            Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
         }
 
         [Test]
         public void Post_WithValidArguments_IsOfCorrectStatusCode()
         {
-            var newItem = new ListItem(Guid.Empty, "newText");
+            var newListItem = new ListItem(Guid.Empty, "newText");
 
-            IHttpActionResult result = _controller.Post(newItem);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.Post(newListItem).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
 
         [Test]
         public void Put_ReturnsCorrectItem()
         {
-            var expected = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
-            var updated = new ListItem(Guid.Empty, "newText");
+            var expectedListItem = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
+            var updatedListItem = new ListItem(Guid.Empty, "newText");
 
-            IHttpActionResult result = _controller.Put(updated);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
-            ListItem actual;
-            task.Result.TryGetContentValue(out actual);
+            IHttpActionResult actionResult = _controller.PutAsync(updatedListItem).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            ListItem actualListItem;
+            responseMessage.TryGetContentValue(out actualListItem);
 
-            Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
         }
 
         [Test]
@@ -164,32 +164,32 @@ namespace TodoList.Api.Tests
         {
             var updated = new ListItem(Guid.Empty, "newText");
 
-            IHttpActionResult result = _controller.Put(updated);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.PutAsync(updated).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Test]
         public void Delete_ReturnsCorrectItem()
         {
-            IHttpActionResult result = _controller.Delete(Guid.Empty);
-            var expected = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
+            IHttpActionResult actionResult = _controller.DeleteAsync(Guid.Empty).Result;
+            var expectedListItem = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
-            ListItem actual;
-            task.Result.TryGetContentValue(out actual); 
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            ListItem actualListItem;
+            responseMessage.TryGetContentValue(out actualListItem); 
 
-            Assert.That(actual, Is.EqualTo(expected).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
         }
 
         [Test]
         public void Delete_IsOfCorrectStatusCode()
         {
-            IHttpActionResult result = _controller.Delete(Guid.Empty);
-            Task<HttpResponseMessage> task = result.ExecuteAsync(CancellationToken.None);
+            IHttpActionResult actionResult = _controller.DeleteAsync(Guid.Empty).Result;
+            HttpResponseMessage responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(task.Result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
     }
 }
