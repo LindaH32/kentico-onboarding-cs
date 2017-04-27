@@ -10,13 +10,15 @@ namespace TodoList.Api.Models
             Text = text;
         }
 
-        public ListItem(Guid id) : this(id, null) { }
+        public ListItem(Guid id) : this(id, null)
+        {
+        }
 
         public Guid Id { get; set; }
 
         public string Text { get; set; }
 
-        public override string ToString() 
+        public override string ToString()
             => $"ID: {Id}, Text:{Text}";
     }
 }

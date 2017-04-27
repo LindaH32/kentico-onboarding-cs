@@ -26,7 +26,7 @@ namespace TodoList.Api.Controllers
             if (item.Id != Guid.Empty)
                 return BadRequest("Guid must be empty");
 
-            return Created("api/v1/items/?id=300...",await Task.FromResult(SampleItems[0]));
+            return Created("api/v1/items/?id=300...", await Task.FromResult(SampleItems[0]));
         }
 
         public async Task<IHttpActionResult> GetAsync()
