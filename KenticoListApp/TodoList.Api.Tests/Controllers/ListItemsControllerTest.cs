@@ -7,7 +7,7 @@ using System.Web.Http;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Models;
-using TodoList.Api.Tests.Comparers;
+using TodoList.Api.Tests.Helpers;
 
 namespace TodoList.Api.Tests.Controllers
 {
