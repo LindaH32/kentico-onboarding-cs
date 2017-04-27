@@ -4,14 +4,10 @@ namespace TodoList.Api.Models
 {
     public class ListItem
     {
-        public ListItem(Guid id, string text)
+        public ListItem(Guid id, string text = null)
         {
             Id = id;
             Text = text;
-        }
-
-        public ListItem(Guid id) : this(id, null)
-        {
         }
 
         public Guid Id { get; set; }
