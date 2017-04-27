@@ -15,7 +15,7 @@ namespace TodoList.Api.Controllers
             new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated")
         };
 
-        public async Task<IHttpActionResult> Post(ListItem item)
+        public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)
                 return BadRequest("Item is null");
