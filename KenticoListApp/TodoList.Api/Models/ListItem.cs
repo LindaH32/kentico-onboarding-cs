@@ -15,7 +15,7 @@ namespace TodoList.Api.Models
             Id = id;
             Text = null;
         }
-        
+
         public Guid Id { get; set; }
 
         public string Text { get; set; }
