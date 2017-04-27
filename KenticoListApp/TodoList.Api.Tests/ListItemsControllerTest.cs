@@ -14,7 +14,6 @@ namespace TodoList.Api.Tests
     [TestFixture]
     public class ListItemsControllerTest
     {
-        private readonly Guid _nonEmptyGuid = new Guid("10056700-0000-0000-5558-022351086020");
         [SetUp]
         public void Init()
         {
@@ -26,13 +25,15 @@ namespace TodoList.Api.Tests
             };
         }
 
+        private readonly Guid _nonEmptyGuid = new Guid("10056700-0000-0000-5558-022351086020");
+
         private ListItemComparer _comparer;
         private ListItemsController _controller;
 
         [TestCase("")]
         [TestCase("    ")]
         [TestCase(null)]
-        public void Post_ItemWithNullText_ReturnsErrorMessage(string postedText)
+        public void Post_ItemWithNullText_ReturnsErrorMessageAndStatusCode(string postedText)
         {
             var listItem = new ListItem(Guid.Empty, postedText);
 
@@ -42,20 +43,12 @@ namespace TodoList.Api.Tests
             responseMessage.TryGetContentValue(out error);
             var actualMessage = error.Message;
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
         }
 
         [Test]
-        public void Delete_IsOfCorrectStatusCode()
-        {
-            var actionResult = _controller.DeleteAsync(Guid.Empty).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        }
-
-        [Test]
-        public void Delete_ReturnsCorrectItem()
+        public void Delete_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
 
@@ -64,20 +57,12 @@ namespace TodoList.Api.Tests
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
         }
 
         [Test]
-        public void Get_ById_IsOfCorrectStatusCode()
-        {
-            var actionResult = _controller.GetAsync(Guid.Empty).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        }
-
-        [Test]
-        public void Get_ById_ReturnsTestItem()
+        public void Get_ById_ReturnsCorrectItemAndStatusCode()
         {
             var expected = new ListItem(new Guid("30000000-0000-0000-0000-000000000000"), "text");
 
@@ -86,6 +71,7 @@ namespace TodoList.Api.Tests
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItem, Is.EqualTo(expected).Using(_comparer));
         }
 
@@ -108,27 +94,17 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Post_ItemWithNonEmptyGuid_IsOfCorrectStatusCode()
+        public void Post_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCode()
         {
             var listItem = new ListItem(_nonEmptyGuid, "text");
 
             var actionResult = _controller.Post(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-        }
-
-        [Test]
-        public void Post_ItemWithNonEmptyGuid_ReturnsErrorMessage()
-        {
-            var listItem = new ListItem(_nonEmptyGuid, "text");
-
-            var actionResult = _controller.Post(listItem).Result;
-            var repsonseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
-            repsonseMessage.TryGetContentValue(out error);
+            responseMessage.TryGetContentValue(out error);
             var actualMessage = error.Message;
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(actualMessage, Is.EqualTo("Guid must be empty"));
         }
 
@@ -144,39 +120,20 @@ namespace TodoList.Api.Tests
         }
 
         [Test]
-        public void Post_WithNullArguments_IsOfCorrectStatusCode()
+        public void Post_WithNullArguments_ReturnsErrorMessageAndStatusCode()
         {
             var actionResult = _controller.Post(null).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-        }
-
-        [Test]
-        public void Post_WithNullArguments_ReturnsErrorMessage()
-        {
-            var actionResult = _controller.Post(null).Result;
-            var repsonseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
-            repsonseMessage.TryGetContentValue(out error);
+            responseMessage.TryGetContentValue(out error);
             var actualMessage = error.Message;
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(actualMessage, Is.EqualTo("Item is null"));
         }
 
         [Test]
-        public void Post_WithValidArguments_IsOfCorrectStatusCode()
-        {
-            var newListItem = new ListItem(Guid.Empty, "newText");
-
-            var actionResult = _controller.Post(newListItem).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        }
-
-        [Test]
-        public void Post_WithValidArguments_ReturnsCorrectItem()
+        public void Post_WithValidArguments_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem(new Guid("30000000-0000-0000-0000-000000000000"), "text");
             var newListItem = new ListItem(Guid.Empty, "newText");
@@ -187,22 +144,11 @@ namespace TodoList.Api.Tests
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
-        }
-
-        [Test]
-        public void Put_IsOfCorrectStatusCode()
-        {
-            var updated = new ListItem(Guid.Empty, "newText");
-
-            var actionResult = _controller.PutAsync(updated).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
-
         [Test]
-        public void Put_ReturnsCorrectItem()
+        public void Put_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
             var updatedListItem = new ListItem(Guid.Empty, "newText");
@@ -212,6 +158,7 @@ namespace TodoList.Api.Tests
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
         }
     }
