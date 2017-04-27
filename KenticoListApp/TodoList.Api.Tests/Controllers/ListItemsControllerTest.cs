@@ -9,7 +9,7 @@ using TodoList.Api.Controllers;
 using TodoList.Api.Models;
 using TodoList.Api.Tests.Comparers;
 
-namespace TodoList.Api.Tests
+namespace TodoList.Api.Tests.Controllers
 {
     [TestFixture]
     public class ListItemsControllerTest
