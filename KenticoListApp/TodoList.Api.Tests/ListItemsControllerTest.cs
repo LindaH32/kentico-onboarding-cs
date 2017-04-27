@@ -37,7 +37,7 @@ namespace TodoList.Api.Tests
         {
             var listItem = new ListItem(Guid.Empty, postedText);
 
-            var actionResult = _controller.Post(listItem).Result;
+            var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
@@ -98,7 +98,7 @@ namespace TodoList.Api.Tests
         {
             var listItem = new ListItem(_nonEmptyGuid, "text");
 
-            var actionResult = _controller.Post(listItem).Result;
+            var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
@@ -113,7 +113,7 @@ namespace TodoList.Api.Tests
         {
             var listItem = new ListItem(Guid.Empty);
 
-            var actionResult = _controller.Post(listItem).Result;
+            var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -122,7 +122,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_WithNullArguments_ReturnsErrorMessageAndStatusCode()
         {
-            var actionResult = _controller.Post(null).Result;
+            var actionResult = _controller.PostAsync(null).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
@@ -138,13 +138,13 @@ namespace TodoList.Api.Tests
             var expectedListItem = new ListItem(new Guid("30000000-0000-0000-0000-000000000000"), "text");
             var newListItem = new ListItem(Guid.Empty, "newText");
 
-            var actionResult = _controller.Post(newListItem).Result;
+            var actionResult = _controller.PostAsync(newListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
 
         [Test]

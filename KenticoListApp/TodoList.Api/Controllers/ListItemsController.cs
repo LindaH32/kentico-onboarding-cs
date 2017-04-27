@@ -15,18 +15,23 @@ namespace TodoList.Api.Controllers
             new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated")
         };
 
+        private IHttpActionResult ValidateItem(ListItem item)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)
                 return BadRequest("Item is null");
 
-            if (item.Id != Guid.Empty)
-                return BadRequest("Guid must be empty");
-
             if (string.IsNullOrWhiteSpace(item.Text))
                 return BadRequest("Text is null or empty");
 
-            return Ok(await Task.FromResult(SampleItems[0]));
+            if (item.Id != Guid.Empty)
+                return BadRequest("Guid must be empty");
+
+            return Created("api/v1/items/?id=300...",await Task.FromResult(SampleItems[0]));
         }
 
         public async Task<IHttpActionResult> GetAsync()
