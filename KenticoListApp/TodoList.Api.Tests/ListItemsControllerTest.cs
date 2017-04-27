@@ -25,8 +25,9 @@ namespace TodoList.Api.Tests
             };
         }
 
-        private readonly Guid _nonEmptyGuid = new Guid("10056700-0000-0000-5558-022351086020");
-
+        private readonly Guid _guidOfFirstItem = new Guid("30000000-0000-0000-0000-000000000000");
+        private readonly Guid _guidOfSecondItem = new Guid("10000000-0000-0000-0000-000000000000");
+        private readonly Guid _guidOfThirdItem = new Guid("20000000-0000-0000-0000-000000000000");
         private ListItemComparer _comparer;
         private ListItemsController _controller;
 
@@ -50,7 +51,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Delete_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe");
+            var expectedListItem = new ListItem(_guidOfSecondItem, "giraffe");
 
             var actionResult = _controller.DeleteAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -64,7 +65,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Get_ById_ReturnsCorrectItemAndStatusCode()
         {
-            var expected = new ListItem(new Guid("30000000-0000-0000-0000-000000000000"), "text");
+            var expected = new ListItem(_guidOfFirstItem, "text");
 
             var actionResult = _controller.GetAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -80,9 +81,9 @@ namespace TodoList.Api.Tests
         {
             var expectedListItems = new List<ListItem>
             {
-                new ListItem(new Guid("30000000-0000-0000-0000-000000000000"), "text"),
-                new ListItem(new Guid("10000000-0000-0000-0000-000000000000"), "giraffe"),
-                new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated")
+                new ListItem(_guidOfFirstItem, "text"),
+                new ListItem(_guidOfSecondItem, "giraffe"),
+                new ListItem(_guidOfThirdItem, "updated")
             };
 
             var actionResult = _controller.GetAsync().Result;
@@ -96,7 +97,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCode()
         {
-            var listItem = new ListItem(_nonEmptyGuid, "text");
+            var listItem = new ListItem(_guidOfFirstItem, "text");
 
             var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -135,7 +136,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Post_WithValidArguments_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(new Guid("30000000-0000-0000-0000-000000000000"), "text");
+            var expectedListItem = new ListItem(_guidOfFirstItem, "text");
             var newListItem = new ListItem(Guid.Empty, "newText");
 
             var actionResult = _controller.PostAsync(newListItem).Result;
@@ -150,7 +151,7 @@ namespace TodoList.Api.Tests
         [Test]
         public void Put_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated");
+            var expectedListItem = new ListItem(_guidOfThirdItem, "updated");
             var updatedListItem = new ListItem(Guid.Empty, "newText");
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;

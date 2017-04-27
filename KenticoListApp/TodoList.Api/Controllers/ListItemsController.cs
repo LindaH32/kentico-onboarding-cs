@@ -15,11 +15,6 @@ namespace TodoList.Api.Controllers
             new ListItem(new Guid("20000000-0000-0000-0000-000000000000"), "updated")
         };
 
-        private IHttpActionResult ValidateItem(ListItem item)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)
