@@ -10,7 +10,7 @@ namespace TodoList.Api.Models
             Text = text;
         }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
         public string Text { get; set; }
 
