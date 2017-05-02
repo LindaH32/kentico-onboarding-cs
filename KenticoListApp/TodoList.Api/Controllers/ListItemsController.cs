@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using System.Web.Http;
-using TodoList.Api.Models;
+using Contracts.Interfaces;
+using Contracts.Models;
 
 namespace TodoList.Api.Controllers
 {
     public class ListItemsController : ApiController
     {
+        private IListItemRepository repository;
+        
         private static readonly List<ListItem> SampleItems = new List<ListItem>
         {
             new ListItem(new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D"), "text"),

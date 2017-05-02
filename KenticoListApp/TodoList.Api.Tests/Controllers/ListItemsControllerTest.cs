@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
+using Contracts.Models;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
-using TodoList.Api.Models;
 using TodoList.Api.Tests.Helpers;
 
 namespace TodoList.Api.Tests.Controllers

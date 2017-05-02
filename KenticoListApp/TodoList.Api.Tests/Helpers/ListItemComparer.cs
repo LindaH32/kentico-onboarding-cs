@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TodoList.Api.Models;
+using Contracts.Models;
 
 namespace TodoList.Api.Tests.Helpers
 {
