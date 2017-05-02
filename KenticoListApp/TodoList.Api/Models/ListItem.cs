@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace TodoList.Api.Models
 {
@@ -10,6 +9,7 @@ namespace TodoList.Api.Models
             Id = id;
             Text = text;
         }
+
         public Guid Id { get; }
 
         public string Text { get; set; }
