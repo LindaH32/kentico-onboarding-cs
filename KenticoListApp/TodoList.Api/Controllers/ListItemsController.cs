@@ -8,11 +8,11 @@ namespace TodoList.Api.Controllers
 {
     public class ListItemsController : ApiController
     {
-        private readonly IListItemRepository repository;
+        private readonly IListItemRepository _repository;
 
         public ListItemsController(IListItemRepository repository)
         {
-            this.repository = repository;
+            _repository = repository;
         }
 
 
@@ -27,19 +27,19 @@ namespace TodoList.Api.Controllers
             if (item.Id != Guid.Empty)
                 return BadRequest("Guid must be empty");
 
-            return Created("api/v1/items/?id=300...", await Task.FromResult(repository.Post(item)));
+            return Created("api/v1/items/?id=300...", await Task.FromResult(_repository.Post(item)));
         }
 
         public async Task<IHttpActionResult> GetAsync()
-            => Ok(await Task.FromResult(repository.Get()));
+            => Ok(await Task.FromResult(_repository.Get()));
 
         public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await Task.FromResult(repository.Get(id)));
+            => Ok(await Task.FromResult(_repository.Get(id)));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
-            => Ok(await Task.FromResult(repository.Delete(id)));
+            => Ok(await Task.FromResult(_repository.Delete(id)));
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
-            => Ok(await Task.FromResult(repository.Put(item)));
+            => Ok(await Task.FromResult(_repository.Put(item)));
     }
 }

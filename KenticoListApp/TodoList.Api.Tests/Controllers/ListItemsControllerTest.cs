@@ -4,9 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
+using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Tests.Helpers;
+using TodoList.Contracts.Interfaces;
 using TodoList.Contracts.Models;
 
 
@@ -15,22 +17,25 @@ namespace TodoList.Api.Tests.Controllers
     [TestFixture]
     public class ListItemsControllerTest
     {
-        [SetUp]
-        public void Init()
-        {
-            _comparer = new ListItemComparer();
-            _controller = new ListItemsController
-            {
-                Configuration = new HttpConfiguration(),
-                Request = new HttpRequestMessage()
-            };
-        }
-
+        private IListItemRepository _repository;
         private readonly Guid _guidOfFirstItem = new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D");
         private readonly Guid _guidOfSecondItem = new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE");
         private readonly Guid _guidOfThirdItem = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F");
         private ListItemComparer _comparer;
         private ListItemsController _controller;
+
+        [SetUp]
+        public void Init()
+        {
+            _repository = Substitute.For<IListItemRepository>();
+
+            _comparer = new ListItemComparer();
+            _controller = new ListItemsController(_repository)
+            {
+                Configuration = new HttpConfiguration(),
+                Request = new HttpRequestMessage()
+            };
+        }
 
         [TestCase("")]
         [TestCase("    ")]
@@ -53,7 +58,8 @@ namespace TodoList.Api.Tests.Controllers
         public void DeleteAsync_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem(_guidOfSecondItem, "giraffe");
-
+            _repository.Delete(Guid.Empty).Returns(expectedListItem);
+            
             var actionResult = _controller.DeleteAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
@@ -66,7 +72,8 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void GetAsync_ById_ReturnsCorrectItemAndStatusCode()
         {
-            var expected = new ListItem(_guidOfFirstItem, "text");
+            var expectedListItem = new ListItem(_guidOfFirstItem, "text");
+            _repository.Get(Guid.Empty).Returns(expectedListItem);
 
             var actionResult = _controller.GetAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -74,7 +81,7 @@ namespace TodoList.Api.Tests.Controllers
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(actualListItem, Is.EqualTo(expected).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
         }
 
         [Test]
@@ -86,6 +93,7 @@ namespace TodoList.Api.Tests.Controllers
                 new ListItem(_guidOfSecondItem, "giraffe"),
                 new ListItem(_guidOfThirdItem, "updated")
             };
+            _repository.Get().Returns(expectedListItems);
 
             var actionResult = _controller.GetAsync().Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -139,6 +147,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var expectedListItem = new ListItem(_guidOfFirstItem, "text");
             var newListItem = new ListItem(Guid.Empty, "newText");
+            _repository.Post(newListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PostAsync(newListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -154,6 +163,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var expectedListItem = new ListItem(_guidOfThirdItem, "updated");
             var updatedListItem = new ListItem(Guid.Empty, "newText");
+            _repository.Put(updatedListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;

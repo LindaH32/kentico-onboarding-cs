@@ -137,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TodoList.Contracts\TodoList.Contracts.csproj">
-      <Project>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</Project>
+      <Project>{01baae19-fe73-49e3-ac97-dd3d430ee26c}</Project>
       <Name>TodoList.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
