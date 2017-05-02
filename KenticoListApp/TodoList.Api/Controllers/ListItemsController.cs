@@ -10,6 +10,12 @@ namespace TodoList.Api.Controllers
     {
         private readonly IListItemRepository repository;
 
+        public ListItemsController(IListItemRepository repository)
+        {
+            this.repository = repository;
+        }
+
+
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)
