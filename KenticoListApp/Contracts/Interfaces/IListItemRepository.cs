@@ -12,8 +12,8 @@ namespace Contracts.Interfaces
 
         ListItem Delete(Guid id);
 
-        ListItem Put();
+        ListItem Put(ListItem item);
 
-        ListItem Post();
+        ListItem Post(ListItem item);
     }
 }

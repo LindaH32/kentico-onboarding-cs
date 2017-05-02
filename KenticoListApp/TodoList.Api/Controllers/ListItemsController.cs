@@ -10,15 +10,8 @@ namespace TodoList.Api.Controllers
 {
     public class ListItemsController : ApiController
     {
-        private IListItemRepository repository;
+        private IListItemRepository repository = new ListItemRepository.ListItemRepository();
         
-        private static readonly List<ListItem> SampleItems = new List<ListItem>
-        {
-            new ListItem(new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D"), "text"),
-            new ListItem(new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE"), "giraffe"),
-            new ListItem(new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), "updated")
-        };
-
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)
@@ -30,19 +23,19 @@ namespace TodoList.Api.Controllers
             if (item.Id != Guid.Empty)
                 return BadRequest("Guid must be empty");
 
-            return Created("api/v1/items/?id=300...", await Task.FromResult(SampleItems[0]));
+            return Created("api/v1/items/?id=300...", await Task.FromResult(repository.Post(item)));
         }
 
         public async Task<IHttpActionResult> GetAsync()
-            => Ok(await Task.FromResult(SampleItems));
+            => Ok(await Task.FromResult(repository.Get()));
 
         public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await Task.FromResult(SampleItems[0]));
+            => Ok(await Task.FromResult(repository.Get(id)));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
-            => Ok(await Task.FromResult(SampleItems[1]));
+            => Ok(await Task.FromResult(repository.Delete(id)));
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
-            => Ok(await Task.FromResult(SampleItems[2]));
+            => Ok(await Task.FromResult(repository.Put(item)));
     }
 }

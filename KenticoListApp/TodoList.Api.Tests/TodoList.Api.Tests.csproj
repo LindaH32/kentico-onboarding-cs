@@ -69,9 +69,9 @@
     <Compile Include="Controllers\ListItemsControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\Contracts.csproj">
+    <ProjectReference Include="..\Contracts\TodoList.Contracts.csproj">
       <Project>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</Project>
-      <Name>Contracts</Name>
+      <Name>TodoList.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\TodoList.Api\TodoList.Api.csproj">
       <Project>{12BFC809-A2FF-4460-ABC4-5B32EFDB305B}</Project>

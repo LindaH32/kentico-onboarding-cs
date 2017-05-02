@@ -136,9 +136,13 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\Contracts.csproj">
+    <ProjectReference Include="..\Contracts\TodoList.Contracts.csproj">
       <Project>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</Project>
-      <Name>Contracts</Name>
+      <Name>TodoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ListItemRepository\TodoList.Repositories.csproj">
+      <Project>{36B90034-283E-4C90-945A-C877B71A4513}</Project>
+      <Name>TodoList.Repositories</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

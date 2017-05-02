@@ -10,29 +10,35 @@ namespace ListItemRepository
 {
     public class ListItemRepository : IListItemRepository
     {
+        private static readonly List<ListItem> SampleItems = new List<ListItem>
+        {
+            new ListItem(new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D"), "text"),
+            new ListItem(new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE"), "giraffe"),
+            new ListItem(new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), "updated")
+        };
         public IEnumerable<ListItem> Get()
         {
-            throw new NotImplementedException();
+            return SampleItems;
         }
 
         public ListItem Get(Guid id)
         {
-            throw new NotImplementedException();
+            return SampleItems[0];
         }
 
         public ListItem Delete(Guid id)
         {
-            throw new NotImplementedException();
+            return SampleItems[1];
         }
 
-        public ListItem Put()
+        public ListItem Put(ListItem item)
         {
-            throw new NotImplementedException();
+            return SampleItems[2];
         }
 
-        public ListItem Post()
+        public ListItem Post(ListItem item)
         {
-            throw new NotImplementedException();
+            return SampleItems[0];
         }
     }
 }
