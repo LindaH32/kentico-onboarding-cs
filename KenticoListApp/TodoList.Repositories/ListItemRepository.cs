@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Contracts.Interfaces;
-using Contracts.Models;
+using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Models;
 
-namespace ListItemRepository
+namespace TodoList.Repositories
 {
     public class ListItemRepository : IListItemRepository
     {
@@ -16,6 +13,7 @@ namespace ListItemRepository
             new ListItem(new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE"), "giraffe"),
             new ListItem(new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), "updated")
         };
+
         public IEnumerable<ListItem> Get()
         {
             return SampleItems;

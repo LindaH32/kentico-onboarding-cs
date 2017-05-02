@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api", "TodoList.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api.Tests", "TodoList.Api.Tests\TodoList.Api.Tests.csproj", "{FFDBCD08-6171-4514-9D21-3F2F54BF0DEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Repositories", "ListItemRepository\TodoList.Repositories.csproj", "{36B90034-283E-4C90-945A-C877B71A4513}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Repositories", "TodoList.Repositories\TodoList.Repositories.csproj", "{36B90034-283E-4C90-945A-C877B71A4513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Contracts", "Contracts\TodoList.Contracts.csproj", "{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Contracts", "TodoList.Contracts\TodoList.Contracts.csproj", "{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

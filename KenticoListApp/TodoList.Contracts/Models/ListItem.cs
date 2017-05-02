@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Contracts.Models
+namespace TodoList.Contracts.Models
 {
     public class ListItem
     {
@@ -9,6 +9,7 @@ namespace Contracts.Models
             Id = id;
             Text = text;
         }
+
         public Guid Id { get; }
 
         public string Text { get; set; }

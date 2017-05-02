@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Contracts.Interfaces;
-using Contracts.Models;
+using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Controllers
 {
     public class ListItemsController : ApiController
     {
-        private IListItemRepository repository = new ListItemRepository.ListItemRepository();
-        
+        private readonly IListItemRepository repository;
+
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)

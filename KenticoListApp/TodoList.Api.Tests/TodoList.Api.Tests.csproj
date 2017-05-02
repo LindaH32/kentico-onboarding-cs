@@ -69,17 +69,17 @@
     <Compile Include="Controllers\ListItemsControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\TodoList.Contracts.csproj">
-      <Project>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</Project>
-      <Name>TodoList.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TodoList.Api\TodoList.Api.csproj">
-      <Project>{12BFC809-A2FF-4460-ABC4-5B32EFDB305B}</Project>
-      <Name>TodoList.Api</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\TodoList.Api\TodoList.Api.csproj">
+      <Project>{12bfc809-a2ff-4460-abc4-5b32efdb305b}</Project>
+      <Name>TodoList.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TodoList.Contracts\TodoList.Contracts.csproj">
+      <Project>{01baae19-fe73-49e3-ac97-dd3d430ee26c}</Project>
+      <Name>TodoList.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,10 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
-using Contracts.Models;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Tests.Helpers;
+using TodoList.Contracts.Models;
+
 
 namespace TodoList.Api.Tests.Controllers
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Contracts.Models;
+using TodoList.Contracts.Models;
 
-namespace Contracts.Interfaces
+namespace TodoList.Contracts.Interfaces
 {
     public interface IListItemRepository
     {
