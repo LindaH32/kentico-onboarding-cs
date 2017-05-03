@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace TodoList.Api
 {
@@ -15,9 +12,9 @@ namespace TodoList.Api
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                "DefaultApiV1",
+                "api/v1/{controller}/{id}",
+                new {id = RouteParameter.Optional}
             );
         }
     }
