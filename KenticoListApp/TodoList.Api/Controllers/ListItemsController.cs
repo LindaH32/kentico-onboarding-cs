@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TodoList.Contracts.Interfaces;
@@ -14,18 +16,33 @@ namespace TodoList.Api.Controllers
         {
             _repository = repository;
         }
-
-
+        
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             if (item == null)
+            {
                 return BadRequest("Item is null");
+            }
 
             if (string.IsNullOrWhiteSpace(item.Text))
-                return BadRequest("Text is null or empty");
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                    Request.CreateErrorResponse(
+                        (HttpStatusCode)422,
+                        new HttpError("Text is null or empty")
+                    )
+                );
+            }
 
             if (item.Id != Guid.Empty)
-                return BadRequest("Guid must be empty");
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                    Request.CreateErrorResponse(
+                        (HttpStatusCode)422,
+                        new HttpError("Guid must be empty")
+                    )
+                );
+            }
 
             return Created("api/v1/items/?id=300...", await Task.FromResult(_repository.Post(item)));
         }

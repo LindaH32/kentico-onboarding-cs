@@ -50,7 +50,7 @@ namespace TodoList.Api.Tests.Controllers
             responseMessage.TryGetContentValue(out error);
             var actualMessage = error.Message;
 
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo((HttpStatusCode)422));
             Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
         }
 
@@ -114,7 +114,7 @@ namespace TodoList.Api.Tests.Controllers
             responseMessage.TryGetContentValue(out error);
             var actualMessage = error.Message;
 
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo((HttpStatusCode)422));
             Assert.That(actualMessage, Is.EqualTo("Guid must be empty"));
         }
 
@@ -126,7 +126,7 @@ namespace TodoList.Api.Tests.Controllers
             var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
 
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo((HttpStatusCode)422));
         }
 
         [Test]
