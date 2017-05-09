@@ -1,4 +1,8 @@
 ﻿using System.Web.Http;
+using Microsoft.Practices.Unity;
+using TodoList.Api.Controllers;
+using TodoList.Contracts.Interfaces;
+using TodoList.Repositories;
 
 namespace TodoList.Api
 {
@@ -6,6 +10,9 @@ namespace TodoList.Api
     {
         public static void Register(HttpConfiguration config)
         {
+            UnityContainer container = new UnityContainer();
+            ContainerBootstrapper.RegisterTypes(container);
+            ListItemsController controller = container.Resolve<ListItemsController>();
             // Web API configuration and services
 
             // Web API routes

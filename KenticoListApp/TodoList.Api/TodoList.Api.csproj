@@ -76,6 +76,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -139,6 +143,10 @@
     <ProjectReference Include="..\TodoList.Contracts\TodoList.Contracts.csproj">
       <Project>{01baae19-fe73-49e3-ac97-dd3d430ee26c}</Project>
       <Name>TodoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TodoList.Repositories\TodoList.Repositories.csproj">
+      <Project>{36B90034-283E-4C90-945A-C877B71A4513}</Project>
+      <Name>TodoList.Repositories</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
