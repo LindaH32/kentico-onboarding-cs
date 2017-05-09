@@ -119,17 +119,6 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void PostAsync_ItemWithNullText_IsOfCorrectStatusCode()
-        {
-            var listItem = new ListItem(Guid.Empty);
-
-            var actionResult = _controller.PostAsync(listItem).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo((HttpStatusCode)422));
-        }
-
-        [Test]
         public void PostAsync_WithNullArguments_ReturnsErrorMessageAndStatusCode()
         {
             var actionResult = _controller.PostAsync(null).Result;
