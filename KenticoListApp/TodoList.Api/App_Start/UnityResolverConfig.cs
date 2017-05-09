@@ -12,7 +12,6 @@ namespace TodoList.Api
             var container = new UnityContainer();
             ContainerBootstrapper.RegisterTypes(container);
             config.DependencyResolver = new UnityResolver(container);
-            // Web API configuration and services
         }
     }
 }
