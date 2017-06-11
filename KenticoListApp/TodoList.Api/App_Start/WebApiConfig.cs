@@ -2,7 +2,7 @@
 
 namespace TodoList.Api
 {
-    public static class WebApiConfig
+    public static class RouteConfig
     {
         public static void Register(HttpConfiguration config)
         {

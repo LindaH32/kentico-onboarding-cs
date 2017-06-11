@@ -7,7 +7,7 @@ namespace TodoList.Api
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configure(RouteConfig.Register);
             GlobalConfiguration.Configure(ResponseConfig.Register);
             GlobalConfiguration.Configure(UnityResolverConfig.Register);
         }
