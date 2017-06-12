@@ -53,9 +53,7 @@ namespace TodoList.Api.Resolvers
             Dispose(true);
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            _container.Dispose();
-        }
+        protected virtual void Dispose(bool disposing) 
+            => _container.Dispose();
     }
 }

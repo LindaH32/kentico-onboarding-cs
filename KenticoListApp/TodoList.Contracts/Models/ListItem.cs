@@ -4,13 +4,7 @@ namespace TodoList.Contracts.Models
 {
     public class ListItem
     {
-        public ListItem(Guid id, string text)
-        {
-            Id = id;
-            Text = text;
-        }
-        
-        public Guid Id { get; }
+        public Guid Id { get; set; }
        
         public string Text { get; set; }
 

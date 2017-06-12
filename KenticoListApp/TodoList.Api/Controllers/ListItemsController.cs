@@ -17,21 +17,7 @@ namespace TodoList.Api.Controllers
         
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
-            if (item == null)
-            {
-                ModelState.AddModelError(string.Empty, "Item is null");
-                return BadRequest(ModelState);
-            }
-
-            if (string.IsNullOrWhiteSpace(item.Text))
-            {
-                ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
-            }
-
-            if (item.Id != Guid.Empty)
-            {
-                ModelState.AddModelError(nameof(ListItem.Id), "Guid is not empty");
-            }
+            ValidatePostItem(item);
 
             if (!ModelState.IsValid)
             {
@@ -52,5 +38,24 @@ namespace TodoList.Api.Controllers
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
             => Ok(await Task.FromResult(_repository.Put(item)));
+
+        private void ValidatePostItem(ListItem item)
+        {
+            if (item == null)
+            {
+                ModelState.AddModelError(string.Empty, "Item is null");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(item.Text))
+            {
+                ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
+            }
+
+            if (item.Id != Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(ListItem.Id), "Guid is not empty");
+            }
+        }
     }
 }

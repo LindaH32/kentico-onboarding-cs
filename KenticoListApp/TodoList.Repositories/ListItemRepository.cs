@@ -9,9 +9,9 @@ namespace TodoList.Repositories
     {
         private static readonly List<ListItem> SampleItems = new List<ListItem>
         {
-            new ListItem(new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D"), "text"),
-            new ListItem(new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE"), "giraffe"),
-            new ListItem(new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), "updated")
+            new ListItem { Id= new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D"), Text= "text" },
+            new ListItem { Id = new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE"), Text = "giraffe" },
+            new ListItem{ Id = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), Text = "updated"}
         };
 
         public IEnumerable<ListItem> Get()
