@@ -108,6 +108,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void PostAsync_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCode()
         {
+            var expectedKeys = new[]{"Id"};
             var listItem = new ListItem(_guidOfFirstItem, "text");
 
             var actionResult = _controller.PostAsync(listItem).Result;
@@ -115,7 +116,6 @@ namespace TodoList.Api.Tests.Controllers
             HttpError error;
             responseMessage.TryGetContentValue(out error);
             var modelStateKeys = error.ModelState.Keys;
-            var expectedKeys = new[]{"Id"};
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
@@ -125,12 +125,13 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void PostAsync_WithNullArguments_ReturnsErrorMessageAndStatusCode()
         {
+            var expectedKeys = new[] { string.Empty };
+
             var actionResult = _controller.PostAsync(null).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
             var modelStateKeys = error.ModelState.Keys;
-            var expectedKeys = new[] { string.Empty };
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
