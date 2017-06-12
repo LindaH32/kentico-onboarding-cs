@@ -42,7 +42,7 @@ namespace TodoList.Api.Tests.Controllers
         [TestCase(null)]
         public void PostAsync_ItemWithNullText_ReturnsErrorMessageAndStatusCode(string postedText)
         {
-            var listItem = new ListItem(Guid.Empty, postedText);
+            var listItem = new ListItem { Id = Guid.Empty, Text = postedText };
 
             var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -59,7 +59,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void DeleteAsync_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(_guidOfSecondItem, "giraffe");
+            var expectedListItem = new ListItem { Id = _guidOfSecondItem, Text = "giraffe" };
             _repository.Delete(Guid.Empty).Returns(expectedListItem);
             
             var actionResult = _controller.DeleteAsync(Guid.Empty).Result;
@@ -74,7 +74,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void GetAsync_ById_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(_guidOfFirstItem, "text");
+            var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
             _repository.Get(Guid.Empty).Returns(expectedListItem);
 
             var actionResult = _controller.GetAsync(Guid.Empty).Result;
@@ -91,9 +91,9 @@ namespace TodoList.Api.Tests.Controllers
         {
             var expectedListItems = new List<ListItem>
             {
-                new ListItem(_guidOfFirstItem, "text"),
-                new ListItem(_guidOfSecondItem, "giraffe"),
-                new ListItem(_guidOfThirdItem, "updated")
+                new ListItem { Id = _guidOfFirstItem, Text = "text" },
+                new ListItem { Id = _guidOfSecondItem, Text = "giraffe" },
+                new ListItem { Id = _guidOfThirdItem, Text = "updated"}
             };
             _repository.Get().Returns(expectedListItems);
 
@@ -109,7 +109,7 @@ namespace TodoList.Api.Tests.Controllers
         public void PostAsync_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCode()
         {
             var expectedKeys = new[]{"Id"};
-            var listItem = new ListItem(_guidOfFirstItem, "text");
+            var listItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
 
             var actionResult = _controller.PostAsync(listItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -140,8 +140,8 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void PostAsync_WithValidArguments_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(_guidOfFirstItem, "text");
-            var newListItem = new ListItem(Guid.Empty, "newText");
+            var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
+            var newListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             _repository.Post(newListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PostAsync(newListItem).Result;
@@ -156,8 +156,8 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void PutAsync_ReturnsCorrectItemAndStatusCode()
         {
-            var expectedListItem = new ListItem(_guidOfThirdItem, "updated");
-            var updatedListItem = new ListItem(Guid.Empty, "newText");
+            var expectedListItem = new ListItem { Id = _guidOfThirdItem, Text = "updated" };
+            var updatedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             _repository.Put(updatedListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;
