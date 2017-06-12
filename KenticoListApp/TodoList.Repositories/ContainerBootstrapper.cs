@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 using TodoList.Contracts.Interfaces;
 
 namespace TodoList.Repositories
