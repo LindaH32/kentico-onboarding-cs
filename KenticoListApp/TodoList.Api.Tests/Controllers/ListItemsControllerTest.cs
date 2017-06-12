@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -48,10 +49,12 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
-            var actualMessage = error.Message;
+            var modelStateKeys = error.ModelState.Keys;
+            var expectedKeys = new[] { "Text" };
 
-            Assert.That(responseMessage.StatusCode, Is.EqualTo((HttpStatusCode)422));
-            Assert.That(actualMessage, Is.EqualTo("Text is null or empty"));
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
         }
 
         [Test]
@@ -112,10 +115,12 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
-            var actualMessage = error.Message;
+            var modelStateKeys = error.ModelState.Keys;
+            var expectedKeys = new[]{"Id"};
 
-            Assert.That(responseMessage.StatusCode, Is.EqualTo((HttpStatusCode)422));
-            Assert.That(actualMessage, Is.EqualTo("Guid must be empty"));
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
+            
         }
 
         [Test]
@@ -125,10 +130,11 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
-            var actualMessage = error.Message;
+            var modelStateKeys = error.ModelState.Keys;
+            var expectedKeys = new[] { string.Empty };
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(actualMessage, Is.EqualTo("Item is null"));
+            Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
         }
 
         [Test]

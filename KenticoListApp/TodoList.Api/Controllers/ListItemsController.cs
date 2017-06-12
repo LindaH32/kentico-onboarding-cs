@@ -21,7 +21,7 @@ namespace TodoList.Api.Controllers
         {
             if (item == null)
             {
-                ModelState.AddModelError(String.Empty, "Item is null");
+                ModelState.AddModelError(string.Empty, "Item is null");
                 return BadRequest(ModelState);
             }
 
@@ -30,12 +30,14 @@ namespace TodoList.Api.Controllers
                 ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
             }
 
+            if (item.Id != Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(ListItem.Id), "Guid is not empty");
+            }
+
             if (!ModelState.IsValid)
             {
-                return new System.Web.Http.Results.ResponseMessageResult(
-                    Request.CreateErrorResponse(
-                        (HttpStatusCode) 422,
-                        ModelState));
+                return BadRequest(ModelState);
             }
 
             return Created("api/v1/items/?id=300...", await Task.FromResult(_repository.Post(item)));
