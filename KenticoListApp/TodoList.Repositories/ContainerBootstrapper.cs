@@ -5,7 +5,7 @@ namespace TodoList.Repositories
 {
     public static class ContainerBootstrapper
     {
-        public static void RegisterRepositoryTypes(this IUnityContainer container)
+        public static IUnityContainer RegisterRepositoryTypes(this IUnityContainer container)
             => container
             .RegisterType<IListItemRepository, ListItemRepository>();
     }

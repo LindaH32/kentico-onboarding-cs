@@ -21,7 +21,6 @@ namespace TodoList.Api.Tests.Controllers
         private readonly Guid _guidOfFirstItem = new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D");
         private readonly Guid _guidOfSecondItem = new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE");
         private readonly Guid _guidOfThirdItem = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F");
-        private ListItemComparer _comparer;
         private ListItemsController _controller;
 
         [SetUp]
@@ -29,31 +28,11 @@ namespace TodoList.Api.Tests.Controllers
         {
             _repository = Substitute.For<IListItemRepository>();
 
-            _comparer = new ListItemComparer();
             _controller = new ListItemsController(_repository)
             {
                 Configuration = new HttpConfiguration(),
                 Request = new HttpRequestMessage()
             };
-        }
-
-        [TestCase("")]
-        [TestCase("    ")]
-        [TestCase(null)]
-        public void PostAsync_ItemWithNullText_ReturnsErrorMessageAndStatusCode(string postedText)
-        {
-            var listItem = new ListItem { Id = Guid.Empty, Text = postedText };
-
-            var actionResult = _controller.PostAsync(listItem).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-            HttpError error;
-            responseMessage.TryGetContentValue(out error);
-            var modelStateKeys = error.ModelState.Keys;
-            var expectedKeys = new[] { "Text" };
-
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
         }
 
         [Test]
@@ -68,7 +47,7 @@ namespace TodoList.Api.Tests.Controllers
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
         }
 
         [Test]
@@ -83,7 +62,7 @@ namespace TodoList.Api.Tests.Controllers
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
         }
 
         [Test]
@@ -102,23 +81,39 @@ namespace TodoList.Api.Tests.Controllers
             List<ListItem> actualListItems;
             responseMessage.TryGetContentValue(out actualListItems);
 
-            Assert.That(actualListItems, Is.EqualTo(expectedListItems).Using(_comparer));
+            Assert.That(actualListItems, Is.EqualTo(expectedListItems).UsingListItemComparer());
+        }
+
+        [TestCase("")]
+        [TestCase("    ")]
+        [TestCase(null)]
+        public void PostAsync_ItemWithNoText_ReturnsErrorMessageAndStatusCode(string postedText)
+        {
+            var expectedKeys = new[] { "Text" };
+            var postedListItem = new ListItem { Id = Guid.Empty, Text = postedText };
+
+            var actionResult = _controller.PostAsync(postedListItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
         }
 
         [Test]
         public void PostAsync_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCode()
         {
-            var expectedKeys = new[]{"Id"};
-            var listItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
+            var expectedKeys = new[] { "Id" };
+            var postedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
 
-            var actionResult = _controller.PostAsync(listItem).Result;
+            var actionResult = _controller.PostAsync(postedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
-            var modelStateKeys = error.ModelState.Keys;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
             
         }
 
@@ -131,26 +126,25 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
-            var modelStateKeys = error.ModelState.Keys;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(modelStateKeys, Is.EqualTo(expectedKeys));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
         }
 
         [Test]
         public void PostAsync_WithValidArguments_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
-            var newListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
-            _repository.Post(newListItem).Returns(expectedListItem);
+            var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
+            _repository.Post(postedListItem).Returns(expectedListItem);
 
-            var actionResult = _controller.PostAsync(newListItem).Result;
+            var actionResult = _controller.PostAsync(postedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
-            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
         }
 
         [Test]
@@ -166,7 +160,7 @@ namespace TodoList.Api.Tests.Controllers
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(actualListItem, Is.EqualTo(expectedListItem).Using(_comparer));
+            Assert.That(actualListItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
         }
     }
 }

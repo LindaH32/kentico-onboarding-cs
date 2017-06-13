@@ -14,29 +14,19 @@ namespace TodoList.Repositories
             new ListItem{ Id = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), Text = "updated"}
         };
 
-        public IEnumerable<ListItem> Get()
-        {
-            return SampleItems;
-        }
+        public IEnumerable<ListItem> Get() 
+            => SampleItems;
 
-        public ListItem Get(Guid id)
-        {
-            return SampleItems[0];
-        }
+        public ListItem Get(Guid id) 
+            => SampleItems[0];
 
-        public ListItem Delete(Guid id)
-        {
-            return SampleItems[1];
-        }
+        public ListItem Delete(Guid id) 
+            => SampleItems[1];
 
-        public ListItem Put(ListItem item)
-        {
-            return SampleItems[2];
-        }
+        public ListItem Put(ListItem item) 
+            => SampleItems[2];
 
-        public ListItem Post(ListItem item)
-        {
-            return SampleItems[0];
-        }
+        public ListItem Post(ListItem item) 
+            => SampleItems[0];
     }
 }

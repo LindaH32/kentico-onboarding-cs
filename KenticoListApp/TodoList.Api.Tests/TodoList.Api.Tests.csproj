@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ListItemComparer.cs" />
+    <Compile Include="Helpers\EqualConstraintExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ListItemsControllerTest.cs" />
   </ItemGroup>

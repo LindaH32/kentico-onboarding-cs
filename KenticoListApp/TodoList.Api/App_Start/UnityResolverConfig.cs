@@ -9,8 +9,8 @@ namespace TodoList.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            var container = new UnityContainer();
-            container.RegisterRepositoryTypes();
+            var container = new UnityContainer()
+                .RegisterRepositoryTypes();
             config.DependencyResolver = new UnityResolver(container);
         }
     }
