@@ -8,6 +8,7 @@ namespace TodoList.Api.Resolvers
     public class UnityResolver : IDependencyResolver
     {
         private readonly IUnityContainer _container;
+        private bool _disposed;
 
         public UnityResolver(IUnityContainer container)
         {
@@ -15,6 +16,7 @@ namespace TodoList.Api.Resolvers
             {
                 throw new ArgumentNullException(nameof(container));
             }
+            _disposed = false;
             _container = container;
         }
 
@@ -50,10 +52,12 @@ namespace TodoList.Api.Resolvers
 
         public void Dispose()
         {
-            Dispose(true);
+            if (!_disposed)
+            {
+                _container?.Dispose();
+                GC.SuppressFinalize(this);
+            }
+            _disposed = true;
         }
-
-        protected virtual void Dispose(bool disposing) 
-            => _container.Dispose();
     }
 }
