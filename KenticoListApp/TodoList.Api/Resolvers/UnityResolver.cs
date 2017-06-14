@@ -52,11 +52,11 @@ namespace TodoList.Api.Resolvers
 
         public void Dispose()
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                _container?.Dispose();
-                GC.SuppressFinalize(this);
+                return;
             }
+            _container?.Dispose();
             _disposed = true;
         }
     }
