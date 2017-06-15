@@ -14,7 +14,13 @@ namespace TodoList.Api.Controllers
         {
             _repository = repository;
         }
-        
+
+        public async Task<IHttpActionResult> GetAsync()
+            => Ok(await Task.FromResult(_repository.Get()));
+
+        public async Task<IHttpActionResult> GetAsync(Guid id)
+            => Ok(await Task.FromResult(_repository.Get(id)));
+
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
             ValidatePostItem(item);
@@ -27,17 +33,11 @@ namespace TodoList.Api.Controllers
             return Created("api/v1/items/?id=300...", await Task.FromResult(_repository.Post(item)));
         }
 
-        public async Task<IHttpActionResult> GetAsync()
-            => Ok(await Task.FromResult(_repository.Get()));
-
-        public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await Task.FromResult(_repository.Get(id)));
+        public async Task<IHttpActionResult> PutAsync(ListItem item)
+            => Ok(await Task.FromResult(_repository.Put(item)));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
             => Ok(await Task.FromResult(_repository.Delete(id)));
-
-        public async Task<IHttpActionResult> PutAsync(ListItem item)
-            => Ok(await Task.FromResult(_repository.Put(item)));
 
         private void ValidatePostItem(ListItem item)
         {

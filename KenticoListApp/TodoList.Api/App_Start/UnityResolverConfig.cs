@@ -5,7 +5,7 @@ using TodoList.Repositories;
 
 namespace TodoList.Api
 {
-    public static class UnityResolverConfig
+    internal static class UnityResolverConfig
     {
         public static void Register(HttpConfiguration config)
         {
