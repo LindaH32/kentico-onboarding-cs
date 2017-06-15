@@ -43,7 +43,7 @@ namespace TodoList.Api.Controllers
         {
             if (item == null)
             {
-                ModelState.AddModelError(string.Empty, "Item is null");
+                ModelState.AddModelError(String.Empty, "Item is null");
                 return;
             }
 
