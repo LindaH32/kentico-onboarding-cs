@@ -3,7 +3,7 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Tests.Helpers
 {
-    public class ListItemComparer : IEqualityComparer<ListItem>
+    internal class ListItemComparer : IEqualityComparer<ListItem>
     {
         public bool Equals(ListItem x, ListItem y)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Dependencies;
 
 namespace TodoList.Api.Resolvers
@@ -40,7 +41,7 @@ namespace TodoList.Api.Resolvers
             }
             catch (ResolutionFailedException)
             {
-                return new List<object>();
+                return Enumerable.Empty<object>();
             }
         }
 
