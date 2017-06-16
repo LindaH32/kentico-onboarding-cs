@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using TodoList.Api.Services;
 using TodoList.Contracts.Interfaces;
 using TodoList.Contracts.Models;
