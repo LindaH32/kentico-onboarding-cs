@@ -4,14 +4,14 @@ namespace TodoList.Api
 {
     public static class RouteConfig
     {
-        public static void Register(HttpConfiguration config)
+        internal static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 "DefaultApiV1",
                 "api/v1/{controller}/{id}",
-                new {id = RouteParameter.Optional}
+                new { id = RouteParameter.Optional }
             );
         }
     }
