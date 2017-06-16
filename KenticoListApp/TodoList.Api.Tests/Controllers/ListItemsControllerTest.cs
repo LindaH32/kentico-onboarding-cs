@@ -66,7 +66,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void GetAsync_WithoutParams_ReturnsTestItems()
+        public void GetAsync_WithoutParams_ReturnsTestItems_ReturnsCorrectItemsAndStatusCode()
         {
             var expectedListItems = new List<ListItem>
             {
@@ -81,6 +81,7 @@ namespace TodoList.Api.Tests.Controllers
             List<ListItem> actualListItems;
             responseMessage.TryGetContentValue(out actualListItems);
 
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItems, Is.EqualTo(expectedListItems).UsingListItemComparer());
         }
 
