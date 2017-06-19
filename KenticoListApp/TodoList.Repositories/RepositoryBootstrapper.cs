@@ -6,6 +6,6 @@ namespace TodoList.Repositories
     public class RepositoryBootstrapper : IBootstrapper
     {
         public IUnityContainer Register(IUnityContainer container) 
-            => container.RegisterType<IListItemRepository, ListItemRepository>();
+            => container.RegisterType<IListItemRepository, ListItemRepository>(new TransientLifetimeManager());
     }
 }

@@ -11,7 +11,8 @@ namespace TodoList.Api
         public static void Register(HttpConfiguration config)
         {
             var container = new UnityContainer()
-                .RegisterTypes<RepositoryBootstrapper>();
+                .RegisterTypes<RepositoryBootstrapper>()
+                .RegisterTypes<ApiBootstrapper>();
                 
             config.DependencyResolver = new UnityResolver(container);
         }

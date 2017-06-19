@@ -27,11 +27,12 @@ namespace TodoList.Api.Tests.Controllers
         public void Init()
         {
             _repository = Substitute.For<IListItemRepository>();
+            
 
-            _controller = new ListItemsController(_repository)
+            _controller = new ListItemsController(_repository, null)
             {
                 Configuration = new HttpConfiguration(),
-                Request = new HttpRequestMessage()
+                Request = new HttpRequestMessage(),
             };
         }
 

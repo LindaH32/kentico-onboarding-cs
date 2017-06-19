@@ -10,14 +10,12 @@ namespace TodoList.Api.Controllers
     public class ListItemsController : ApiController
     {
         private readonly IListItemRepository _repository;
-        private readonly ListItemUrlGenerator _urlGenerator;
+        private ListItemUrlGenerator _urlGenerator;
 
-        public ListItemsController(IListItemRepository repository)
+        public ListItemsController(IListItemRepository repository, ListItemUrlGenerator generator)
         {
-            //var message = (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
-            //var helper = new UrlHelper(message);
             _repository = repository;
-            _urlGenerator = new ListItemUrlGenerator(Url);
+            _urlGenerator = generator;
         }
 
         public async Task<IHttpActionResult> GetAsync()
@@ -35,10 +33,7 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
            
-            //var message = (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
-            //var helper = new UrlHelper(message);
             var location = _urlGenerator.GenerateUrl(item);
-            //var location2 = helper.Route("DefaultApiV1", new { id = item.Id });
 
             return Created(location, await Task.FromResult(_repository.Post(item)));
         }
