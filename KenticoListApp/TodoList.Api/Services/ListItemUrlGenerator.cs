@@ -1,10 +1,11 @@
 ﻿using System.Net.Http;
 using System.Web.Http.Routing;
+using TodoList.Contracts.Interfaces;
 using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Services
 {
-    public class ListItemUrlGenerator
+    public class ListItemUrlGenerator : IListItemUrlGenerator
     {
         private readonly UrlHelper _helper;
 

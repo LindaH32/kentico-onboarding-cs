@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IBootstrapper.cs" />
     <Compile Include="Interfaces\IListItemRepository.cs" />
+    <Compile Include="Interfaces\IListItemUrlGenerator.cs" />
     <Compile Include="Models\ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

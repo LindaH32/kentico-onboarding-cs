@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using TodoList.Api.Services;
 using TodoList.Contracts.Interfaces;
 using TodoList.Contracts.Models;
 
@@ -10,9 +9,9 @@ namespace TodoList.Api.Controllers
     public class ListItemsController : ApiController
     {
         private readonly IListItemRepository _repository;
-        private ListItemUrlGenerator _urlGenerator;
+        private IListItemUrlGenerator _urlGenerator;
 
-        public ListItemsController(IListItemRepository repository, ListItemUrlGenerator generator)
+        public ListItemsController(IListItemRepository repository, IListItemUrlGenerator generator)
         {
             _repository = repository;
             _urlGenerator = generator;
@@ -33,7 +32,7 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
            
-            var location = _urlGenerator.GenerateUrl(item);
+            string location = _urlGenerator.GenerateUrl(item);
 
             return Created(location, await Task.FromResult(_repository.Post(item)));
         }
