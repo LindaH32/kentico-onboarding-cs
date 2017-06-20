@@ -21,13 +21,13 @@ namespace TodoList.Repositories
         public async Task<ListItem> GetAsync(Guid id) 
             => await Task.FromResult(SampleItems[0]);
 
-        public async  Task<ListItem> DeleteAsync(Guid id) 
-            => await Task.FromResult(SampleItems[1]);
+        public async Task<ListItem> CreateAsync(ListItem item)
+            => await Task.FromResult(SampleItems[0]);
 
         public async Task<ListItem> UpdateAsync(ListItem item) 
             => await Task.FromResult(SampleItems[2]);
 
-        public async Task<ListItem> CreateAsync(ListItem item) 
-            => await Task.FromResult(SampleItems[0]);
+        public async Task<ListItem> DeleteAsync(Guid id)
+            => await Task.FromResult(SampleItems[1]);
     }
 }
