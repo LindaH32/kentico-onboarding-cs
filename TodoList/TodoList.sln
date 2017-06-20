@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api", "TodoList.Api\TodoList.Api.csproj", "{12BFC809-A2FF-4460-ABC4-5B32EFDB305B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api", "Sources\TodoList.Api\TodoList.Api.csproj", "{12BFC809-A2FF-4460-ABC4-5B32EFDB305B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api.Tests", "TodoList.Api.Tests\TodoList.Api.Tests.csproj", "{FFDBCD08-6171-4514-9D21-3F2F54BF0DEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Api.Tests", "Tests\TodoList.Api.Tests\TodoList.Api.Tests.csproj", "{FFDBCD08-6171-4514-9D21-3F2F54BF0DEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Repositories", "TodoList.Repositories\TodoList.Repositories.csproj", "{36B90034-283E-4C90-945A-C877B71A4513}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Repositories", "Sources\TodoList.Repositories\TodoList.Repositories.csproj", "{36B90034-283E-4C90-945A-C877B71A4513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Contracts", "TodoList.Contracts\TodoList.Contracts.csproj", "{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Contracts", "Sources\TodoList.Contracts\TodoList.Contracts.csproj", "{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{9CB3C069-9A04-4658-9B60-043870D81CFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBE9039B-3AB1-46E4-94AC-651A2FA3D60D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +40,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{12BFC809-A2FF-4460-ABC4-5B32EFDB305B} = {9CB3C069-9A04-4658-9B60-043870D81CFC}
+		{FFDBCD08-6171-4514-9D21-3F2F54BF0DEB} = {CBE9039B-3AB1-46E4-94AC-651A2FA3D60D}
+		{36B90034-283E-4C90-945A-C877B71A4513} = {9CB3C069-9A04-4658-9B60-043870D81CFC}
+		{01BAAE19-FE73-49E3-AC97-DD3D430EE26C} = {9CB3C069-9A04-4658-9B60-043870D81CFC}
 	EndGlobalSection
 EndGlobal
