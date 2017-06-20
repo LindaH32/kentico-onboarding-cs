@@ -5,7 +5,7 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Services
 {
-    public class ListItemUrlGenerator : IListItemUrlGenerator
+    internal class ListItemUrlGenerator : IListItemUrlGenerator
     {
         private readonly UrlHelper _helper;
 
