@@ -73,7 +73,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TodoList.Contracts\TodoList.Contracts.csproj">
       <Project>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</Project>
-      <Name>Contracts</Name>
+      <Name>TodoList.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
