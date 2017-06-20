@@ -7,14 +7,14 @@ namespace TodoList.Contracts.Interfaces
 {
     public interface IListItemRepository
     {
-        Task<IEnumerable<ListItem>> GetAsync();
+        Task<IEnumerable<ListItem>> GetAllAsync();
 
         Task<ListItem> GetAsync(Guid id);
 
         Task<ListItem> DeleteAsync(Guid id);
 
-        Task<ListItem> PutAsync(ListItem item);
+        Task<ListItem> UpdateAsync(ListItem item);
 
-        Task<ListItem> PostAsync(ListItem item);
+        Task<ListItem> CreateAsync(ListItem item);
     }
 }

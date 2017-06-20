@@ -18,7 +18,7 @@ namespace TodoList.Api.Controllers
         }
 
         public async Task<IHttpActionResult> GetAsync()
-            => Ok(await _repository.GetAsync());
+            => Ok(await _repository.GetAllAsync());
 
         public async Task<IHttpActionResult> GetAsync(Guid id)
             => Ok(await _repository.GetAsync(id));
@@ -34,11 +34,11 @@ namespace TodoList.Api.Controllers
            
             string location = _urlGenerator.GenerateUrl(item);
 
-            return Created(location, await _repository.PostAsync(item));
+            return Created(location, await _repository.CreateAsync(item));
         }
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
-            => Ok(await _repository.PutAsync(item));
+            => Ok(await _repository.UpdateAsync(item));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
             => Ok(await _repository.DeleteAsync(id));
