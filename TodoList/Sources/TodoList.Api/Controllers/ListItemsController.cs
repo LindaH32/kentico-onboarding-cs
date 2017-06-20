@@ -9,7 +9,7 @@ namespace TodoList.Api.Controllers
     public class ListItemsController : ApiController
     {
         private readonly IListItemRepository _repository;
-        private IListItemUrlGenerator _urlGenerator;
+        private readonly IListItemUrlGenerator _urlGenerator;
 
         public ListItemsController(IListItemRepository repository, IListItemUrlGenerator generator)
         {
@@ -18,10 +18,16 @@ namespace TodoList.Api.Controllers
         }
 
         public async Task<IHttpActionResult> GetAsync()
-            => Ok(await _repository.GetAllAsync());
+        {
+            var items = await _repository.GetAllAsync(); 
+            return Ok(items);
+        }
 
         public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await _repository.GetAsync(id));
+        {
+            var item = await _repository.GetAsync(id);
+            return Ok(item);
+        }
 
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
@@ -31,7 +37,6 @@ namespace TodoList.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             ListItem createdItem = await _repository.CreateAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
@@ -39,10 +44,17 @@ namespace TodoList.Api.Controllers
         }
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
-            => Ok(await _repository.UpdateAsync(item));
+        {
+            var updatedItem = await _repository.UpdateAsync(item);
+            return Ok(updatedItem);
+        }
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
-            => Ok(await _repository.DeleteAsync(id));
+        {
+            var deletedItem = await _repository.DeleteAsync(id); 
+            return Ok(deletedItem);
+
+        }
 
         private void ValidatePostItem(ListItem item)
         {
