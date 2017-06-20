@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoList.Contracts.Interfaces;
 using TodoList.Contracts.Models;
 
@@ -14,19 +15,19 @@ namespace TodoList.Repositories
             new ListItem { Id = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), Text = "updated" }
         };
 
-        public IEnumerable<ListItem> Get() 
-            => SampleItems;
+        public async Task<IEnumerable<ListItem>> GetAsync()
+            => await Task.FromResult(SampleItems);
 
-        public ListItem Get(Guid id) 
-            => SampleItems[0];
+        public async Task<ListItem> GetAsync(Guid id) 
+            => await Task.FromResult(SampleItems[0]);
 
-        public ListItem Delete(Guid id) 
-            => SampleItems[1];
+        public async  Task<ListItem> DeleteAsync(Guid id) 
+            => await Task.FromResult(SampleItems[1]);
 
-        public ListItem Put(ListItem item) 
-            => SampleItems[2];
+        public async Task<ListItem> PutAsync(ListItem item) 
+            => await Task.FromResult(SampleItems[2]);
 
-        public ListItem Post(ListItem item) 
-            => SampleItems[0];
+        public async Task<ListItem> PostAsync(ListItem item) 
+            => await Task.FromResult(SampleItems[0]);
     }
 }

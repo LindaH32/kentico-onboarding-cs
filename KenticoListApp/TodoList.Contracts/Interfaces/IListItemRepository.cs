@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 
 namespace TodoList.Contracts.Interfaces
 {
     public interface IListItemRepository
     {
-        IEnumerable<ListItem> Get();
+        Task<IEnumerable<ListItem>> GetAsync();
 
-        ListItem Get(Guid id);
+        Task<ListItem> GetAsync(Guid id);
 
-        ListItem Delete(Guid id);
+        Task<ListItem> DeleteAsync(Guid id);
 
-        ListItem Put(ListItem item);
+        Task<ListItem> PutAsync(ListItem item);
 
-        ListItem Post(ListItem item);
+        Task<ListItem> PostAsync(ListItem item);
     }
 }

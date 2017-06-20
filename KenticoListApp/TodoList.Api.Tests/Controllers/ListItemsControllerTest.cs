@@ -41,7 +41,7 @@ namespace TodoList.Api.Tests.Controllers
         public void Delete_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem { Id = _guidOfSecondItem, Text = "giraffe" };
-            _repository.Delete(Guid.Empty).Returns(expectedListItem);
+            _repository.DeleteAsync(Guid.Empty).Returns(expectedListItem);
             
             var actionResult = _controller.DeleteAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -56,7 +56,7 @@ namespace TodoList.Api.Tests.Controllers
         public void GetAsync_ById_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
-            _repository.Get(Guid.Empty).Returns(expectedListItem);
+            _repository.GetAsync(Guid.Empty).Returns(expectedListItem);
 
             var actionResult = _controller.GetAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -76,13 +76,13 @@ namespace TodoList.Api.Tests.Controllers
                 new ListItem { Id = _guidOfSecondItem, Text = "giraffe" },
                 new ListItem { Id = _guidOfThirdItem, Text = "updated"}
             };
-            _repository.Get().Returns(expectedListItems);
+            _repository.GetAsync().Returns(expectedListItems);
 
             var actionResult = _controller.GetAsync().Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             List<ListItem> actualListItems;
             responseMessage.TryGetContentValue(out actualListItems);
-
+            
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItems, Is.EqualTo(expectedListItems).UsingListItemComparer());
         }
@@ -145,7 +145,7 @@ namespace TodoList.Api.Tests.Controllers
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
-            _repository.Post(postedListItem).Returns(expectedListItem);
+            _repository.PostAsync(postedListItem).Returns(expectedListItem);
             _urlGenerator.GenerateUrl(postedListItem).Returns($"api/v1/ListItems/{expectedListItem.Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
@@ -164,7 +164,7 @@ namespace TodoList.Api.Tests.Controllers
         {
             var expectedListItem = new ListItem { Id = _guidOfThirdItem, Text = "updated" };
             var updatedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
-            _repository.Put(updatedListItem).Returns(expectedListItem);
+            _repository.PutAsync(updatedListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;

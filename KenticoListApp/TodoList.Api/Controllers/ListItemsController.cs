@@ -18,10 +18,10 @@ namespace TodoList.Api.Controllers
         }
 
         public async Task<IHttpActionResult> GetAsync()
-            => Ok(await Task.FromResult(_repository.Get()));
+            => Ok(await _repository.GetAsync());
 
         public async Task<IHttpActionResult> GetAsync(Guid id)
-            => Ok(await Task.FromResult(_repository.Get(id)));
+            => Ok(await _repository.GetAsync(id));
 
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
@@ -34,14 +34,14 @@ namespace TodoList.Api.Controllers
            
             string location = _urlGenerator.GenerateUrl(item);
 
-            return Created(location, await Task.FromResult(_repository.Post(item)));
+            return Created(location, await _repository.PostAsync(item));
         }
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
-            => Ok(await Task.FromResult(_repository.Put(item)));
+            => Ok(await _repository.PutAsync(item));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
-            => Ok(await Task.FromResult(_repository.Delete(id)));
+            => Ok(await _repository.DeleteAsync(id));
 
         private void ValidatePostItem(ListItem item)
         {
