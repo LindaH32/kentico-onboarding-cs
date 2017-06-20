@@ -2,9 +2,9 @@
 
 namespace TodoList.Api
 {
-    public static class RouteConfig
+    internal static class RouteConfig
     {
-        internal static void Register(HttpConfiguration config)
+        public static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
 
