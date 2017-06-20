@@ -31,10 +31,11 @@ namespace TodoList.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-           
-            string location = _urlGenerator.GenerateUrl(item);
 
-            return Created(location, await _repository.CreateAsync(item));
+            ListItem createdItem = await _repository.CreateAsync(item);
+            string location = _urlGenerator.GenerateUrl(createdItem);
+
+            return Created(location, createdItem);
         }
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)

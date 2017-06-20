@@ -146,7 +146,7 @@ namespace TodoList.Api.Tests.Controllers
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
             _repository.CreateAsync(postedListItem).Returns(expectedListItem);
-            _urlGenerator.GenerateUrl(postedListItem).Returns($"api/v1/ListItems/{expectedListItem.Id}");
+            _urlGenerator.GenerateUrl(expectedListItem).Returns($"api/v1/ListItems/{expectedListItem.Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
