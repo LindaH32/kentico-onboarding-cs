@@ -38,7 +38,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void DeleteAsync_ReturnsCorrectItemAndStatusCode()
+        public void Delete_ReturnsCorrectItemAndStatusCode()
         {
             var expectedListItem = new ListItem { Id = _guidOfSecondItem, Text = "giraffe" };
             _repository.Delete(Guid.Empty).Returns(expectedListItem);
@@ -90,7 +90,7 @@ namespace TodoList.Api.Tests.Controllers
         [TestCase("")]
         [TestCase("    ")]
         [TestCase(null)]
-        public void PostAsync_ItemWithNoText_ReturnsErrorMessageAndStatusCode(string postedText)
+        public void PostAsync_ItemWithNoText_ReturnsErrorMessageAndStatusCodeAndNullLocation(string postedText)
         {
             var expectedKeys = new[] { "Text" };
             var postedListItem = new ListItem { Id = Guid.Empty, Text = postedText };
@@ -99,13 +99,15 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
+            var actualLocation = responseMessage.Headers.Location;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
+            Assert.That(actualLocation, Is.EqualTo(null));
         }
 
         [Test]
-        public void PostAsync_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCode()
+        public void PostAsync_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCodeAndNullLocation()
         {
             var expectedKeys = new[] { "Id" };
             var postedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
@@ -114,14 +116,15 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
+            var actualLocation = responseMessage.Headers.Location;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
-            
+            Assert.That(actualLocation, Is.EqualTo(null));
         }
 
         [Test]
-        public void PostAsync_WithNullArguments_ReturnsErrorMessageAndStatusCode()
+        public void PostAsync_WithNullArguments_ReturnsErrorMessageAndStatusCodeAndNullLocation()
         {
             var expectedKeys = new[] { string.Empty };
 
@@ -129,9 +132,11 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
+            var actualLocation = responseMessage.Headers.Location;
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
+            Assert.That(actualLocation, Is.EqualTo(null));
         }
 
         [Test]
@@ -139,13 +144,13 @@ namespace TodoList.Api.Tests.Controllers
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
-            string expectedLocation = $"api/v1/ListItems/{_guidOfFirstItem}";
+            var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
             _repository.Post(postedListItem).Returns(expectedListItem);
             _urlGenerator.GenerateUrl(postedListItem).Returns($"api/v1/ListItems/{expectedListItem.Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-            string actualLocation = responseMessage.Headers.Location.ToString();
+            var actualLocation = responseMessage.Headers.Location;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
