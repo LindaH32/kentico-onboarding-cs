@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Contracts")]
+[assembly: AssemblyTitle("TodoList.Contracts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kentico software")]
-[assembly: AssemblyProduct("Contracts")]
+[assembly: AssemblyProduct("TodoList.Contracts")]
 [assembly: AssemblyCopyright("Copyright © Kentico software 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
