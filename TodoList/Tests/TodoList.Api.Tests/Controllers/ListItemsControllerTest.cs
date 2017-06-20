@@ -38,7 +38,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void Delete_ReturnsCorrectItemAndStatusCode()
+        public void Delete_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfSecondItem, Text = "giraffe" };
             _repository.DeleteAsync(Guid.Empty).Returns(expectedListItem);
@@ -53,7 +53,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void GetAsync_ById_ReturnsCorrectItemAndStatusCode()
+        public void GetAsync_ById_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
             _repository.GetAsync(Guid.Empty).Returns(expectedListItem);
@@ -68,7 +68,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void GetAsync_WithoutParams_ReturnsTestItems_ReturnsCorrectItemsAndStatusCode()
+        public void GetAsync_WithoutParams_ReturnsTestItems_ReturnsCorrectResponse()
         {
             var expectedListItems = new List<ListItem>
             {
@@ -90,7 +90,7 @@ namespace TodoList.Api.Tests.Controllers
         [TestCase("")]
         [TestCase("    ")]
         [TestCase(null)]
-        public void PostAsync_ItemWithNoText_ReturnsErrorMessageAndStatusCodeAndNullLocation(string postedText)
+        public void PostAsync_ItemWithNoText_ReturnsCorrectErrorResponse(string postedText)
         {
             var expectedKeys = new[] { "Text" };
             var postedListItem = new ListItem { Id = Guid.Empty, Text = postedText };
@@ -107,7 +107,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void PostAsync_ItemWithNonEmptyGuid_ReturnsErrorMessageAndStatusCodeAndNullLocation()
+        public void PostAsync_ItemWithNonEmptyGuid_ReturnsCorrectErrorResponse()
         {
             var expectedKeys = new[] { "Id" };
             var postedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
@@ -124,7 +124,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void PostAsync_WithNullArguments_ReturnsErrorMessageAndStatusCodeAndNullLocation()
+        public void PostAsync_WithNullArguments_ReturnsCorrectErrorResponse()
         {
             var expectedKeys = new[] { string.Empty };
 
@@ -140,7 +140,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void PostAsync_WithValidArguments_ReturnsCorrectItemAndStatusCodeAndLocation() //TODO rename
+        public void PostAsync_WithValidArguments_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
