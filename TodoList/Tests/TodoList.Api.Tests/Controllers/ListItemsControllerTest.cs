@@ -55,7 +55,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void GetAsync_ById_ReturnsCorrectResponse()
         {
-            var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
+            var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
             _repository.GetAsync(Guid.Empty).Returns(expectedListItem);
 
             var actionResult = _controller.GetAsync(Guid.Empty).Result;
@@ -74,7 +74,7 @@ namespace TodoList.Api.Tests.Controllers
             {
                 new ListItem { Id = _guidOfFirstItem, Text = "text" },
                 new ListItem { Id = _guidOfSecondItem, Text = "giraffe" },
-                new ListItem { Id = _guidOfThirdItem, Text = "updated"}
+                new ListItem { Id = _guidOfThirdItem, Text = "updated" }
             };
             _repository.GetAllAsync().Returns(expectedListItems);
 
@@ -142,7 +142,7 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void PostAsync_WithValidArguments_ReturnsCorrectResponse()
         {
-            var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text"};
+            var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
             _repository.CreateAsync(postedListItem).Returns(expectedListItem);
