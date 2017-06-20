@@ -3,7 +3,7 @@ using System.Web.Http;
 
 namespace TodoList.Api
 {
-    public static class ResponseConfig
+    internal static class ResponseConfig
     {
         internal static void Register(HttpConfiguration config)
         {
