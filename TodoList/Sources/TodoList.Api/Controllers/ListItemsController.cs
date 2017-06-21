@@ -21,8 +21,15 @@ namespace TodoList.Api.Controllers
         public async Task<IHttpActionResult> GetAsync() 
             => Ok(await _listItemsRepository.GetAllAsync());
 
-        public async Task<IHttpActionResult> GetAsync(Guid id) 
-            => Ok(await _listItemsRepository.GetAsync(id));
+        public async Task<IHttpActionResult> GetAsync(Guid id)
+        {
+            ValidateItemId(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(await _listItemsRepository.GetAsync(id));
+        }
 
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
@@ -60,6 +67,14 @@ namespace TodoList.Api.Controllers
             if (item.Id != Guid.Empty)
             {
                 ModelState.AddModelError(nameof(ListItem.Id), "Guid is not empty");
+            }
+        }
+
+        private void ValidateItemId(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(ListItem.Id), "Guid is empty");
             }
         }
     }

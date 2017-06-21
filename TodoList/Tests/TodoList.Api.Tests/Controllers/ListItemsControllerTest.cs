@@ -57,15 +57,24 @@ namespace TodoList.Api.Tests.Controllers
         public void GetAsync_ById_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
-            _repository.GetAsync(Guid.Empty).Returns(expectedListItem);
+            _repository.GetAsync(_guidOfFirstItem).Returns(expectedListItem);
 
-            var actionResult = _controller.GetAsync(Guid.Empty).Result;
+            var actionResult = _controller.GetAsync(_guidOfFirstItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             ListItem actualListItem;
             responseMessage.TryGetContentValue(out actualListItem);
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
+        }
+
+        [Test]
+        public void GetAsync_ById_ReturnsCorrectErrorResponse()
+        {
+            var actionResult = _controller.GetAsync(Guid.Empty).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
