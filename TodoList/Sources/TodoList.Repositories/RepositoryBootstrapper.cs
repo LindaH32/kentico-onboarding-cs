@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
-using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Api;
+using TodoList.Contracts.Repositories;
 
 namespace TodoList.Repositories
 {

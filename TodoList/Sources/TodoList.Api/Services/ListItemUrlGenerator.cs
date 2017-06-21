@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http.Routing;
-using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Api;
 using TodoList.Contracts.Models;
 
 namespace TodoList.Api.Services

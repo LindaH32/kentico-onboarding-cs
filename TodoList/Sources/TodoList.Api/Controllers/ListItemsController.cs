@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Api;
 using TodoList.Contracts.Models;
+using TodoList.Contracts.Repositories;
 
 namespace TodoList.Api.Controllers
 {

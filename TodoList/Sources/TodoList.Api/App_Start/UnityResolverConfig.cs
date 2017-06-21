@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using Microsoft.Practices.Unity;
 using TodoList.Api.Resolvers;
-using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Api;
 using TodoList.Repositories;
 
 namespace TodoList.Api

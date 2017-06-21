@@ -8,8 +8,9 @@ using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Tests.Helpers;
-using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Api;
 using TodoList.Contracts.Models;
+using TodoList.Contracts.Repositories;
 
 
 namespace TodoList.Api.Tests.Controllers

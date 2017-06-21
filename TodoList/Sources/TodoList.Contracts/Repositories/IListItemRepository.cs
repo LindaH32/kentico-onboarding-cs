@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 
-namespace TodoList.Contracts.Interfaces
+namespace TodoList.Contracts.Repositories
 {
     public interface IListItemRepository
     {

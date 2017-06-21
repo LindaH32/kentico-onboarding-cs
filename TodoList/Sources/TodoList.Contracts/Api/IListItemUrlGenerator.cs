@@ -1,6 +1,6 @@
 ﻿using TodoList.Contracts.Models;
 
-namespace TodoList.Contracts.Interfaces
+namespace TodoList.Contracts.Api
 {
     public interface IListItemUrlGenerator
     {

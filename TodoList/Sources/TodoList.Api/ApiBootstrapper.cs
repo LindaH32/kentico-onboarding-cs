@@ -2,7 +2,7 @@
 using System.Web;
 using Microsoft.Practices.Unity;
 using TodoList.Api.Services;
-using TodoList.Contracts.Interfaces;
+using TodoList.Contracts.Api;
 
 namespace TodoList.Api
 {

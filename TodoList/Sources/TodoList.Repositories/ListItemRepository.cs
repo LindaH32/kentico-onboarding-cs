@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TodoList.Contracts.Interfaces;
 using TodoList.Contracts.Models;
+using TodoList.Contracts.Repositories;
 
 namespace TodoList.Repositories
 {
