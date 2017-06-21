@@ -3,6 +3,7 @@ using System.Web;
 using Microsoft.Practices.Unity;
 using TodoList.Api.Services;
 using TodoList.Contracts.Api;
+using IListItemUrlGenerator = TodoList.Api.Services.IListItemUrlGenerator;
 
 namespace TodoList.Api
 {
@@ -12,7 +13,10 @@ namespace TodoList.Api
             => container
             .RegisterType<HttpRequestMessage>(
                 new TransientLifetimeManager(), 
-                new InjectionFactory(_ => (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"]))
+                new InjectionFactory(_ => GetCurrentContextRequestMessage()))
             .RegisterType<IListItemUrlGenerator, ListItemUrlGenerator>(new TransientLifetimeManager());
+
+        private HttpRequestMessage GetCurrentContextRequestMessage() 
+            => (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];
     }
 }
