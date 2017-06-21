@@ -10,8 +10,9 @@ namespace TodoList.Api
     {
         public IUnityContainer Register(IUnityContainer container)
             => container
-                .RegisterType<HttpRequestMessage>(
-                    new InjectionFactory(_ => (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"]))
-                .RegisterType<IListItemUrlGenerator, ListItemUrlGenerator>();
+            .RegisterType<HttpRequestMessage>(
+                new TransientLifetimeManager(), 
+                new InjectionFactory(_ => (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"]))
+            .RegisterType<IListItemUrlGenerator, ListItemUrlGenerator>(new TransientLifetimeManager());
     }
 }
