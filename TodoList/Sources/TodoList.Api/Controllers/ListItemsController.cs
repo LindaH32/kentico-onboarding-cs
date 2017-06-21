@@ -8,26 +8,20 @@ namespace TodoList.Api.Controllers
 {
     public class ListItemsController : ApiController
     {
-        private readonly IListItemRepository _repository;
+        private readonly IListItemRepository _listItemsRepository;
         private readonly IListItemUrlGenerator _urlGenerator;
 
-        public ListItemsController(IListItemRepository repository, IListItemUrlGenerator generator)
+        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator generator)
         {
-            _repository = repository;
+            _listItemsRepository = listItemsRepository;
             _urlGenerator = generator;
         }
 
-        public async Task<IHttpActionResult> GetAsync()
-        {
-            var items = await _repository.GetAllAsync(); 
-            return Ok(items);
-        }
+        public async Task<IHttpActionResult> GetAsync() 
+            => Ok(await _listItemsRepository.GetAllAsync());
 
-        public async Task<IHttpActionResult> GetAsync(Guid id)
-        {
-            var item = await _repository.GetAsync(id);
-            return Ok(item);
-        }
+        public async Task<IHttpActionResult> GetAsync(Guid id) 
+            => Ok(await _listItemsRepository.GetAsync(id));
 
         public async Task<IHttpActionResult> PostAsync(ListItem item)
         {
@@ -37,24 +31,17 @@ namespace TodoList.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            ListItem createdItem = await _repository.CreateAsync(item);
+            ListItem createdItem = await _listItemsRepository.CreateAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);
         }
 
-        public async Task<IHttpActionResult> PutAsync(ListItem item)
-        {
-            var updatedItem = await _repository.UpdateAsync(item);
-            return Ok(updatedItem);
-        }
+        public async Task<IHttpActionResult> PutAsync(ListItem item) 
+            => Ok(await _listItemsRepository.UpdateAsync(item));
 
-        public async Task<IHttpActionResult> DeleteAsync(Guid id)
-        {
-            var deletedItem = await _repository.DeleteAsync(id); 
-            return Ok(deletedItem);
-
-        }
+        public async Task<IHttpActionResult> DeleteAsync(Guid id) 
+            => Ok(await _listItemsRepository.DeleteAsync(id));
 
         private void ValidatePostItem(ListItem item)
         {
