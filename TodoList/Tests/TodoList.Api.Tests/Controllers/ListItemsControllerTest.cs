@@ -7,8 +7,8 @@ using System.Web.Http;
 using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
+using TodoList.Api.Services;
 using TodoList.Api.Tests.Helpers;
-using TodoList.Contracts.Api;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 
@@ -39,7 +39,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void Delete_ReturnsCorrectResponse()
+        public void DeleteAsync_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfSecondItem, Text = "giraffe" };
             _repository.DeleteAsync(Guid.Empty).Returns(expectedListItem);
@@ -113,7 +113,7 @@ namespace TodoList.Api.Tests.Controllers
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
-            Assert.That(actualLocation, Is.EqualTo(null));
+            Assert.IsNull(actualLocation);
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace TodoList.Api.Tests.Controllers
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
-            Assert.That(actualLocation, Is.EqualTo(null));
+            Assert.IsNull(actualLocation);
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace TodoList.Api.Tests.Controllers
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
             _repository.CreateAsync(postedListItem).Returns(expectedListItem);
-            _urlGenerator.GenerateUrl(expectedListItem).Returns($"api/v1/ListItems/{expectedListItem.Id}");
+            _urlGenerator.GenerateUrl(expectedListItem).Returns(callInfo => $"api/v1/ListItems/{callInfo.Arg<ListItem>().Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
