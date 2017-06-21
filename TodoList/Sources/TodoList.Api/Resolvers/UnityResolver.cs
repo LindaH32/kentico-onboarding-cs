@@ -6,7 +6,7 @@ using System.Web.Http.Dependencies;
 
 namespace TodoList.Api.Resolvers
 {
-    public class UnityResolver : IDependencyResolver
+    internal sealed class UnityResolver : IDependencyResolver
     {
         private readonly IUnityContainer _container;
         private bool _disposed;
