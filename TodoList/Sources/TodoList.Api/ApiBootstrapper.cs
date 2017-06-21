@@ -12,9 +12,9 @@ namespace TodoList.Api
         public IUnityContainer Register(IUnityContainer container)
             => container
             .RegisterType<HttpRequestMessage>(
-                new TransientLifetimeManager(), 
+                new HierarchicalLifetimeManager(), 
                 new InjectionFactory(_ => GetCurrentContextRequestMessage()))
-            .RegisterType<IListItemUrlGenerator, ListItemUrlGenerator>(new TransientLifetimeManager());
+            .RegisterType<IListItemUrlGenerator, ListItemUrlGenerator>(new HierarchicalLifetimeManager());
 
         private HttpRequestMessage GetCurrentContextRequestMessage() 
             => (HttpRequestMessage) HttpContext.Current.Items["MS_HttpRequestMessage"];

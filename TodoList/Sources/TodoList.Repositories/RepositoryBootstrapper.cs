@@ -6,7 +6,7 @@ namespace TodoList.Repositories
 {
     public class RepositoryBootstrapper : IBootstrapper
     {
-        public IUnityContainer Register(IUnityContainer container) //TODO Choose right lifetime manager
-            => container.RegisterType<IListItemRepository, ListItemRepository>(new TransientLifetimeManager());
+        public IUnityContainer Register(IUnityContainer container)
+            => container.RegisterType<IListItemRepository, ListItemRepository>(new HierarchicalLifetimeManager());
     }
 }
