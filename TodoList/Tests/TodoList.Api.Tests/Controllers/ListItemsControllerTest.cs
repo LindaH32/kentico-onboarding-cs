@@ -12,7 +12,6 @@ using TodoList.Api.Tests.Helpers;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 
-
 namespace TodoList.Api.Tests.Controllers
 {
     [TestFixture]
