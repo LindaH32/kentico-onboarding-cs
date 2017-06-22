@@ -70,10 +70,15 @@ namespace TodoList.Api.Tests.Controllers
         [Test]
         public void GetAsync_ById_ReturnsCorrectErrorResponse()
         {
+            var expectedKeys = new[] { "Id" };
+
             var actionResult = _controller.GetAsync(Guid.Empty).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+            
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
         }
 
         [Test]
