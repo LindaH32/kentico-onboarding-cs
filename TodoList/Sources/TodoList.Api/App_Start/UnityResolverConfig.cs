@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Microsoft.Practices.Unity;
+using TodoList.Api.Bootstrap;
 using TodoList.Api.Resolvers;
 using TodoList.Contracts.Api;
 using TodoList.Repositories;

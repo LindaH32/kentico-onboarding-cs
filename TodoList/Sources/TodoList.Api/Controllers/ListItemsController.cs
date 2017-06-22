@@ -24,10 +24,12 @@ namespace TodoList.Api.Controllers
         public async Task<IHttpActionResult> GetAsync(Guid id)
         {
             ValidateItemId(id);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             return Ok(await _listItemsRepository.GetAsync(id));
         }
 
@@ -39,6 +41,7 @@ namespace TodoList.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             ListItem createdItem = await _listItemsRepository.CreateAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
