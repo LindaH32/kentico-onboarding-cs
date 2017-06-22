@@ -2,7 +2,7 @@
 using Microsoft.Practices.Unity;
 using TodoList.Api.Bootstrap;
 using TodoList.Api.Resolvers;
-using TodoList.Contracts.Api;
+using TodoList.Contracts.Bootstrap;
 using TodoList.Repositories;
 
 namespace TodoList.Api

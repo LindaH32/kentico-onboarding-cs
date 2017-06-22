@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\IBootstrapper.cs" />
+    <Compile Include="Bootstrap\IBootstrapper.cs" />
     <Compile Include="Repositories\IListItemRepository.cs" />
     <Compile Include="Models\ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

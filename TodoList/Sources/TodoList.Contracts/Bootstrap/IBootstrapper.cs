@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 
-namespace TodoList.Contracts.Api
+namespace TodoList.Contracts.Bootstrap
 {
     public interface IBootstrapper
     {
