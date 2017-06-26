@@ -11,10 +11,10 @@ namespace TodoList.Contracts.Repositories
 
         Task<ListItem> GetAsync(Guid id);
 
-        Task<ListItem> DeleteAsync(Guid id);
+        Task<ListItem> CreateAsync(ListItem item);
 
         Task<ListItem> UpdateAsync(ListItem item);
 
-        Task<ListItem> CreateAsync(ListItem item);
+        Task<ListItem> DeleteAsync(Guid id);
     }
 }
