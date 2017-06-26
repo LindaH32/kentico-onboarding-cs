@@ -174,7 +174,7 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void PutAsync_ReturnsCorrectItemAndStatusCode()
+        public void PutAsync_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfThirdItem, Text = "updated" };
             var updatedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
