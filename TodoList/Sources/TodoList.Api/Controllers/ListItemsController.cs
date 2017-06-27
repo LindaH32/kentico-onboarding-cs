@@ -42,7 +42,18 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            ListItem createdItem = await _listItemsRepository.CreateAsync(item);
+
+
+            var newItem = new ListItem
+            {
+                Id = Guid.NewGuid(),
+                Text = item.Text
+            };
+
+
+
+
+            ListItem createdItem = await _listItemsRepository.CreateAsync(newItem);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);

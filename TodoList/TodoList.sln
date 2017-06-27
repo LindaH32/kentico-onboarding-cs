@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{9CB3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBE9039B-3AB1-46E4-94AC-651A2FA3D60D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Services", "Sources\TodoList.Services\TodoList.Services.csproj", "{D3D02C04-F2E2-47DF-AB49-248028877279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3D02C04-F2E2-47DF-AB49-248028877279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D02C04-F2E2-47DF-AB49-248028877279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D02C04-F2E2-47DF-AB49-248028877279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D02C04-F2E2-47DF-AB49-248028877279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
