@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\IConnectionDetails.cs" />
     <Compile Include="Bootstrap\IBootstrapper.cs" />
     <Compile Include="Repositories\IListItemRepository.cs" />
     <Compile Include="Models\ListItem.cs" />
