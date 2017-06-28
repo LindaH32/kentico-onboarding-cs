@@ -8,12 +8,12 @@ using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Services;
-using TodoList.Api.Tests.Helpers;
+using TodoList.Api.Tests.Api.Helpers;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
 
-namespace TodoList.Api.Tests.Controllers
+namespace TodoList.Api.Tests.Api.Controllers
 {
     [TestFixture]
     public class ListItemsControllerTest
