@@ -4,6 +4,7 @@ using System.Web.Http;
 using TodoList.Api.Services;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
+using TodoList.Contracts.Services;
 
 namespace TodoList.Api.Controllers
 {
@@ -11,11 +12,13 @@ namespace TodoList.Api.Controllers
     {
         private readonly IListItemRepository _listItemsRepository;
         private readonly IListItemUrlGenerator _urlGenerator;
+        private readonly IListItemServices _services;
 
-        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator generator)
+        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator, IListItemServices services)
         {
             _listItemsRepository = listItemsRepository;
-            _urlGenerator = generator;
+            _urlGenerator = urlGenerator;
+            _services = services;
         }
 
         public async Task<IHttpActionResult> GetAsync() 
@@ -42,18 +45,7 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-
-
-            var newItem = new ListItem
-            {
-                Id = Guid.NewGuid(),
-                Text = item.Text
-            };
-
-
-
-
-            ListItem createdItem = await _listItemsRepository.CreateAsync(newItem);
+            ListItem createdItem = await _services.PostAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);

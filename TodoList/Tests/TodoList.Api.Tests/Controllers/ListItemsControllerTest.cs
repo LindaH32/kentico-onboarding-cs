@@ -11,6 +11,7 @@ using TodoList.Api.Services;
 using TodoList.Api.Tests.Helpers;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
+using TodoList.Contracts.Services;
 
 namespace TodoList.Api.Tests.Controllers
 {
@@ -23,14 +24,16 @@ namespace TodoList.Api.Tests.Controllers
         private readonly Guid _guidOfThirdItem = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F");
         private ListItemsController _controller;
         private IListItemUrlGenerator _urlGenerator;
+        private IListItemServices _services;
 
         [SetUp]
         public void Init()
         {
             _repository = Substitute.For<IListItemRepository>();
             _urlGenerator = Substitute.For<IListItemUrlGenerator>();
+            _services = Substitute.For<IListItemServices>();
 
-            _controller = new ListItemsController(_repository, _urlGenerator)
+            _controller = new ListItemsController(_repository, _urlGenerator, _services)
             {
                 Configuration = new HttpConfiguration(),
                 Request = new HttpRequestMessage(),
@@ -159,7 +162,7 @@ namespace TodoList.Api.Tests.Controllers
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
-            _repository.CreateAsync(postedListItem).Returns(expectedListItem);
+            _services.PostAsync(postedListItem).Returns(expectedListItem);
             _urlGenerator.GenerateUrl(expectedListItem).Returns(callInfo => $"api/v1/ListItems/{callInfo.Arg<ListItem>().Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
