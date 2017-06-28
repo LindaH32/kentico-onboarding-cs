@@ -4,6 +4,7 @@ using TodoList.Api.Bootstrap;
 using TodoList.Api.Resolvers;
 using TodoList.Contracts.Bootstrap;
 using TodoList.Repositories;
+using TodoList.Services.Bootstrap;
 
 namespace TodoList.Api
 {
@@ -13,7 +14,8 @@ namespace TodoList.Api
         {
             var container = new UnityContainer()
                 .RegisterTypes<RepositoryBootstrapper>()
-                .RegisterTypes<ApiBootstrapper>();
+                .RegisterTypes<ApiBootstrapper>()
+                .RegisterType<ServicesBootstrapper>();
                 
             config.DependencyResolver = new UnityResolver(container);
         }
