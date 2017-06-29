@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using TodoList.Contracts.Models;
@@ -29,8 +30,8 @@ namespace TodoList.Repositories
         public async Task<IEnumerable<ListItem>> GetAllAsync()
             => await _listItems.Find(_ => true).ToListAsync();
 
-        public async Task<ListItem> GetAsync(Guid id) 
-            => await Task.FromResult(SampleItems[0]);
+        public async Task<ListItem> GetAsync(Guid id)
+            => await _listItems.Find(item => item.Id.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<ListItem> CreateAsync(ListItem item)
         {
