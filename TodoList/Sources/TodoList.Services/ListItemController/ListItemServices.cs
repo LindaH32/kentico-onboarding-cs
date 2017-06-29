@@ -19,7 +19,7 @@ namespace TodoList.Services.ListItemController
         public async Task<ListItem> PostAsync(ListItem item)
         {
             ListItem itemWithGuid = item;
-            itemWithGuid.Id = _guidGenerator.GenerateGuid(item);
+            itemWithGuid.Id = _guidGenerator.GenerateGuid();
             return await _itemRepository.CreateAsync(itemWithGuid);
         }
     }
