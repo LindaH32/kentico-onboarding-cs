@@ -7,11 +7,11 @@ namespace TodoList.Services.ListItemController
 {
     public class ListItemServices : IListItemServices
     {
-        private readonly IListItemGuidGenerator _guidGenerator;
+        private readonly IGuidGenerator _guidGenerator;
         private readonly IListItemRepository _itemRepository;
         private readonly IDateTimeGenerator _dateTimeGenerator;
 
-        public ListItemServices(IListItemRepository itemRepository, IListItemGuidGenerator guidGenerator, IDateTimeGenerator dateTimeGenerator)
+        public ListItemServices(IListItemRepository itemRepository, IGuidGenerator guidGenerator, IDateTimeGenerator dateTimeGenerator)
         {
             _guidGenerator = guidGenerator;
             _itemRepository = itemRepository;

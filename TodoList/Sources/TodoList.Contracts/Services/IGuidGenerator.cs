@@ -2,7 +2,7 @@
 
 namespace TodoList.Contracts.Services
 {
-    public interface IListItemGuidGenerator
+    public interface IGuidGenerator
     {
         Guid GenerateGuid();
     }

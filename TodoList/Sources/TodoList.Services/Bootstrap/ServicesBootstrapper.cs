@@ -9,7 +9,7 @@ namespace TodoList.Services.Bootstrap
     {
         public IUnityContainer Register(IUnityContainer container)
             => container
-                .RegisterType<IListItemGuidGenerator, ListItemGuidGenerator>(new HierarchicalLifetimeManager())
+                .RegisterType<IGuidGenerator, GuidGenerator>(new HierarchicalLifetimeManager())
                 .RegisterType<IListItemServices, ListItemServices>(new HierarchicalLifetimeManager())
                 .RegisterType<IDateTimeGenerator, DateTimeGenerator>(new HierarchicalLifetimeManager()); //TODO check lifetimemanager
     }

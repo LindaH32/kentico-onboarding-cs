@@ -3,7 +3,7 @@ using TodoList.Contracts.Services;
 
 namespace TodoList.Services
 {
-    public class ListItemGuidGenerator : IListItemGuidGenerator
+    public class GuidGenerator : IGuidGenerator
     {
         public Guid GenerateGuid()
             => Guid.NewGuid();
