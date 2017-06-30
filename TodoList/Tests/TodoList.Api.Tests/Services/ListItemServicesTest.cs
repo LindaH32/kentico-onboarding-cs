@@ -30,10 +30,12 @@ namespace TodoList.Api.Tests.Services
         public void PostAsync_ReturnsCorrectListItem()
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
+            var date = DateTime.Parse("30/6/2017 11:34:52");
             var postedItem = new ListItem() { Id = Guid.Empty, Text = "hippopotamus" };
-            var expectedItem = new ListItem() { Id = itemGuid, Text = "hippopotamus" };
+            var expectedItem = new ListItem() { Id = itemGuid, Text = "hippopotamus", CreationDateTime = date, UpdateDateTime = date };
             _guidGenerator.GenerateGuid().Returns(itemGuid);
             _itemRepository.CreateAsync(postedItem).Returns(expectedItem);
+            _dateTimeGenerator.GenerateDateTime().Returns(date);
 
             var actualItem = _listItemServices.PostAsync(postedItem).Result;
             

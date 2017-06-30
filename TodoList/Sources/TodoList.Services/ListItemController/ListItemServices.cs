@@ -22,7 +22,7 @@ namespace TodoList.Services.ListItemController
         public async Task<ListItem> PostAsync(ListItem item)
         {
             item.Id = _guidGenerator.GenerateGuid();
-            item.CreationDateTime = _dateTimeGenerator.GenerateDateTime();
+            item.CreationDateTime = item.UpdateDateTime = _dateTimeGenerator.GenerateDateTime();
             return await _itemRepository.CreateAsync(item);
         }
     }
