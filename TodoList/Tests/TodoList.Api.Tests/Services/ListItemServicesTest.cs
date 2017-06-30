@@ -14,14 +14,16 @@ namespace TodoList.Api.Tests.Services
         private IListItemServices _listItemServices;
         private IListItemGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
+        private IListItemDateTimeGenerator _dateTimeGenerator;
 
         [SetUp]
         public void Init()
         {
             _guidGenerator = Substitute.For<IListItemGuidGenerator>();
             _itemRepository = Substitute.For<IListItemRepository>();
+            _dateTimeGenerator = Substitute.For<IListItemDateTimeGenerator>();
 
-            _listItemServices = new ListItemServices(_itemRepository, _guidGenerator);
+            _listItemServices = new ListItemServices(_itemRepository, _guidGenerator, _dateTimeGenerator);
         }
 
         [Test]

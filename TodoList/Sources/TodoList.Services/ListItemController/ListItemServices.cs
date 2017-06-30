@@ -9,18 +9,21 @@ namespace TodoList.Services.ListItemController
     {
         private readonly IListItemGuidGenerator _guidGenerator;
         private readonly IListItemRepository _itemRepository;
+        private readonly IListItemDateTimeGenerator _dateTimeGenerator;
 
-        public ListItemServices(IListItemRepository itemRepository, IListItemGuidGenerator guidGenerator)
+        public ListItemServices(IListItemRepository itemRepository, IListItemGuidGenerator guidGenerator, IListItemDateTimeGenerator dateTimeGenerator)
         {
             _guidGenerator = guidGenerator;
             _itemRepository = itemRepository;
+            _dateTimeGenerator = dateTimeGenerator;
+
         }
 
         public async Task<ListItem> PostAsync(ListItem item)
         {
-            ListItem itemWithGuid = item;
-            itemWithGuid.Id = _guidGenerator.GenerateGuid();
-            return await _itemRepository.CreateAsync(itemWithGuid);
+            item.Id = _guidGenerator.GenerateGuid();
+            item.CreationDateTime = _dateTimeGenerator.GenerateDateTime();
+            return await _itemRepository.CreateAsync(item);
         }
     }
 }
