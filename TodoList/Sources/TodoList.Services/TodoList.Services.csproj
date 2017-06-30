@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Bootstrap\ServicesBootstrapper.cs" />
     <Compile Include="ListItemController\ListItemServices.cs" />
-    <Compile Include="ListItemDateTimeGenerator.cs" />
+    <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="ListItemGuidGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

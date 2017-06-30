@@ -61,7 +61,7 @@
     <Compile Include="Repositories\IListItemRepository.cs" />
     <Compile Include="Models\ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IListItemDateTimeGenerator.cs" />
+    <Compile Include="Services\IDateTimeGenerator.cs" />
     <Compile Include="Services\IListItemGuidGenerator.cs" />
     <Compile Include="Services\IListItemServices.cs" />
   </ItemGroup>
