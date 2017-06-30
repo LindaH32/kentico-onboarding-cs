@@ -3,7 +3,7 @@ using TodoList.Contracts.Services;
 
 namespace TodoList.Services
 {
-    public class ListItemDateTimeGenerator : IListItemDateTimeGenerator
+    public class DateTimeGenerator : IDateTimeGenerator
     {
         public DateTime GenerateDateTime()
         {

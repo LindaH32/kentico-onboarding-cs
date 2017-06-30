@@ -2,7 +2,7 @@
 
 namespace TodoList.Contracts.Services
 {
-    public interface IListItemDateTimeGenerator
+    public interface IDateTimeGenerator
     {
         DateTime GenerateDateTime();
     }
