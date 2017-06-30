@@ -40,13 +40,8 @@ namespace TodoList.Repositories
             return item;
         }
 
-        public async Task<ListItem> UpdateAsync(ListItem item)
-        {
-            //await _listItems.UpdateOneAsync(x => x.Id.Equals(item.Id), Builders<ListItem>.Update.Set(listItem => listItem.Text, item.Text));
-            //await _listItems.UpdateOneAsync(x => x.Id.Equals(item.Id), Builders<ListItem>.Update.Set(listItem => listItem.UpdateDateTime, item.UpdateDateTime));
-            //return item;
-            return await Task.FromResult(SampleItems[2]);
-        }
+        public async Task<ListItem> UpdateAsync(ListItem item) 
+            => await Task.FromResult(SampleItems[2]);
 
         public async Task<ListItem> DeleteAsync(Guid id)
             => await Task.FromResult(SampleItems[1]);
