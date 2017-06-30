@@ -5,9 +5,7 @@ namespace TodoList.Services
 {
     public class DateTimeGenerator : IDateTimeGenerator
     {
-        public DateTime GenerateDateTime()
-        {
-            return DateTime.Now;
-        }
+        public DateTime GenerateDateTime() 
+            => DateTime.Now;
     }
 }
