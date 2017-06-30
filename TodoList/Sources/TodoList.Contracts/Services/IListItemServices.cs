@@ -6,5 +6,7 @@ namespace TodoList.Contracts.Services
     public interface IListItemServices
     {
         Task<ListItem> PostAsync(ListItem item);
+
+        Task<ListItem> PutAsync(ListItem item);
     }
 }

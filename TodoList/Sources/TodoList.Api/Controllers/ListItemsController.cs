@@ -50,9 +50,9 @@ namespace TodoList.Api.Controllers
 
             return Created(location, createdItem);
         }
-
+        
         public async Task<IHttpActionResult> PutAsync(ListItem item) 
-            => Ok(await _listItemsRepository.UpdateAsync(item));
+            => Ok(await _services.PutAsync(item));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id) 
             => Ok(await _listItemsRepository.DeleteAsync(id));

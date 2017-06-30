@@ -25,5 +25,11 @@ namespace TodoList.Services.ListItemController
             item.CreationDateTime = item.UpdateDateTime = _dateTimeGenerator.GenerateDateTime();
             return await _itemRepository.CreateAsync(item);
         }
+
+        public async Task<ListItem> PutAsync(ListItem item)
+        {
+            item.UpdateDateTime = _dateTimeGenerator.GenerateDateTime();
+            return await _itemRepository.UpdateAsync(item);
+        }
     }
 }

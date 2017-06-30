@@ -181,7 +181,7 @@ namespace TodoList.Api.Tests.Api.Controllers
         {
             var expectedListItem = new ListItem { Id = _guidOfThirdItem, Text = "updated" };
             var updatedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
-            _repository.UpdateAsync(updatedListItem).Returns(expectedListItem);
+            _services.PutAsync(updatedListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
