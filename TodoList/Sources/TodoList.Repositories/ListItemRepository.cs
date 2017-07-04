@@ -25,13 +25,10 @@ namespace TodoList.Repositories
             => await _listItems.Find(_ => true).ToListAsync();
 
         public async Task<ListItem> GetAsync(Guid id)
-            => await _listItems.Find(item => item.Id.Equals(id)).FirstOrDefaultAsync();
+            => await _listItems.Find(item => item.Id == id).FirstOrDefaultAsync();
 
-        public async Task<ListItem> CreateAsync(ListItem item)
-        {
-            await _listItems.InsertOneAsync(item);
-            return item;
-        }
+        public async Task CreateAsync(ListItem item) 
+            => await _listItems.InsertOneAsync(item);
 
         public async Task<ListItem> UpdateAsync(ListItem item) 
             => await _listItems.FindOneAndReplaceAsync(databaseItem => databaseItem.Id == item.Id, item);

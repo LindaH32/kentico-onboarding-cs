@@ -11,7 +11,7 @@ namespace TodoList.Contracts.Repositories
 
         Task<ListItem> GetAsync(Guid id);
 
-        Task<ListItem> CreateAsync(ListItem item);
+        Task CreateAsync(ListItem item);
 
         Task<ListItem> UpdateAsync(ListItem item);
 
