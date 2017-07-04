@@ -12,16 +12,27 @@ namespace TodoList.Api.Tests.Api.Helpers
         public static EqualConstraint UsingListItemComparer(this EqualConstraint constraint) 
             => constraint.Using(Comparer.Value);
 
-        private class ListItemComparer : IEqualityComparer<ListItem>
+        private sealed class ListItemComparer : IEqualityComparer<ListItem>
         {
             public bool Equals(ListItem x, ListItem y)
             {
-                return x.Id.Equals(y.Id) && x.Text.Equals(y.Text);
+                if (ReferenceEquals(x, y)) return true;
+                if (ReferenceEquals(x, null)) return false;
+                if (ReferenceEquals(y, null)) return false;
+                if (x.GetType() != y.GetType()) return false;
+                return x.Id.Equals(y.Id) && string.Equals(x.Text, y.Text) && x.CreationDateTime.Equals(y.CreationDateTime) && x.UpdateDateTime.Equals(y.UpdateDateTime);
             }
 
             public int GetHashCode(ListItem obj)
             {
-                return (obj.Id.GetHashCode() * 397) ^ (obj.Text?.GetHashCode() ?? 0);
+                unchecked
+                {
+                    var hashCode = obj.Id.GetHashCode();
+                    hashCode = (hashCode * 397) ^ (obj.Text?.GetHashCode() ?? 0);
+                    hashCode = (hashCode * 397) ^ obj.CreationDateTime.GetHashCode();
+                    hashCode = (hashCode * 397) ^ obj.UpdateDateTime.GetHashCode();
+                    return hashCode;
+                }
             }
         }
     }
