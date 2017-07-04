@@ -12,13 +12,13 @@ namespace TodoList.Api.Controllers
     {
         private readonly IListItemRepository _listItemsRepository;
         private readonly IListItemUrlGenerator _urlGenerator;
-        private readonly IListItemServices _services;
+        private readonly IListItemService _service;
 
-        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator, IListItemServices services)
+        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator, IListItemService service)
         {
             _listItemsRepository = listItemsRepository;
             _urlGenerator = urlGenerator;
-            _services = services;
+            _service = service;
         }
 
         public async Task<IHttpActionResult> GetAsync() 
@@ -45,17 +45,26 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            ListItem createdItem = await _services.PostAsync(item);
+            ListItem createdItem = await _service.CreateNewItemAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);
         }
         
         public async Task<IHttpActionResult> PutAsync(ListItem item) 
-            => Ok(await _services.PutAsync(item));
+            => Ok(await _service.UpdateExistingItemAsync(item));
 
-        public async Task<IHttpActionResult> DeleteAsync(Guid id) 
-            => Ok(await _listItemsRepository.DeleteAsync(id));
+        public async Task<IHttpActionResult> DeleteAsync(Guid id)
+        {
+            ValidateItemId(id);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(await _listItemsRepository.DeleteAsync(id));
+        }
 
         private void ValidatePostItem(ListItem item)
         {
