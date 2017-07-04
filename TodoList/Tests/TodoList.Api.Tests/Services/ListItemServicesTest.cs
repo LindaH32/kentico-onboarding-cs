@@ -11,7 +11,7 @@ namespace TodoList.Api.Tests.Services
 {
     class ListItemServicesTest
     {
-        private IListItemServices _listItemServices;
+        private IListItemService _listItemService;
         private IGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
         private IDateTimeGenerator _dateTimeGenerator;
@@ -23,37 +23,38 @@ namespace TodoList.Api.Tests.Services
             _itemRepository = Substitute.For<IListItemRepository>();
             _dateTimeGenerator = Substitute.For<IDateTimeGenerator>();
 
-            _listItemServices = new ListItemServices(_itemRepository, _guidGenerator, _dateTimeGenerator);
+            _listItemService = new ListItemService(_itemRepository, _guidGenerator, _dateTimeGenerator);
         }
 
         [Test]
-        public void PostAsync_ReturnsCorrectListItem()
+        public void SetupAndCreateItemAsync_ReturnsCorrectListItem()
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
-            var date = DateTime.Parse("30/6/2017 11:34:52");
+            var date = new DateTime(year: 2017, month: 10, day: 5, hour: 10, minute: 39, second: 4);
             var postedItem = new ListItem { Id = Guid.Empty, Text = "hippopotamus" };
-            var expectedItem = new ListItem { Id = itemGuid, Text = "hippopotamus", CreationDateTime = date, UpdateDateTime = date };
+            var expectedItem = new ListItem { Id = itemGuid, Text = postedItem.Text, CreationDateTime = date, UpdateDateTime = date };
             _guidGenerator.GenerateGuid().Returns(itemGuid);
-            _itemRepository.CreateAsync(Arg.Any<ListItem>()).Returns(expectedItem); //TODO postedItem is not actual argument, fix
-            _dateTimeGenerator.GenerateDateTime().Returns(date);
+            //_itemRepository.CreateAsync(Arg.Any<ListItem>()).Returns(info => info.Arg<ListItem>());
+            _dateTimeGenerator.GenerateDateTime().Returns(date, DateTime.MinValue);
 
-            var actualItem = _listItemServices.PostAsync(postedItem).Result;
+            var actualItem = _listItemService.CreateNewItemAsync(postedItem).Result;
             
             Assert.That(actualItem, Is.EqualTo(expectedItem).UsingListItemComparer());
         }
 
         [Test]
-        public void PutAsync_ReturnsCorrectListItem()
+        public void SetupAndUpdateItemAsync_ReturnsCorrectListItem()
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
-            var creationTime = DateTime.Parse("30/6/2017 11:34:52");
-            var updateTime = DateTime.Parse("30/6/2017 12:34:52");
+            var creationTime = new DateTime(year: 2017, month: 8, day: 1, hour: 12, minute: 55, second: 55);
+            var updateTime = new DateTime(year: 2017, month: 9, day: 2, hour: 13, minute: 56, second: 56);
             var postedItem = new ListItem { Id = Guid.Empty, Text = "hippopotamus", CreationDateTime = creationTime, UpdateDateTime = creationTime };
-            var expectedItem = new ListItem { Id = itemGuid, Text = "hippopotamus", CreationDateTime = creationTime, UpdateDateTime = updateTime };
-            _itemRepository.UpdateAsync(postedItem).Returns(expectedItem);
-            _dateTimeGenerator.GenerateDateTime().Returns(updateTime);
+            var expectedItem = new ListItem { Id = itemGuid, Text = postedItem.Text, CreationDateTime = creationTime, UpdateDateTime = updateTime };
+            _itemRepository.GetAsync(Arg.Any<Guid>()).Returns(expectedItem); //TODO expectedItem is already set, doesnt test properly
+            _itemRepository.UpdateAsync(Arg.Any<ListItem>()).Returns(info => info.Arg<ListItem>());
+            _dateTimeGenerator.GenerateDateTime().Returns(updateTime, DateTime.MinValue);
 
-            var actualItem = _listItemServices.PutAsync(postedItem).Result;
+            var actualItem = _listItemService.UpdateExistingItemAsync(postedItem).Result;
 
             Assert.That(actualItem, Is.EqualTo(expectedItem).UsingListItemComparer());
         }
