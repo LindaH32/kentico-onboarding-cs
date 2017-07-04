@@ -9,23 +9,16 @@ namespace TodoList.Repositories
 {
     internal class ListItemRepository : IListItemRepository
     {
-        private static readonly  DateTime CreationDate = DateTime.Parse("30/6/2017 11:30:00");
-        private static readonly  DateTime UpdateDate = DateTime.Parse("30/6/2017 12:00:00");
-        private static readonly ListItem[] SampleItems =
-        {
-            new ListItem { Id = new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D"), Text = "text", CreationDateTime = CreationDate, UpdateDateTime = UpdateDate },
-            new ListItem { Id = new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE"), Text = "giraffe", CreationDateTime = CreationDate, UpdateDateTime = UpdateDate },
-            new ListItem { Id = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F"), Text = "updated", CreationDateTime = CreationDate, UpdateDateTime = UpdateDate }
-        };
+        private const string CollectionName = "ListItems";
 
         private readonly IMongoCollection<ListItem> _listItems;
 
         public ListItemRepository(IConnectionDetails connectionDetails)
         {
-            string connectionString = connectionDetails.ConnectionString;
-            var client = new MongoClient(connectionString);
-            var database = client.GetDatabase("todolist");
-            _listItems = database.GetCollection<ListItem>("ListItems");
+            var mongoUrl = new MongoUrl(connectionDetails.ConnectionString);
+            var client = new MongoClient(mongoUrl);
+            var database = client.GetDatabase(mongoUrl.DatabaseName);
+            _listItems = database.GetCollection<ListItem>(CollectionName);
         }
 
         public async Task<IEnumerable<ListItem>> GetAllAsync()
@@ -41,9 +34,9 @@ namespace TodoList.Repositories
         }
 
         public async Task<ListItem> UpdateAsync(ListItem item) 
-            => await Task.FromResult(SampleItems[2]);
+            => await _listItems.FindOneAndReplaceAsync(databaseItem => databaseItem.Id == item.Id, item);
 
-        public async Task<ListItem> DeleteAsync(Guid id)
-            => await Task.FromResult(SampleItems[1]);
+        public async Task<ListItem> DeleteAsync(Guid id) 
+            => await _listItems.FindOneAndDeleteAsync(databaseItem => databaseItem.Id == id);
     }
 }

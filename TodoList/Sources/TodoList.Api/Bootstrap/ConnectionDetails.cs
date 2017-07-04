@@ -7,9 +7,7 @@ namespace TodoList.Api.Bootstrap
     {
         private const string DefaultConnectionStringName = "DefaultConnection";
 
-        public string ConnectionString => _connectionString;
-
-        private readonly string _connectionString = ConfigurationManager
+        public string ConnectionString { get; } = ConfigurationManager
             .ConnectionStrings[DefaultConnectionStringName]
             .ConnectionString;
     }

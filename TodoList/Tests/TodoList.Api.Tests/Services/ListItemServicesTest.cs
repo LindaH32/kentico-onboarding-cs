@@ -31,10 +31,10 @@ namespace TodoList.Api.Tests.Services
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
             var date = DateTime.Parse("30/6/2017 11:34:52");
-            var postedItem = new ListItem() { Id = Guid.Empty, Text = "hippopotamus" };
-            var expectedItem = new ListItem() { Id = itemGuid, Text = "hippopotamus", CreationDateTime = date, UpdateDateTime = date };
+            var postedItem = new ListItem { Id = Guid.Empty, Text = "hippopotamus" };
+            var expectedItem = new ListItem { Id = itemGuid, Text = "hippopotamus", CreationDateTime = date, UpdateDateTime = date };
             _guidGenerator.GenerateGuid().Returns(itemGuid);
-            _itemRepository.CreateAsync(postedItem).Returns(expectedItem);
+            _itemRepository.CreateAsync(Arg.Any<ListItem>()).Returns(expectedItem); //TODO postedItem is not actual argument, fix
             _dateTimeGenerator.GenerateDateTime().Returns(date);
 
             var actualItem = _listItemServices.PostAsync(postedItem).Result;
@@ -48,12 +48,12 @@ namespace TodoList.Api.Tests.Services
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
             var creationTime = DateTime.Parse("30/6/2017 11:34:52");
             var updateTime = DateTime.Parse("30/6/2017 12:34:52");
-            var postedItem = new ListItem() { Id = Guid.Empty, Text = "hippopotamus", CreationDateTime = creationTime, UpdateDateTime = creationTime };
-            var expectedItem = new ListItem() { Id = itemGuid, Text = "hippopotamus", CreationDateTime = creationTime, UpdateDateTime = updateTime };
-            _itemRepository.CreateAsync(postedItem).Returns(expectedItem);
+            var postedItem = new ListItem { Id = Guid.Empty, Text = "hippopotamus", CreationDateTime = creationTime, UpdateDateTime = creationTime };
+            var expectedItem = new ListItem { Id = itemGuid, Text = "hippopotamus", CreationDateTime = creationTime, UpdateDateTime = updateTime };
+            _itemRepository.UpdateAsync(postedItem).Returns(expectedItem);
             _dateTimeGenerator.GenerateDateTime().Returns(updateTime);
 
-            var actualItem = _listItemServices.PostAsync(postedItem).Result;
+            var actualItem = _listItemServices.PutAsync(postedItem).Result;
 
             Assert.That(actualItem, Is.EqualTo(expectedItem).UsingListItemComparer());
         }
