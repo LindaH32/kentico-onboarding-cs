@@ -60,6 +60,7 @@
     <Compile Include="ListItemController\ListItemService.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="GuidGenerator.cs" />
+    <Compile Include="ListItemController\UpdateItemService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
