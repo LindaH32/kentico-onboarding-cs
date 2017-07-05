@@ -68,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDateTimeGenerator.cs" />
     <Compile Include="Services\IGuidGenerator.cs" />
-    <Compile Include="Services\IListItemService.cs" />
+    <Compile Include="Services\ICreateItemService.cs" />
     <Compile Include="Services\IUpdateItemService.cs" />
   </ItemGroup>
   <ItemGroup>
