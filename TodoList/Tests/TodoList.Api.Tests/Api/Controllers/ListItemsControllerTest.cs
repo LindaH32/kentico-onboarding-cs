@@ -24,16 +24,18 @@ namespace TodoList.Api.Tests.Api.Controllers
         private readonly Guid _guidOfThirdItem = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F");
         private ListItemsController _controller;
         private IListItemUrlGenerator _urlGenerator;
-        private IListItemService _service;
+        private ICreateItemService _createItemService;
+        private IUpdateItemService _updateItemService;
 
         [SetUp]
         public void Init()
         {
             _repository = Substitute.For<IListItemRepository>();
             _urlGenerator = Substitute.For<IListItemUrlGenerator>();
-            _service = Substitute.For<IListItemService>();
+            _createItemService = Substitute.For<ICreateItemService>();
+            _updateItemService = Substitute.For<IUpdateItemService>();
 
-            _controller = new ListItemsController(_repository, _urlGenerator, _service)
+            _controller = new ListItemsController(_repository, _urlGenerator, _createItemService, _updateItemService)
             {
                 Configuration = new HttpConfiguration(),
                 Request = new HttpRequestMessage(),
@@ -162,7 +164,7 @@ namespace TodoList.Api.Tests.Api.Controllers
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
-            _service.CreateNewItemAsync(postedListItem).Returns(expectedListItem);
+            _createItemService.CreateNewItemAsync(postedListItem).Returns(expectedListItem);
             _urlGenerator.GenerateUrl(expectedListItem).Returns(callInfo => $"api/v1/ListItems/{callInfo.Arg<ListItem>().Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
@@ -181,7 +183,7 @@ namespace TodoList.Api.Tests.Api.Controllers
         {
             var expectedListItem = new ListItem { Id = _guidOfThirdItem, Text = "updated" };
             var updatedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
-            _service.UpdateExistingItemAsync(updatedListItem).Returns(expectedListItem);
+            _updateItemService.UpdateExistingItemAsync(updatedListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;

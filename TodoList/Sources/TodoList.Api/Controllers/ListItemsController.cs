@@ -12,13 +12,15 @@ namespace TodoList.Api.Controllers
     {
         private readonly IListItemRepository _listItemsRepository;
         private readonly IListItemUrlGenerator _urlGenerator;
-        private readonly IListItemService _service;
+        private readonly ICreateItemService _createItemService;
+        private readonly IUpdateItemService _updateItemService;
 
-        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator, IListItemService service)
+        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator, ICreateItemService createItemService, IUpdateItemService updateItemService)
         {
             _listItemsRepository = listItemsRepository;
             _urlGenerator = urlGenerator;
-            _service = service;
+            _createItemService = createItemService;
+            _updateItemService = updateItemService;
         }
 
         public async Task<IHttpActionResult> GetAsync() 
@@ -45,14 +47,14 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            ListItem createdItem = await _service.CreateNewItemAsync(item);
+            ListItem createdItem = await _createItemService.CreateNewItemAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);
         }
         
         public async Task<IHttpActionResult> PutAsync(ListItem item) 
-            => Ok(await _service.UpdateExistingItemAsync(item));
+            => Ok(await _updateItemService.UpdateExistingItemAsync(item));
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
         {
