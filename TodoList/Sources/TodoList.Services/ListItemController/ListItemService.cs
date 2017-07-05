@@ -8,13 +8,13 @@ using TodoList.Contracts.Services;
 [assembly:InternalsVisibleTo("TodoList.Api.Tests")]
 namespace TodoList.Services.ListItemController
 {
-    internal class ListItemService : IListItemService
+    internal class CreateItemService : ICreateItemService
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly IListItemRepository _itemRepository;
         private readonly IDateTimeGenerator _dateTimeGenerator;
 
-        public ListItemService(IListItemRepository itemRepository, IGuidGenerator guidGenerator, IDateTimeGenerator dateTimeGenerator)
+        public CreateItemService(IListItemRepository itemRepository, IGuidGenerator guidGenerator, IDateTimeGenerator dateTimeGenerator)
         {
             _guidGenerator = guidGenerator;
             _itemRepository = itemRepository;
@@ -34,17 +34,6 @@ namespace TodoList.Services.ListItemController
 
             await _itemRepository.CreateAsync(newItem);
             return newItem;
-        }
-
-        public async Task<ListItem> UpdateExistingItemAsync(ListItem item)
-        {
-            //TODO
-            ListItem existingItem = await _itemRepository.GetAsync(item.Id);
-            existingItem.UpdateDateTime = _dateTimeGenerator.GenerateDateTime();
-            existingItem.Text = item.Text;
-
-            await _itemRepository.UpdateAsync(existingItem);
-            return existingItem;
         }
     }
 }
