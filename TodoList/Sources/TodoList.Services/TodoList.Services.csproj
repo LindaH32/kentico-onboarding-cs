@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\ServicesBootstrapper.cs" />
-    <Compile Include="ListItemController\ListItemService.cs" />
+    <Compile Include="ListItemController\CreateItemService.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="ListItemController\UpdateItemService.cs" />
