@@ -11,10 +11,11 @@ namespace TodoList.Api.Tests.Services
 {
     class ListItemServicesTest
     {
-        private IListItemService _listItemService;
         private IGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
         private IDateTimeGenerator _dateTimeGenerator;
+        private CreateItemService _createItemService;
+        private UpdateItemService _updateItemService;
 
         [SetUp]
         public void Init()
@@ -23,7 +24,8 @@ namespace TodoList.Api.Tests.Services
             _itemRepository = Substitute.For<IListItemRepository>();
             _dateTimeGenerator = Substitute.For<IDateTimeGenerator>();
 
-            _listItemService = new ListItemService(_itemRepository, _guidGenerator, _dateTimeGenerator);
+            _createItemService = new CreateItemService(_itemRepository, _guidGenerator, _dateTimeGenerator);
+            _updateItemService = new UpdateItemService(_itemRepository,_dateTimeGenerator);
         }
 
         [Test]
@@ -37,7 +39,7 @@ namespace TodoList.Api.Tests.Services
             //_itemRepository.CreateAsync(Arg.Any<ListItem>()).Returns(info => info.Arg<ListItem>());
             _dateTimeGenerator.GenerateDateTime().Returns(date, DateTime.MinValue);
 
-            var actualItem = _listItemService.CreateNewItemAsync(postedItem).Result;
+            var actualItem = _createItemService.CreateNewItemAsync(postedItem).Result;
             
             Assert.That(actualItem, Is.EqualTo(expectedItem).UsingListItemComparer());
         }
@@ -54,7 +56,7 @@ namespace TodoList.Api.Tests.Services
             _itemRepository.UpdateAsync(Arg.Any<ListItem>()).Returns(info => info.Arg<ListItem>());
             _dateTimeGenerator.GenerateDateTime().Returns(updateTime, DateTime.MinValue);
 
-            var actualItem = _listItemService.UpdateExistingItemAsync(postedItem).Result;
+            var actualItem = _updateItemService.UpdateExistingItemAsync(postedItem).Result;
 
             Assert.That(actualItem, Is.EqualTo(expectedItem).UsingListItemComparer());
         }
