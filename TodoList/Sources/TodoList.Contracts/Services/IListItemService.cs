@@ -3,10 +3,8 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Contracts.Services
 {
-    public interface IListItemService
+    public interface ICreateItemService
     {
         Task<ListItem> CreateNewItemAsync(ListItem item);
-
-        Task<ListItem> UpdateExistingItemAsync(ListItem item);
     }
 }
