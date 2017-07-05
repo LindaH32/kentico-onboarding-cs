@@ -1,13 +1,11 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
 
-[assembly: InternalsVisibleTo("TodoList.Api.Tests")]
 namespace TodoList.Services.ListItemController
 {
-    public class UpdateItemService : IUpdateItemService
+    internal class UpdateItemService : IUpdateItemService
     {
         private readonly IListItemRepository _itemRepository;
         private readonly IDateTimeGenerator _dateTimeGenerator;

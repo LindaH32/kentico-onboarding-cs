@@ -14,8 +14,8 @@ namespace TodoList.Api.Tests.Services
         private IGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
         private IDateTimeGenerator _dateTimeGenerator;
-        private CreateItemService _createItemService;
-        private UpdateItemService _updateItemService;
+        private ICreateItemService _createItemService;
+        private IUpdateItemService _updateItemService;
 
         [SetUp]
         public void Init()
