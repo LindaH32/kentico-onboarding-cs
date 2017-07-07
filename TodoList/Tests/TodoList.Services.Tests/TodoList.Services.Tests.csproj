@@ -72,9 +72,9 @@
       <Project>{d3d02c04-f2e2-47df-ab49-248028877279}</Project>
       <Name>TodoList.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TodoList.Api.Tests\TodoList.Api.Tests.csproj">
-      <Project>{ffdbcd08-6171-4514-9d21-3f2f54bf0deb}</Project>
-      <Name>TodoList.Api.Tests</Name>
+    <ProjectReference Include="..\..\TodoList.Contracts.Base\TodoList.Contracts.Base.csproj">
+      <Project>{B569866F-EB66-4707-8D71-0E391E5B53A9}</Project>
+      <Name>TodoList.Contracts.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

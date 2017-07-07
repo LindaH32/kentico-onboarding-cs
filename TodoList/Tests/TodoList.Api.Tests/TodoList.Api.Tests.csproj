@@ -85,6 +85,10 @@
       <Project>{D3D02C04-F2E2-47DF-AB49-248028877279}</Project>
       <Name>TodoList.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\TodoList.Contracts.Base\TodoList.Contracts.Base.csproj">
+      <Project>{B569866F-EB66-4707-8D71-0E391E5B53A9}</Project>
+      <Name>TodoList.Contracts.Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,7 +5,7 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Contracts.Base.Models
 {
-    internal static class EqualConstraintExtensions
+    public static class EqualConstraintExtensions
     {
         private static readonly Lazy<IEqualityComparer<ListItem>> Comparer = new Lazy<IEqualityComparer<ListItem>>(()=> new ListItemComparer()) ;
 

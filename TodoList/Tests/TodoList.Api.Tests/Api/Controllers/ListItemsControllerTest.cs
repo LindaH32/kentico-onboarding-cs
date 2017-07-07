@@ -8,7 +8,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Services;
-using TodoList.Api.Tests.Api.Helpers;
+using TodoList.Contracts.Base.Models;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;

@@ -1,11 +1,11 @@
 ﻿using System;
 using NSubstitute;
 using NUnit.Framework;
+using TodoList.Contracts.Base.Models;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
 using TodoList.Services.ListItemController;
-using TodoList.Api.Tests.Api.Helpers;
 
 namespace TodoList.Services.Tests.Services
 {
