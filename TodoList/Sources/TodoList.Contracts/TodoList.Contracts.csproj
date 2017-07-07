@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AcquisitionResult.cs" />
     <Compile Include="Repositories\IConnectionDetails.cs" />
     <Compile Include="Bootstrap\IBootstrapper.cs" />
     <Compile Include="Repositories\IListItemRepository.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Services\IDateTimeGenerator.cs" />
     <Compile Include="Services\IGuidGenerator.cs" />
     <Compile Include="Services\ICreateItemService.cs" />
+    <Compile Include="Services\IItemAcquisitionService.cs" />
     <Compile Include="Services\IUpdateItemService.cs" />
   </ItemGroup>
   <ItemGroup>
