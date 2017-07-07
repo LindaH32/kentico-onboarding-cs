@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
@@ -15,12 +16,17 @@ namespace TodoList.Services.ListItemController
             _itemRepository = itemRepository;
             _dateTimeGenerator = dateTimeGenerator;
         }
-        public async Task<ListItem> UpdateExistingItemAsync(ListItem item)
+
+        public async Task<ListItem> UpdateExistingItemAsync(AcquisitionResult acquisitionResult, ListItem modifiedItem)
         {
-            //TODO
-            ListItem existingItem = await _itemRepository.GetAsync(item.Id);
+            if (!acquisitionResult.WasSuccessful)
+            {
+                throw  new ArgumentException("Item from failed acquisition cannot be updated", nameof(acquisitionResult));
+            }
+
+            ListItem existingItem = acquisitionResult.AcquiredItem;
             existingItem.UpdateDateTime = _dateTimeGenerator.GenerateDateTime();
-            existingItem.Text = item.Text;
+            existingItem.Text = modifiedItem.Text;
 
             await _itemRepository.UpdateAsync(existingItem);
             return existingItem;
