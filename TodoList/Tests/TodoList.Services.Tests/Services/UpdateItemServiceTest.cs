@@ -9,6 +9,7 @@ using TodoList.Api.Tests.Api.Helpers;
 
 namespace TodoList.Services.Tests.Services
 {
+    [TestFixture]
     public class UpdateItemServiceTest
     {
         private IListItemRepository _itemRepository;
