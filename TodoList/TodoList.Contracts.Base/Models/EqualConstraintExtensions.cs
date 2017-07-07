@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework.Constraints;
 using TodoList.Contracts.Models;
 
-namespace TodoList.Api.Tests.Api.Helpers
+namespace TodoList.Contracts.Base.Models
 {
     internal static class EqualConstraintExtensions
     {
