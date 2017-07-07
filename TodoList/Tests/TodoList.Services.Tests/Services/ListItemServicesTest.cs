@@ -1,13 +1,13 @@
 ﻿using System;
 using NSubstitute;
 using NUnit.Framework;
-using TodoList.Api.Tests.Api.Helpers;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
+using TodoList.Api.Tests.Api.Helpers;
 using TodoList.Services.ListItemController;
 
-namespace TodoList.Api.Tests.Services
+namespace TodoList.Services.Tests.Services
 {
     class ListItemServicesTest
     {
