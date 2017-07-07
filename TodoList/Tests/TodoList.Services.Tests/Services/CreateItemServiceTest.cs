@@ -9,7 +9,7 @@ using TodoList.Services.ListItemController;
 
 namespace TodoList.Services.Tests.Services
 {
-    class CreateItemServiceTest
+    public class CreateItemServiceTest
     {
         private IGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
