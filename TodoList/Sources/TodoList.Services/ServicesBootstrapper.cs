@@ -12,6 +12,7 @@ namespace TodoList.Services.Bootstrap
                 .RegisterType<IGuidGenerator, GuidGenerator>(new HierarchicalLifetimeManager())
                 .RegisterType<ICreateItemService, CreateItemService>(new HierarchicalLifetimeManager())
                 .RegisterType<IUpdateItemService, UpdateItemService>(new HierarchicalLifetimeManager())
-                .RegisterType<IDateTimeGenerator, DateTimeGenerator>(new HierarchicalLifetimeManager());
+                .RegisterType<IDateTimeGenerator, DateTimeGenerator>(new HierarchicalLifetimeManager())
+                .RegisterType<IItemAcquisitionService, ItemAcquisitionService>(new HierarchicalLifetimeManager());
     }
 }
