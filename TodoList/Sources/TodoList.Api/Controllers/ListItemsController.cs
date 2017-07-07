@@ -14,13 +14,16 @@ namespace TodoList.Api.Controllers
         private readonly IListItemUrlGenerator _urlGenerator;
         private readonly ICreateItemService _createItemService;
         private readonly IUpdateItemService _updateItemService;
+        private readonly IItemAcquisitionService _itemAcquisitionService;
 
-        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator, ICreateItemService createItemService, IUpdateItemService updateItemService)
+        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator,
+            ICreateItemService createItemService, IUpdateItemService updateItemService, IItemAcquisitionService itemAcquisitionService)
         {
             _listItemsRepository = listItemsRepository;
             _urlGenerator = urlGenerator;
             _createItemService = createItemService;
             _updateItemService = updateItemService;
+            _itemAcquisitionService = itemAcquisitionService;
         }
 
         public async Task<IHttpActionResult> GetAsync() 
@@ -35,7 +38,14 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _listItemsRepository.GetAsync(id));
+            //TODO 
+            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
+            if (!acquisitionResult.WasSuccessful)
+            {
+                return NotFound();
+            }
+
+            return Ok(acquisitionResult.AcquiredItem);
         }
 
         public async Task<IHttpActionResult> PostAsync(ListItem item)
@@ -52,9 +62,19 @@ namespace TodoList.Api.Controllers
 
             return Created(location, createdItem);
         }
-        
-        public async Task<IHttpActionResult> PutAsync(ListItem item) 
-            => Ok(await _updateItemService.UpdateExistingItemAsync(item));
+
+        public async Task<IHttpActionResult> PutAsync(ListItem item)
+        {
+            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
+            if (!acquisitionResult.WasSuccessful)
+            {
+                return NotFound();
+            }
+
+            var updatedItem = await _updateItemService.UpdateExistingItemAsync(acquisitionResult, item);
+
+            return Ok(updatedItem);
+        }
 
         public async Task<IHttpActionResult> DeleteAsync(Guid id)
         {
