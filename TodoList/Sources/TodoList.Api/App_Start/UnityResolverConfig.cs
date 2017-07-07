@@ -4,7 +4,7 @@ using TodoList.Api.Bootstrap;
 using TodoList.Api.Resolvers;
 using TodoList.Contracts.Bootstrap;
 using TodoList.Repositories;
-using TodoList.Services.Bootstrap;
+using TodoList.Services;
 
 namespace TodoList.Api
 {
