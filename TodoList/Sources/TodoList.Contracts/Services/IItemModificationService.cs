@@ -4,7 +4,7 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Contracts.Services
 {
-    public interface IUpdateItemService
+    public interface IItemModificationService
     {
         Task<ListItem> UpdateExistingItemAsync(AcquisitionResult acquisitionResult, ListItem modifiedItem);
         

@@ -6,12 +6,12 @@ using TodoList.Contracts.Services;
 
 namespace TodoList.Services.ListItemController
 {
-    internal class UpdateItemService : IUpdateItemService
+    internal class ItemModificationService : IItemModificationService
     {
         private readonly IListItemRepository _itemRepository;
         private readonly IDateTimeGenerator _dateTimeGenerator;
 
-        public UpdateItemService(IListItemRepository itemRepository, IDateTimeGenerator dateTimeGenerator)
+        public ItemModificationService(IListItemRepository itemRepository, IDateTimeGenerator dateTimeGenerator)
         {
             _itemRepository = itemRepository;
             _dateTimeGenerator = dateTimeGenerator;

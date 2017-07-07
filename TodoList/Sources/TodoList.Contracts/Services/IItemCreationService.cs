@@ -3,7 +3,7 @@ using TodoList.Contracts.Models;
 
 namespace TodoList.Contracts.Services
 {
-    public interface ICreateItemService
+    public interface IItemCreationService
     {
         Task<ListItem> CreateNewItemAsync(ListItem item);
     }

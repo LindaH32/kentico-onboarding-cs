@@ -10,8 +10,8 @@ namespace TodoList.Services.Bootstrap
         public IUnityContainer Register(IUnityContainer container)
             => container
                 .RegisterType<IGuidGenerator, GuidGenerator>(new HierarchicalLifetimeManager())
-                .RegisterType<ICreateItemService, CreateItemService>(new HierarchicalLifetimeManager())
-                .RegisterType<IUpdateItemService, UpdateItemService>(new HierarchicalLifetimeManager())
+                .RegisterType<IItemCreationService, ItemCreationService>(new HierarchicalLifetimeManager())
+                .RegisterType<IItemModificationService, ItemModificationService>(new HierarchicalLifetimeManager())
                 .RegisterType<IDateTimeGenerator, DateTimeGenerator>(new HierarchicalLifetimeManager())
                 .RegisterType<IItemAcquisitionService, ItemAcquisitionService>(new HierarchicalLifetimeManager());
     }

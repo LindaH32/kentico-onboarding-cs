@@ -12,17 +12,17 @@ namespace TodoList.Api.Controllers
     {
         private readonly IListItemRepository _listItemsRepository;
         private readonly IListItemUrlGenerator _urlGenerator;
-        private readonly ICreateItemService _createItemService;
-        private readonly IUpdateItemService _updateItemService;
+        private readonly IItemCreationService _itemCreationService;
+        private readonly IItemModificationService _itemModificationService;
         private readonly IItemAcquisitionService _itemAcquisitionService;
 
         public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator,
-            ICreateItemService createItemService, IUpdateItemService updateItemService, IItemAcquisitionService itemAcquisitionService)
+            IItemCreationService itemCreationService, IItemModificationService itemModificationService, IItemAcquisitionService itemAcquisitionService)
         {
             _listItemsRepository = listItemsRepository;
             _urlGenerator = urlGenerator;
-            _createItemService = createItemService;
-            _updateItemService = updateItemService;
+            _itemCreationService = itemCreationService;
+            _itemModificationService = itemModificationService;
             _itemAcquisitionService = itemAcquisitionService;
         }
 
@@ -57,7 +57,7 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            ListItem createdItem = await _createItemService.CreateNewItemAsync(item);
+            ListItem createdItem = await _itemCreationService.CreateNewItemAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);
@@ -71,7 +71,7 @@ namespace TodoList.Api.Controllers
                 return NotFound();
             }
 
-            var updatedItem = await _updateItemService.UpdateExistingItemAsync(acquisitionResult, item);
+            var updatedItem = await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, item);
 
             return Ok(updatedItem);
         }

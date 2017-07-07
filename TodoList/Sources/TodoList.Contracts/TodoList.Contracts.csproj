@@ -69,9 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDateTimeGenerator.cs" />
     <Compile Include="Services\IGuidGenerator.cs" />
-    <Compile Include="Services\ICreateItemService.cs" />
+    <Compile Include="Services\IItemCreationService.cs" />
     <Compile Include="Services\IItemAcquisitionService.cs" />
-    <Compile Include="Services\IUpdateItemService.cs" />
+    <Compile Include="Services\IItemModificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
