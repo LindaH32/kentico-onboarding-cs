@@ -1,9 +1,10 @@
 ﻿using Microsoft.Practices.Unity;
 using TodoList.Contracts.Bootstrap;
 using TodoList.Contracts.Services;
-using TodoList.Services.ListItemController;
+using TodoList.Services.ListItemServices;
+using TodoList.Services.Wrappers;
 
-namespace TodoList.Services.Bootstrap
+namespace TodoList.Services
 {
     public class ServicesBootstrapper : IBootstrapper
     {

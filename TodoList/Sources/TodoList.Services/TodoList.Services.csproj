@@ -57,11 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ServicesBootstrapper.cs" />
-    <Compile Include="ListItem\ItemCreationService.cs" />
+    <Compile Include="ListItemServices\ItemCreationService.cs" />
     <Compile Include="Wrappers\DateTimeGenerator.cs" />
     <Compile Include="Wrappers\GuidGenerator.cs" />
-    <Compile Include="ListItem\ItemAcquisitionService.cs" />
-    <Compile Include="ListItem\ItemModificationService.cs" />
+    <Compile Include="ListItemServices\ItemAcquisitionService.cs" />
+    <Compile Include="ListItemServices\ItemModificationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

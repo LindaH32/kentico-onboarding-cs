@@ -4,7 +4,7 @@ using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
 
-namespace TodoList.Services.ListItemController
+namespace TodoList.Services.ListItemServices
 {
     internal class ItemModificationService : IItemModificationService
     {
