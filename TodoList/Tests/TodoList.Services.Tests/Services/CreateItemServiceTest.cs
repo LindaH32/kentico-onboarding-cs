@@ -5,7 +5,7 @@ using TodoList.Contracts.Base.Models;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
-using TodoList.Services.ListItemController;
+using TodoList.Services.ListItemServices;
 
 namespace TodoList.Services.Tests.Services
 {
@@ -15,7 +15,7 @@ namespace TodoList.Services.Tests.Services
         private IGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
         private IDateTimeGenerator _dateTimeGenerator;
-        private ICreateItemService _createItemService;
+        private IItemCreationService _itemCreationService;
 
         [SetUp]
         public void Init()
@@ -24,7 +24,7 @@ namespace TodoList.Services.Tests.Services
             _itemRepository = Substitute.For<IListItemRepository>();
             _dateTimeGenerator = Substitute.For<IDateTimeGenerator>();
 
-            _createItemService = new CreateItemService(_itemRepository, _guidGenerator, _dateTimeGenerator);
+            _itemCreationService = new ItemCreationService(_itemRepository, _guidGenerator, _dateTimeGenerator);
         }
 
         [Test]
@@ -32,15 +32,14 @@ namespace TodoList.Services.Tests.Services
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
             var date = new DateTime(year: 2017, month: 10, day: 5, hour: 10, minute: 39, second: 4);
-            var postedItem = new ListItem { Id = Guid.Empty, Text = "hippopotamus" };
-            var expectedItem = new ListItem { Id = itemGuid, Text = postedItem.Text, CreationDateTime = date, UpdateDateTime = date };
+            var postedListItem = new ListItem { Id = Guid.Empty, Text = "hippopotamus" };
+            var expectedListItem = new ListItem { Id = itemGuid, Text = postedListItem.Text, CreationDateTime = date, UpdateDateTime = date };
             _guidGenerator.GenerateGuid().Returns(itemGuid);
-            //_itemRepository.CreateAsync(Arg.Any<ListItem>()).Returns(info => info.Arg<ListItem>());
             _dateTimeGenerator.GenerateDateTime().Returns(date, DateTime.MinValue);
 
-            var actualItem = _createItemService.CreateNewItemAsync(postedItem).Result;
+            var actualItem = _itemCreationService.CreateNewItemAsync(postedListItem).Result;
             
-            Assert.That(actualItem, Is.EqualTo(expectedItem).UsingListItemComparer());
+            Assert.That(actualItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
         }
     }
 }

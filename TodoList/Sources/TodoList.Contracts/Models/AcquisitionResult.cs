@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace TodoList.Contracts.Models
+﻿namespace TodoList.Contracts.Models
 {
     public class AcquisitionResult
     {
@@ -12,5 +10,6 @@ namespace TodoList.Contracts.Models
         public ListItem AcquiredItem { get; set; }
 
         public bool WasSuccessful => AcquiredItem != null;
+        
     }
 }
