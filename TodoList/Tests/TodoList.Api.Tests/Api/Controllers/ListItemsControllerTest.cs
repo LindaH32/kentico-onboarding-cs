@@ -22,20 +22,23 @@ namespace TodoList.Api.Tests.Api.Controllers
         private readonly Guid _guidOfFirstItem = new Guid("98DBDE18-639E-49A6-8E51-603CEB2AE92D");
         private readonly Guid _guidOfSecondItem = new Guid("1C353E0A-5481-4C31-BD2E-47E1BAF84DBE");
         private readonly Guid _guidOfThirdItem = new Guid("D69E065C-99B1-4A73-B00C-AD05F071861F");
+        private readonly Guid _guidOfNoItem = new Guid("0A627543-6890-45B4-BFDF-C94FBACA3E6F");
         private ListItemsController _controller;
         private IListItemUrlGenerator _urlGenerator;
-        private ICreateItemService _createItemService;
-        private IUpdateItemService _updateItemService;
+        private IItemCreationService _itemCreationService;
+        private IItemModificationService _itemModificationService;
+        private IItemAcquisitionService _itemAcquisitionService;
 
         [SetUp]
         public void Init()
         {
             _repository = Substitute.For<IListItemRepository>();
             _urlGenerator = Substitute.For<IListItemUrlGenerator>();
-            _createItemService = Substitute.For<ICreateItemService>();
-            _updateItemService = Substitute.For<IUpdateItemService>();
+            _itemCreationService = Substitute.For<IItemCreationService>();
+            _itemModificationService = Substitute.For<IItemModificationService>();
+            _itemAcquisitionService = Substitute.For<IItemAcquisitionService>();
 
-            _controller = new ListItemsController(_repository, _urlGenerator, _createItemService, _updateItemService)
+            _controller = new ListItemsController(_repository, _urlGenerator, _itemCreationService, _itemModificationService, _itemAcquisitionService)
             {
                 Configuration = new HttpConfiguration(),
                 Request = new HttpRequestMessage(),
@@ -61,7 +64,8 @@ namespace TodoList.Api.Tests.Api.Controllers
         public void GetAsync_ById_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
-            _repository.GetAsync(_guidOfFirstItem).Returns(expectedListItem);
+            var acquisitionResult = AcquisitionResult.Create(expectedListItem);
+            _itemAcquisitionService.GetItemAsync(_guidOfFirstItem).Returns(acquisitionResult);
 
             var actionResult = _controller.GetAsync(_guidOfFirstItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -73,7 +77,7 @@ namespace TodoList.Api.Tests.Api.Controllers
         }
 
         [Test]
-        public void GetAsync_ById_ReturnsCorrectErrorResponse()
+        public void GetAsync_EmptyGuid_ReturnsCorrectErrorResponse()
         {
             var expectedKeys = new[] { "Id" };
 
@@ -84,6 +88,21 @@ namespace TodoList.Api.Tests.Api.Controllers
             
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
+        }
+
+        [Test]
+        public void GetAsync_NonExistingGuid_ReturnsCorrectErrorResponse()
+        {
+            
+            var acquisitionResult = AcquisitionResult.Create(null);
+            _itemAcquisitionService.GetItemAsync(_guidOfNoItem).Returns(acquisitionResult);
+
+            var actionResult = _controller.GetAsync(_guidOfNoItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
 
         [Test]
@@ -164,7 +183,7 @@ namespace TodoList.Api.Tests.Api.Controllers
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
             var postedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
             var expectedLocation = new Uri($"api/v1/ListItems/{_guidOfFirstItem}", UriKind.Relative);
-            _createItemService.CreateNewItemAsync(postedListItem).Returns(expectedListItem);
+            _itemCreationService.CreateNewItemAsync(postedListItem).Returns(expectedListItem);
             _urlGenerator.GenerateUrl(expectedListItem).Returns(callInfo => $"api/v1/ListItems/{callInfo.Arg<ListItem>().Id}");
 
             var actionResult = _controller.PostAsync(postedListItem).Result;
@@ -179,11 +198,14 @@ namespace TodoList.Api.Tests.Api.Controllers
         }
 
         [Test]
-        public void PutAsync_ReturnsCorrectResponse()
+        public void PutAsync_WithValidArguments_ReturnsCorrectResponse()
         {
+            var databaseListItem = new ListItem { Id = _guidOfThirdItem, Text = "random" };
             var expectedListItem = new ListItem { Id = _guidOfThirdItem, Text = "updated" };
-            var updatedListItem = new ListItem { Id = Guid.Empty, Text = "newText" };
-            _updateItemService.UpdateExistingItemAsync(updatedListItem).Returns(expectedListItem);
+            var updatedListItem = new ListItem { Id = _guidOfThirdItem, Text = "newText" };
+            var acquisitionResult = AcquisitionResult.Create(databaseListItem);
+            _itemAcquisitionService.GetItemAsync(_guidOfThirdItem).Returns(acquisitionResult);
+            _itemModificationService.UpdateExistingItemAsync(acquisitionResult, updatedListItem).Returns(expectedListItem);
 
             var actionResult = _controller.PutAsync(updatedListItem).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
@@ -192,6 +214,19 @@ namespace TodoList.Api.Tests.Api.Controllers
 
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(actualListItem, Is.EqualTo(expectedListItem).UsingListItemComparer());
+        }
+
+        [Test]
+        public void PutAsync_ItemWithNonExistingId_ReturnsCorrectErrorResponse()
+        {
+            var updatedListItem = new ListItem { Id = _guidOfNoItem, Text = "newText" };
+            var acquisitionResult = AcquisitionResult.Create(null);
+            _itemAcquisitionService.GetItemAsync(_guidOfNoItem).Returns(acquisitionResult);
+
+            var actionResult = _controller.PutAsync(updatedListItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
     }
 }
