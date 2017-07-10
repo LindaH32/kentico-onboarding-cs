@@ -60,9 +60,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ItemCreationServiceTest.cs" />
-    <Compile Include="Services\ItemAcquisitionServiceTest.cs" />
-    <Compile Include="Services\ItemModificationServiceTest.cs" />
+    <Compile Include="ListItemServices\ItemCreationServiceTest.cs" />
+    <Compile Include="ListItemServices\ItemAcquisitionServiceTest.cs" />
+    <Compile Include="ListItemServices\ItemModificationServiceTest.cs" />
+    <Compile Include="Wrappers\DateTimeGeneratorTest.cs" />
+    <Compile Include="Wrappers\GuidGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\TodoList.Contracts\TodoList.Contracts.csproj">
