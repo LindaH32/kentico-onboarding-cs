@@ -8,7 +8,7 @@ using TodoList.Contracts.Services;
 using TodoList.Services.ListItemServices;
 using Assert = NUnit.Framework.Assert;
 
-namespace TodoList.Services.Tests.Services
+namespace TodoList.Services.Tests.ListItemServices
 {
     [TestFixture]
     public class ItemModificationServiceTest

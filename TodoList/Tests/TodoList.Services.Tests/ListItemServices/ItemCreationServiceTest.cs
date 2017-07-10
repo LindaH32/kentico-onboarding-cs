@@ -7,7 +7,7 @@ using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
 using TodoList.Services.ListItemServices;
 
-namespace TodoList.Services.Tests.Services
+namespace TodoList.Services.Tests.ListItemServices
 {
     [TestFixture]
     public class ItemCreationServiceTest
