@@ -6,7 +6,7 @@ using TodoList.Contracts.Services;
 
 namespace TodoList.Services.ListItemServices
 {
-    public class ItemAcquisitionService: IItemAcquisitionService
+    internal class ItemAcquisitionService: IItemAcquisitionService
     {
         private readonly IListItemRepository _itemRepository;
 
