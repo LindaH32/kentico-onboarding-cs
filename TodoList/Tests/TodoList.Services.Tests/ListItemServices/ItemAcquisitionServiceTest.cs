@@ -34,8 +34,7 @@ namespace TodoList.Services.Tests.ListItemServices
 
             var actualAcquisitionResult = _itemAcquisitionService.GetItemAsync(itemGuid).Result;
 
-            Assert.That(actualAcquisitionResult.AcquiredItem, Is.EqualTo(expectedAcquisitionResult.AcquiredItem).UsingListItemComparer());
-            Assert.That(actualAcquisitionResult.WasSuccessful, Is.EqualTo(expectedAcquisitionResult.WasSuccessful)); //TODO
+            Assert.That(actualAcquisitionResult, Is.EqualTo(expectedAcquisitionResult).UsingAcquisitionResultComparer());
         }
 
         [Test]
@@ -47,8 +46,7 @@ namespace TodoList.Services.Tests.ListItemServices
 
             var actualAcquisitionResult = _itemAcquisitionService.GetItemAsync(itemGuid).Result;
 
-            Assert.That(actualAcquisitionResult.AcquiredItem, Is.EqualTo(expectedAcquisitionResult.AcquiredItem).UsingListItemComparer());
-            Assert.That(actualAcquisitionResult.WasSuccessful, Is.EqualTo(expectedAcquisitionResult.WasSuccessful)); //TODO
+            Assert.That(actualAcquisitionResult, Is.EqualTo(expectedAcquisitionResult).UsingAcquisitionResultComparer());
         }
     }
 }

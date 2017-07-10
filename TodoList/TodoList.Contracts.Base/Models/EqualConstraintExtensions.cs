@@ -7,10 +7,16 @@ namespace TodoList.Contracts.Base.Models
 {
     public static class EqualConstraintExtensions
     {
-        private static readonly Lazy<IEqualityComparer<ListItem>> Comparer = new Lazy<IEqualityComparer<ListItem>>(()=> new ListItemComparer()) ;
+        private static readonly Lazy<IEqualityComparer<ListItem>> ItemComparer = new Lazy<IEqualityComparer<ListItem>>(()=> new ListItemComparer()) ;
+
+        private static readonly Lazy<IEqualityComparer<AcquisitionResult>> ResultComparer = new Lazy<IEqualityComparer<AcquisitionResult>>(() => new AcquisitionResultComparer());
+
 
         public static EqualConstraint UsingListItemComparer(this EqualConstraint constraint) 
-            => constraint.Using(Comparer.Value);
+            => constraint.Using(ItemComparer.Value);
+
+        public static EqualConstraint UsingAcquisitionResultComparer(this EqualConstraint constraint)
+            => constraint.Using(ResultComparer.Value);
 
         private sealed class ListItemComparer : IEqualityComparer<ListItem>
         {
@@ -20,7 +26,7 @@ namespace TodoList.Contracts.Base.Models
                 if (ReferenceEquals(x, null)) return false;
                 if (ReferenceEquals(y, null)) return false;
                 if (x.GetType() != y.GetType()) return false;
-                return x.Id.Equals(y.Id) && string.Equals(x.Text, y.Text) && x.CreationDateTime.Equals(y.CreationDateTime) && x.UpdateDateTime.Equals(y.UpdateDateTime);
+                return x.Id.Equals(y.Id) && String.Equals(x.Text, y.Text) && x.CreationDateTime.Equals(y.CreationDateTime) && x.UpdateDateTime.Equals(y.UpdateDateTime);
             }
 
             public int GetHashCode(ListItem obj)
@@ -35,5 +41,23 @@ namespace TodoList.Contracts.Base.Models
                 }
             }
         }
+
+        private sealed class AcquisitionResultComparer : IEqualityComparer<AcquisitionResult>
+        {
+            public bool Equals(AcquisitionResult x, AcquisitionResult y)
+            {
+                if (ReferenceEquals(x, y)) return true;
+                if (ReferenceEquals(x, null)) return false;
+                if (ReferenceEquals(y, null)) return false;
+                if (x.GetType() != y.GetType()) return false;
+                return ItemComparer.Value.Equals(x.AcquiredItem, y.AcquiredItem) && Equals(x.WasSuccessful, y.WasSuccessful);
+            }
+
+            public int GetHashCode(AcquisitionResult obj)
+            {
+                return (obj.AcquiredItem != null ? obj.AcquiredItem.GetHashCode() : 0);
+            }
+        }
+
     }
 }

@@ -36,7 +36,7 @@ namespace TodoList.Services.Tests.ListItemServices
             var postedListItem = new ListItem { Id = itemGuid, Text = "hippopotamus" };
             var expectedListItem = new ListItem { Id = itemGuid, Text = postedListItem.Text, CreationDateTime = creationTime, UpdateDateTime = updateTime };
             var acquisitionResult = AcquisitionResult.Create(databaseListItem);
-            _dateTimeGenerator.GenerateDateTime().Returns(updateTime, DateTime.MinValue);
+            _dateTimeGenerator.GetCurrentDateTime().Returns(updateTime, DateTime.MinValue);
 
             var actualItem = _itemModificationService.UpdateExistingItemAsync(acquisitionResult, postedListItem).Result;
 
