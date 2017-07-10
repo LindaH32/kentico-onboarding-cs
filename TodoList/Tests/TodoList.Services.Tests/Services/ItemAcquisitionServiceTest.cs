@@ -9,6 +9,7 @@ using TodoList.Services.ListItemServices;
 
 namespace TodoList.Services.Tests.Services
 {
+    [TestFixture]
     public class ItemAcquisitionServiceTest
     {
         private IListItemRepository _itemRepository;
@@ -34,7 +35,7 @@ namespace TodoList.Services.Tests.Services
             var actualAcquisitionResult = _itemAcquisitionService.GetItemAsync(itemGuid).Result;
 
             Assert.That(actualAcquisitionResult.AcquiredItem, Is.EqualTo(expectedAcquisitionResult.AcquiredItem).UsingListItemComparer());
-            Assert.That(actualAcquisitionResult.WasSuccessful, Is.EqualTo(expectedAcquisitionResult.WasSuccessful)); //TODO redundant
+            Assert.That(actualAcquisitionResult.WasSuccessful, Is.EqualTo(expectedAcquisitionResult.WasSuccessful)); //TODO
         }
 
         [Test]
@@ -42,12 +43,12 @@ namespace TodoList.Services.Tests.Services
         {
             var itemGuid = new Guid("FD33B000-D838-49A9-B5F8-83C3FBF4A4EB");
             var expectedAcquisitionResult = AcquisitionResult.Create(null);
-            _itemRepository.GetAsync(itemGuid).Returns((ListItem) null); //TODO type
+            _itemRepository.GetAsync(itemGuid).Returns((ListItem) null);
 
             var actualAcquisitionResult = _itemAcquisitionService.GetItemAsync(itemGuid).Result;
 
             Assert.That(actualAcquisitionResult.AcquiredItem, Is.EqualTo(expectedAcquisitionResult.AcquiredItem).UsingListItemComparer());
-            Assert.That(actualAcquisitionResult.WasSuccessful, Is.EqualTo(expectedAcquisitionResult.WasSuccessful)); //TODO redundant
+            Assert.That(actualAcquisitionResult.WasSuccessful, Is.EqualTo(expectedAcquisitionResult.WasSuccessful)); //TODO
         }
     }
 }

@@ -27,7 +27,7 @@ namespace TodoList.Services.Tests.Services
         }
 
         [Test]
-        public void SetupAndUpdateItemAsync_WithValidArguments_ReturnsCorrectListItem()
+        public void UpdateExistingItemAsync_WithValidArguments_ReturnsCorrectListItem()
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
             var creationTime = new DateTime(year: 2017, month: 8, day: 1, hour: 12, minute: 55, second: 55);
@@ -44,30 +44,15 @@ namespace TodoList.Services.Tests.Services
         }
 
         [Test]
-        public void SetupAndUpdateItemAsync_WithFailedAcquisitionResult_ThrowsCorrectException()
+        public void UpdateExistingItemAsync_WithUnsuccessfulAcquisitionResult_ThrowsCorrectException()
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
-            var postedListItem = new ListItem { Id = itemGuid, Text = "hippopotamus" };
+            var postedListItem = new ListItem {Id = itemGuid, Text = "hippopotamus"};
             var acquisitionResult = AcquisitionResult.Create(null);
-            //TODO fix aggregated exception throw
-            try
-            {
-                _itemModificationService.UpdateExistingItemAsync(acquisitionResult, postedListItem);
-            }
-            catch (AggregateException e)
-            {
-                if (e.InnerException.GetType() == typeof(ArgumentException))
-                {
-                    Assert.IsTrue(true);
-                }
-                else
-                {
-                    Assert.Fail("There is no ArgumentException m8");
-                }
-            }
 
+            AsyncTestDelegate act = async () => await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, postedListItem);
 
+            Assert.That(act, Throws.TypeOf<ArgumentException>());
         }
-
     }
 }

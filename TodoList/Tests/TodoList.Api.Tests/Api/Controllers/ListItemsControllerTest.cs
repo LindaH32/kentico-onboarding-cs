@@ -106,7 +106,7 @@ namespace TodoList.Api.Tests.Api.Controllers
         }
 
         [Test]
-        public void GetAsync_WithoutParams_ReturnsTestItems_ReturnsCorrectResponse()
+        public void GetAsync_WithoutArguments_ReturnsTestItems_ReturnsCorrectResponse()
         {
             var expectedListItems = new List<ListItem>
             {

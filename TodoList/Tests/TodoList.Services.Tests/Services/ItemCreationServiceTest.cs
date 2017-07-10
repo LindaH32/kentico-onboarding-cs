@@ -28,7 +28,7 @@ namespace TodoList.Services.Tests.Services
         }
 
         [Test]
-        public void SetupAndCreateItemAsync_ReturnsCorrectListItem()
+        public void CreateNewItemAsync_ReturnsCorrectListItem()
         {
             var itemGuid = new Guid("0478a8c4-4f17-49b1-b61b-df1156465505");
             var date = new DateTime(year: 2017, month: 10, day: 5, hour: 10, minute: 39, second: 4);
