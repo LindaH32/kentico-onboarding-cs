@@ -55,6 +55,5 @@ namespace TodoList.Services.Tests.Wrappers
             Assert.That(generatedDateTime, Is.Not.EqualTo(DateTime.MinValue));
             Assert.That(generatedDateTime, Is.Not.EqualTo(DateTime.MaxValue));
         }
-
     }
 }

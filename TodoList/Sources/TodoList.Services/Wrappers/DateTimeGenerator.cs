@@ -8,7 +8,6 @@ namespace TodoList.Services.Wrappers
     internal class DateTimeGenerator : IDateTimeGenerator
     {        
         public async Task<DateTime> GetCurrentDateTime()
-            => await Task.FromResult(DateTime.Now);
-        
+            => await Task.FromResult(DateTime.Now);        
     }
 }

@@ -11,6 +11,7 @@ namespace TodoList.Services.Tests.Wrappers
     public class GuidGeneratorTest
     {
         private IGuidGenerator _guidGenerator;
+
         [SetUp]
         public void Init()
         {
@@ -38,7 +39,5 @@ namespace TodoList.Services.Tests.Wrappers
 
             Assert.That(generatedGuid, Is.Not.EqualTo(Guid.Empty));
         }
-
-
     }
 }

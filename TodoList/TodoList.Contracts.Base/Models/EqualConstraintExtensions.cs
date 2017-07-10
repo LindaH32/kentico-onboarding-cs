@@ -10,8 +10,7 @@ namespace TodoList.Contracts.Base.Models
         private static readonly Lazy<IEqualityComparer<ListItem>> ItemComparer = new Lazy<IEqualityComparer<ListItem>>(()=> new ListItemComparer()) ;
 
         private static readonly Lazy<IEqualityComparer<AcquisitionResult>> ResultComparer = new Lazy<IEqualityComparer<AcquisitionResult>>(() => new AcquisitionResultComparer());
-
-
+        
         public static EqualConstraint UsingListItemComparer(this EqualConstraint constraint) 
             => constraint.Using(ItemComparer.Value);
 
@@ -58,6 +57,5 @@ namespace TodoList.Contracts.Base.Models
                 return (obj.AcquiredItem != null ? obj.AcquiredItem.GetHashCode() : 0);
             }
         }
-
     }
 }
