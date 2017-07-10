@@ -10,7 +10,7 @@ using TodoList.Services.ListItemServices;
 namespace TodoList.Services.Tests.Services
 {
     [TestFixture]
-    public class CreateItemServiceTest
+    public class ItemCreationServiceTest
     {
         private IGuidGenerator _guidGenerator;
         private IListItemRepository _itemRepository;
