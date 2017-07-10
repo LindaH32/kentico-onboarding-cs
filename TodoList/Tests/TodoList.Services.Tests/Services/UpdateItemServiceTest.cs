@@ -11,7 +11,7 @@ using Assert = NUnit.Framework.Assert;
 namespace TodoList.Services.Tests.Services
 {
     [TestFixture]
-    public class UpdateItemServiceTest
+    public class ItemModificationServiceTest
     {
         private IListItemRepository _itemRepository;
         private IDateTimeGenerator _dateTimeGenerator;
