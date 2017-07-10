@@ -37,8 +37,7 @@ namespace TodoList.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            //TODO 
+            
             var acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
             if (!acquisitionResult.WasSuccessful)
             {

@@ -7,9 +7,8 @@
 
         private AcquisitionResult() { }
 
-        public ListItem AcquiredItem { get; set; }
+        public ListItem AcquiredItem { get; private set; }
 
         public bool WasSuccessful => AcquiredItem != null;
-        
     }
 }

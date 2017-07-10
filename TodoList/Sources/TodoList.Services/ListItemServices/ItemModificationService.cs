@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
@@ -25,7 +25,7 @@ namespace TodoList.Services.ListItemServices
             }
 
             ListItem existingItem = acquisitionResult.AcquiredItem;
-            existingItem.UpdateDateTime = _dateTimeGenerator.GenerateDateTime();
+            existingItem.UpdateDateTime = await _dateTimeGenerator.GetCurrentDateTime();
             existingItem.Text = modifiedItem.Text;
 
             await _itemRepository.UpdateAsync(existingItem);

@@ -21,10 +21,10 @@ namespace TodoList.Services.ListItemServices
 
         public async Task<ListItem> CreateNewItemAsync(ListItem item)
         {
-            DateTime currentDateTime = _dateTimeGenerator.GenerateDateTime();
+            DateTime currentDateTime = await _dateTimeGenerator.GetCurrentDateTime();
             ListItem newItem = new ListItem
             {
-                Id = _guidGenerator.GenerateGuid(),
+                Id = await _guidGenerator.GenerateGuid(),
                 Text = item.Text,
                 CreationDateTime = currentDateTime,
                 UpdateDateTime = currentDateTime

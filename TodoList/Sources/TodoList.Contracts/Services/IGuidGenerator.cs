@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace TodoList.Contracts.Services
 {
     public interface IGuidGenerator
     {
-        Guid GenerateGuid();
+        Task<Guid> GenerateGuid();
     }
 }
