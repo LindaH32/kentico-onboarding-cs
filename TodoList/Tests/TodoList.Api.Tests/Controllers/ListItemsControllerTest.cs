@@ -13,7 +13,7 @@ using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
 using TodoList.Contracts.Services;
 
-namespace TodoList.Api.Tests.Api.Controllers
+namespace TodoList.Api.Tests.Controllers
 {
     [TestFixture]
     public class ListItemsControllerTest
