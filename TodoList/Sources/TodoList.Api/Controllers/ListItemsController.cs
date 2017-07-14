@@ -64,6 +64,14 @@ namespace TodoList.Api.Controllers
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
         {
+            ValidateItemId(item.Id);
+            ValidateItemText(item.Text);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             AcquisitionResult acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
             if (!acquisitionResult.WasSuccessful)
             {
@@ -94,6 +102,22 @@ namespace TodoList.Api.Controllers
             return Ok(deletedItem);
         }
 
+        private void ValidateItemId(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(ListItem.Id), "Guid is empty");
+            }
+        }
+
+        private void ValidateItemText(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
+            }
+        }
+
         private void ValidatePostItem(ListItem item)
         {
             if (item == null)
@@ -102,22 +126,11 @@ namespace TodoList.Api.Controllers
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(item.Text))
-            {
-                ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
-            }
+            ValidateItemText(item.Text);
 
             if (item.Id != Guid.Empty)
             {
                 ModelState.AddModelError(nameof(ListItem.Id), "Guid is not empty");
-            }
-        }
-
-        private void ValidateItemId(Guid id)
-        {
-            if (id == Guid.Empty)
-            {
-                ModelState.AddModelError(nameof(ListItem.Id), "Guid is empty");
             }
         }
     }
