@@ -38,7 +38,7 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
             
-            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
+            AcquisitionResult acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
             if (!acquisitionResult.WasSuccessful)
             {
                 return NotFound();
@@ -64,13 +64,13 @@ namespace TodoList.Api.Controllers
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
         {
-            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
+            AcquisitionResult acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
             if (!acquisitionResult.WasSuccessful)
             {
                 return NotFound();
             }
 
-            var updatedItem = await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, item);
+            ListItem updatedItem = await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, item);
 
             return Ok(updatedItem);
         }
