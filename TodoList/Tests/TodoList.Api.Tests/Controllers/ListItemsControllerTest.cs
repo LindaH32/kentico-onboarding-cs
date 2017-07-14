@@ -61,6 +61,33 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
+        public void DeleteAsync_withNonexistingGuid_ReturnsCorrectErrorResponse()
+        {
+            _repository.DeleteAsync(_guidOfSecondItem).Returns((ListItem) null);
+
+            var actionResult = _controller.DeleteAsync(_guidOfSecondItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            ListItem actualListItem;
+            responseMessage.TryGetContentValue(out actualListItem);
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
+
+        [Test]
+        public void DeleteAsync_withNullGuid_ReturnsCorrectErrorResponse()
+        {
+            var expectedKeys = new[] { "Id" };
+
+            var actionResult = _controller.DeleteAsync(Guid.Empty).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+            
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
+        }
+
+        [Test]
         public void GetAsync_ById_ReturnsCorrectResponse()
         {
             var expectedListItem = new ListItem { Id = _guidOfFirstItem, Text = "text" };
