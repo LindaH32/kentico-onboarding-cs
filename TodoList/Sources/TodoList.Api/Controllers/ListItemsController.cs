@@ -4,6 +4,7 @@ using System.Web.Http;
 using TodoList.Api.Services;
 using TodoList.Contracts.Models;
 using TodoList.Contracts.Repositories;
+using TodoList.Contracts.Services;
 
 namespace TodoList.Api.Controllers
 {
@@ -11,11 +12,18 @@ namespace TodoList.Api.Controllers
     {
         private readonly IListItemRepository _listItemsRepository;
         private readonly IListItemUrlGenerator _urlGenerator;
+        private readonly IItemCreationService _itemCreationService;
+        private readonly IItemModificationService _itemModificationService;
+        private readonly IItemAcquisitionService _itemAcquisitionService;
 
-        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator generator)
+        public ListItemsController(IListItemRepository listItemsRepository, IListItemUrlGenerator urlGenerator,
+            IItemCreationService itemCreationService, IItemModificationService itemModificationService, IItemAcquisitionService itemAcquisitionService)
         {
             _listItemsRepository = listItemsRepository;
-            _urlGenerator = generator;
+            _urlGenerator = urlGenerator;
+            _itemCreationService = itemCreationService;
+            _itemModificationService = itemModificationService;
+            _itemAcquisitionService = itemAcquisitionService;
         }
 
         public async Task<IHttpActionResult> GetAsync() 
@@ -29,8 +37,14 @@ namespace TodoList.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
+            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
+            if (!acquisitionResult.WasSuccessful)
+            {
+                return NotFound();
+            }
 
-            return Ok(await _listItemsRepository.GetAsync(id));
+            return Ok(acquisitionResult.AcquiredItem);
         }
 
         public async Task<IHttpActionResult> PostAsync(ListItem item)
@@ -42,17 +56,36 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            ListItem createdItem = await _listItemsRepository.CreateAsync(item);
+            ListItem createdItem = await _itemCreationService.CreateNewItemAsync(item);
             string location = _urlGenerator.GenerateUrl(createdItem);
 
             return Created(location, createdItem);
         }
 
-        public async Task<IHttpActionResult> PutAsync(ListItem item) 
-            => Ok(await _listItemsRepository.UpdateAsync(item));
+        public async Task<IHttpActionResult> PutAsync(ListItem item)
+        {
+            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
+            if (!acquisitionResult.WasSuccessful)
+            {
+                return NotFound();
+            }
 
-        public async Task<IHttpActionResult> DeleteAsync(Guid id) 
-            => Ok(await _listItemsRepository.DeleteAsync(id));
+            var updatedItem = await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, item);
+
+            return Ok(updatedItem);
+        }
+
+        public async Task<IHttpActionResult> DeleteAsync(Guid id)
+        {
+            ValidateItemId(id);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(await _listItemsRepository.DeleteAsync(id));
+        }
 
         private void ValidatePostItem(ListItem item)
         {
