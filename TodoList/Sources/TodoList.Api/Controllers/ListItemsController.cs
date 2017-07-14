@@ -84,7 +84,14 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _listItemsRepository.DeleteAsync(id));
+            ListItem deletedItem = await _listItemsRepository.DeleteAsync(id);
+
+            if (deletedItem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(deletedItem);
         }
 
         private void ValidatePostItem(ListItem item)
