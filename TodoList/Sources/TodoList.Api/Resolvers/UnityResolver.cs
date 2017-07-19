@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http.Dependencies;
 
@@ -27,8 +28,9 @@ namespace TodoList.Api.Resolvers
             {
                 return _container.Resolve(serviceType);
             }
-            catch (ResolutionFailedException)
+            catch (ResolutionFailedException ex)
             {
+                Debug.WriteLine(ex.ToString());
                 return null;
             }
         }

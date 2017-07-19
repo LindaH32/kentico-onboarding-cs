@@ -4,6 +4,7 @@ using TodoList.Api.Bootstrap;
 using TodoList.Api.Resolvers;
 using TodoList.Contracts.Bootstrap;
 using TodoList.Repositories;
+using TodoList.Services;
 
 namespace TodoList.Api
 {
@@ -12,13 +13,14 @@ namespace TodoList.Api
         public static void Register(HttpConfiguration config)
         {
             var container = new UnityContainer()
-                .RegisterTypes<RepositoryBootstrapper>()
-                .RegisterTypes<ApiBootstrapper>();
+                .RegisterAllTypesOf<RepositoryBootstrapper>()
+                .RegisterAllTypesOf<ApiBootstrapper>()
+                .RegisterAllTypesOf<ServicesBootstrapper>();
                 
             config.DependencyResolver = new UnityResolver(container);
         }
 
-        private static IUnityContainer RegisterTypes<TBootstrapper>(this IUnityContainer container)
+        private static IUnityContainer RegisterAllTypesOf<TBootstrapper>(this IUnityContainer container)
             where TBootstrapper : IBootstrapper, new()
             => new TBootstrapper().Register(container);
     }

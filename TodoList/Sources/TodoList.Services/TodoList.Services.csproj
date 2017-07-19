@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</ProjectGuid>
+    <ProjectGuid>{D3D02C04-F2E2-47DF-AB49-248028877279}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TodoList.Contracts</RootNamespace>
-    <AssemblyName>TodoList.Contracts</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>TodoList.Services</RootNamespace>
+    <AssemblyName>TodoList.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -46,13 +46,8 @@
       <HintPath>..\..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,17 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AcquisitionResult.cs" />
-    <Compile Include="Repositories\IConnectionDetails.cs" />
-    <Compile Include="Bootstrap\IBootstrapper.cs" />
-    <Compile Include="Repositories\IListItemRepository.cs" />
-    <Compile Include="Models\ListItem.cs" />
+    <Compile Include="ServicesBootstrapper.cs" />
+    <Compile Include="ListItemServices\ItemCreationService.cs" />
+    <Compile Include="Wrappers\DateTimeGenerator.cs" />
+    <Compile Include="Wrappers\GuidGenerator.cs" />
+    <Compile Include="ListItemServices\ItemAcquisitionService.cs" />
+    <Compile Include="ListItemServices\ItemModificationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IDateTimeGenerator.cs" />
-    <Compile Include="Services\IGuidGenerator.cs" />
-    <Compile Include="Services\IItemCreationService.cs" />
-    <Compile Include="Services\IItemAcquisitionService.cs" />
-    <Compile Include="Services\IItemModificationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TodoList.Contracts\TodoList.Contracts.csproj">
+      <Project>{01BAAE19-FE73-49E3-AC97-DD3D430EE26C}</Project>
+      <Name>TodoList.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TodoList.Repositories\TodoList.Repositories.csproj">
+      <Project>{36b90034-283e-4c90-945a-c877b71a4513}</Project>
+      <Name>TodoList.Repositories</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
