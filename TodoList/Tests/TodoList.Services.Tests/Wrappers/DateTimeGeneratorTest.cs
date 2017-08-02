@@ -27,7 +27,7 @@ namespace TodoList.Services.Tests.Wrappers
             const int precisionDeviationInMilliseconds = 3;
 
             var firstTime = await _dateTimeGenerator.GetCurrentDateTime();
-            WaitInMilliseconds(waitingTimeInMilliseconds);
+            Wait(waitingTimeInMilliseconds);
             var secondTime = await _dateTimeGenerator.GetCurrentDateTime();
             
             Assert.That(firstTime.AddMilliseconds(waitingTimeInMilliseconds), Is.EqualTo(secondTime).Within(precisionDeviationInMilliseconds).Milliseconds);
@@ -57,12 +57,12 @@ namespace TodoList.Services.Tests.Wrappers
             Assert.That(generatedDateTime, Is.Not.EqualTo(DateTime.MaxValue));
         }
 
-        private void WaitInMilliseconds(int milliseconds)
+        private void Wait(int milliseconds)
         {
             var stopWatch = Stopwatch.StartNew();
             while (stopWatch.ElapsedMilliseconds < milliseconds)
             {
-                //waiting
+                // waiting
             }
         }
     }
