@@ -32,7 +32,7 @@ namespace TodoList.Contracts.Base.Models
             {
                 unchecked
                 {
-                    var hashCode = obj.Id.GetHashCode();
+                    int hashCode = obj.Id.GetHashCode();
                     hashCode = (hashCode * 397) ^ (obj.Text?.GetHashCode() ?? 0);
                     hashCode = (hashCode * 397) ^ obj.CreationDateTime.GetHashCode();
                     hashCode = (hashCode * 397) ^ obj.UpdateDateTime.GetHashCode();

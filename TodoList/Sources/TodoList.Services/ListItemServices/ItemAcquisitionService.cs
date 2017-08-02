@@ -17,7 +17,7 @@ namespace TodoList.Services.ListItemServices
         
         public async Task<AcquisitionResult> GetItemAsync(Guid id)
         {
-            var acquiredItem = await _itemRepository.GetAsync(id);
+            ListItem acquiredItem = await _itemRepository.GetAsync(id);
             return AcquisitionResult.Create(acquiredItem);
         }
     }

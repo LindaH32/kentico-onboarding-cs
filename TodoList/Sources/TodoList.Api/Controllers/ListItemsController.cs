@@ -38,7 +38,7 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
             
-            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
+            AcquisitionResult acquisitionResult = await _itemAcquisitionService.GetItemAsync(id);
             if (!acquisitionResult.WasSuccessful)
             {
                 return NotFound();
@@ -77,7 +77,7 @@ namespace TodoList.Api.Controllers
                 return NotFound();
             }
 
-            var updatedItem = await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, item);
+            ListItem updatedItem = await _itemModificationService.UpdateExistingItemAsync(acquisitionResult, item);
 
             return Ok(updatedItem);
         }
@@ -91,7 +91,30 @@ namespace TodoList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _listItemsRepository.DeleteAsync(id));
+            ListItem deletedItem = await _listItemsRepository.DeleteAsync(id);
+
+            if (deletedItem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(deletedItem);
+        }
+
+        private void ValidateItemId(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                ModelState.AddModelError(nameof(ListItem.Id), "Guid is empty");
+            }
+        }
+
+        private void ValidateItemText(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
+            }
         }
 
         private void ValidatePutItem(ListItem item)
@@ -122,21 +145,6 @@ namespace TodoList.Api.Controllers
 
             ValidateItemText(item.Text);
         }
-
-        private void ValidateItemText(String text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                ModelState.AddModelError(nameof(ListItem.Text), "Text is null or empty");
-            }
-        }
-
-        private void ValidateItemId(Guid id)
-        {
-            if (id == Guid.Empty)
-            {
-                ModelState.AddModelError(nameof(ListItem.Id), "Guid is empty");
-            }
-        }
+        
     }
 }

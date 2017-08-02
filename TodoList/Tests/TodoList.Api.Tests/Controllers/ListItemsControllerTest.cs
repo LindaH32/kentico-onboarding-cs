@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using TodoList.Api.Controllers;
 using TodoList.Api.Services;
@@ -61,7 +62,20 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
-        public void DeleteAsync_EmptyGuid_ReturnsCorrectErrorResponse()
+        public void DeleteAsync_withNonexistingGuid_ReturnsCorrectErrorResponse()
+        {
+            _repository.DeleteAsync(_guidOfSecondItem).ReturnsNull();
+
+            var actionResult = _controller.DeleteAsync(_guidOfSecondItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            ListItem actualListItem;
+            responseMessage.TryGetContentValue(out actualListItem);
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
+
+        [Test]
+        public void DeleteAsync_withEmptyGuid_ReturnsCorrectErrorResponse()
         {
             var expectedKeys = new[] { "Id" };
 
@@ -69,7 +83,7 @@ namespace TodoList.Api.Tests.Controllers
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
-
+            
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
         }
@@ -243,41 +257,45 @@ namespace TodoList.Api.Tests.Controllers
         }
 
         [Test]
+        public void PutAsync_WithEmptyGuid_ReturnsCorrectErrorResponse()
+        {
+            var expectedKeys = new[] { "Id" };
+            var editedListItem = new ListItem { Id = Guid.Empty, Text = "text" };
+
+            var actionResult = _controller.PutAsync(editedListItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
+        }
+
+        [TestCase("")]
+        [TestCase("    ")]
+        [TestCase(null)]
+        public void PutAsync_ItemWithNoText_ReturnsCorrectErrorResponse(string updatedText)
+        {
+            var expectedKeys = new[] { "Text" };
+            var updatedListItem = new ListItem { Id = _guidOfFirstItem, Text = updatedText };
+
+            var actionResult = _controller.PutAsync(updatedListItem).Result;
+            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
+            HttpError error;
+            responseMessage.TryGetContentValue(out error);
+            var actualLocation = responseMessage.Headers.Location;
+
+            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
+            Assert.IsNull(actualLocation);
+        }
+
+        [Test]
         public void PutAsync_WithNullArguments_ReturnsCorrectErrorResponse()
         {
             var expectedKeys = new[] { string.Empty };
 
             var actionResult = _controller.PutAsync(null).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-            HttpError error;
-            responseMessage.TryGetContentValue(out error);
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
-        }
-
-        [Test]
-        public void PutAsync_ItemWithoutText_ReturnsCorrectErrorResponse()
-        {
-            var expectedKeys = new[] { "Text" };
-            var postedListItem = new ListItem { Id = _guidOfFirstItem, Text = null };
-
-            var actionResult = _controller.PutAsync(postedListItem).Result;
-            var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
-            HttpError error;
-            responseMessage.TryGetContentValue(out error);
-
-            Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(error.ModelState.Keys, Is.EqualTo(expectedKeys));
-        }
-
-        [Test]
-        public void PutAsync_ItemWithEmptyGuid_ReturnsCorrectErrorResponse()
-        {
-            var expectedKeys = new[] { "Id" };
-            var itemWithEmptyGuid = new ListItem { Id = Guid.Empty, Text = "newText" };
-
-            var actionResult = _controller.PutAsync(itemWithEmptyGuid).Result;
             var responseMessage = actionResult.ExecuteAsync(CancellationToken.None).Result;
             HttpError error;
             responseMessage.TryGetContentValue(out error);
