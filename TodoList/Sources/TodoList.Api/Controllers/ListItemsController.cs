@@ -64,15 +64,14 @@ namespace TodoList.Api.Controllers
 
         public async Task<IHttpActionResult> PutAsync(ListItem item)
         {
-            ValidateItemId(item.Id);
-            ValidateItemText(item.Text);
+            ValidatePutItem(item);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            AcquisitionResult acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
+            var acquisitionResult = await _itemAcquisitionService.GetItemAsync(item.Id);
             if (!acquisitionResult.WasSuccessful)
             {
                 return NotFound();
@@ -118,6 +117,19 @@ namespace TodoList.Api.Controllers
             }
         }
 
+        private void ValidatePutItem(ListItem item)
+        {
+            if (item == null)
+            {
+                ModelState.AddModelError(String.Empty, "Item is null");
+                return;
+            }
+            
+            ValidateItemId(item.Id);
+
+            ValidateItemText(item.Text);
+        }
+
         private void ValidatePostItem(ListItem item)
         {
             if (item == null)
@@ -126,12 +138,13 @@ namespace TodoList.Api.Controllers
                 return;
             }
 
-            ValidateItemText(item.Text);
-
             if (item.Id != Guid.Empty)
             {
                 ModelState.AddModelError(nameof(ListItem.Id), "Guid is not empty");
             }
+
+            ValidateItemText(item.Text);
         }
+        
     }
 }
